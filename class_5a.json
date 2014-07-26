@@ -1,0 +1,14 @@
+{
+  "Raum":"110",
+  "Schüler": [
+  {
+    "id": 1,
+      "Name": "Müller"
+  },
+  {
+    "id": 2,
+    "Name": "Mustermann"
+  }
+  ]
+}
+

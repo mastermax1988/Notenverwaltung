@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<body>
+<input type="file" id="input" onchange="handleFiles(this.files)">
+<button onclick="save()">Speichern</botton>
+<script>
+var classes;
+function handleFiles(file)
+{
+  var r=new FileReader();
+    r.onload = (function (f) {return function (e) {var contents = e.target.result;console.log(contents);classes=JSON.parse(contents);console.log(classes);};})(file[0]);//after reading whole file
+  r.readAsText(file[0]);//asynchron!
+}
+function save()
+{
+  download("test.json",JSON.stringify(classes));
+}
+function download(filename, text) {
+  d3.selectAll("[id=downloadlink]").remove();
+  d3.select("body").append("a").html("download").attr("href",'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(text)).attr("download","5a/test.json").attr("id","downloadlink");
+}
+
+</script>
+</body>
