@@ -7,3 +7,8 @@ function getClasses()
 {
   return Object.keys(theData);
 }
+
+function getPupils(className)
+{
+  return theData[className]["pupils"];
+}

@@ -6,7 +6,7 @@ function drawMainMenu()
   d.append("button").attr("onclick","saveData()").html("Speichern");
   d.append("button").attr("onclick","maintenance()").html("Wartung");
   var d2=emptyForm1();
-  d2.append("select").selectAll("option").data(getClasses(),function(p){return p;}).enter().append("option").attr("value",function(d){return d;}).html(function(d){return d;});
+  d2.append("select").attr("id","selectClass").selectAll("option").data(getClasses(),function(p){return p;}).enter().append("option").attr("value",function(d){return d;}).html(function(d){return d;});
   console.log(getClasses());
 }
 function maintenance()
@@ -30,6 +30,29 @@ function addClassMenu()
   d.append("button").attr("onclick","addClass()").html("Klasse anlegen");
   d.append("button").attr("onclick","abordForm()").html("Abbrechen");
 }
+function addPupilMenu()
+{
+  var sel=d3.select("#selectClass")[0][0];
+  var className=sel[sel.selectedIndex].value;
+  var d=emptyForm1();
+  var pup=getPupils(className);
+  for(i=0;i<35;i++)
+  {
+    var line=d.append("p");
+    if(i<pup.length)
+    {
+      line.append("input").attr("placeholder","name").attr("id",i).attr("value",pup[i].name)
+      line.append("input").attr("type", "checkbox").attr("id",i).property('checked', pup[i].male);
+    }
+    else
+    {
+      line.append("input").attr("placeholder","name").attr("id",i)
+      line.append("input").attr("type", "checkbox").attr("id",i).property('checked', false);
+    }
+    line.append("label").html("männlich")
+  }
+
+}
 function abordForm()
 {
   emptyForm1();
@@ -49,7 +72,7 @@ function emptyForm1()
 {
   var d=d3.select("[id=form1]");
   d.selectAll("*").remove()
-  return d;
+    return d;
 }
 function emptyMenu2()
 {
