@@ -1,3 +1,4 @@
+//code for importing and exporting the data
 theData=null;
 function loadData(file)
 {
@@ -24,4 +25,10 @@ function saveData()
 function parseFile(s)
 {
   theData=JSON.parse(s);
+  drawMainMenu();
+}
+function newJson()
+{
+  theData=new Object();
+  drawMainMenu();
 }
