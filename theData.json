@@ -62,7 +62,7 @@
                         "pupils": [
                             {
                                 "name": "Müller Hans",
-                                "BE": [
+                                "points": [
                                     5,
                                     2,
                                     3
@@ -70,7 +70,7 @@
                             },
                             {
                                 "name": "Mustermann Max",
-                                "BE": [
+                                "points": [
                                     5,
                                     2,
                                     1
@@ -97,7 +97,7 @@
                         "pupils": [
                             {
                                 "name": "Huber Max",
-                                "BE": [
+                                "points": [
                                     4,
                                     3,
                                     2
