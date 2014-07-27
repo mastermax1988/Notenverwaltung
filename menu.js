@@ -5,6 +5,9 @@ function drawMainMenu()
   d.selectAll("*").remove();
   d.append("button").attr("onclick","saveData()").html("Speichern");
   d.append("button").attr("onclick","maintenance()").html("Wartung");
+  var d2=emptyForm1();
+  d2.append("select").selectAll("option").data(getClasses(),function(p){return p;}).enter().append("option").attr("value",function(d){return d;}).html(function(d){return d;});
+  console.log(getClasses());
 }
 function maintenance()
 {
@@ -40,6 +43,7 @@ function addClass()
   menuEnabled(true);
   emptyForm1();
   addNewClass(name);
+  drawMainMenu();
 }
 function emptyForm1()
 {
