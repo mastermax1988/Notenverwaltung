@@ -8,6 +8,10 @@
             {
                 "name": "Mustermann Max",
                 "male": true
+            },
+            {
+                "name": "Huber Max",
+                "male": true
             }
         ],
         "oral": [
@@ -26,46 +30,83 @@
                 "date": "28.07.2015"
             }
         ],
-        "small1": {
-            "date": "14.07.2014",
-            "factor": 1,
-            "maxpoints": {
-                "A1": 5,
-                "A2a": 2,
-                "A2b": 3
-            },
-            "gradingkey": [
-                9,
-                7,
-                5,
-                3,
-                1,
-                0
-            ],
-            "pupils": [
-                {
-                    "group": 1,
-                    "name": "Müller Hans",
-                    "BE": [
-                        5,
-                        2,
-                        3
-                    ],
-                    "sum": 10,
-                    "grade": 1
-                },
-                {
-                    "group": 2,
-                    "name": "Mustermann Max",
-                    "BE": [
-                        5,
-                        2,
-                        1
-                    ],
-                    "sum": 8,
-                    "grade": 2
-                }
-            ]
-        }
+        "small": [
+            {
+                "date": "14.07.2014",
+                "factor": 1,
+                "gradingkey": [
+                    9,
+                    7,
+                    5,
+                    3,
+                    1,
+                    0
+                ],
+                "groups": [
+                    {
+                        "name": "A",
+                        "exercises": [
+                            {
+                                "name": "1",
+                                "points": 5
+                            },
+                            {
+                                "name": "2a",
+                                "points": 2
+                            },
+                            {
+                                "name": "2b",
+                                "points": 3
+                            }
+                        ],
+                        "pupils": [
+                            {
+                                "name": "Müller Hans",
+                                "BE": [
+                                    5,
+                                    2,
+                                    3
+                                ]
+                            },
+                            {
+                                "name": "Mustermann Max",
+                                "BE": [
+                                    5,
+                                    2,
+                                    1
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "B",
+                        "exercises": [
+                            {
+                                "name": "1",
+                                "points": 5
+                            },
+                            {
+                                "name": "2a",
+                                "points": 3
+                            },
+                            {
+                                "name": "2b",
+                                "points": 2
+                            }
+                        ],
+                        "pupils": [
+                            {
+                                "name": "Huber Max",
+                                "BE": [
+                                    4,
+                                    3,
+                                    2
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 }

@@ -18,8 +18,10 @@ function save()
 }
 function download(filename, text) {
 
-  d3.select("body").append("a").html("download").attr("href",'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(text)).attr("download","5a/test.json").attr("id","downloadlink");
-  d3.selectAll("[id=downloadlink]")[0][0].click().remove();
+  var s= d3.select("body").append("a").html("download").attr("href",'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(text)).attr("download","5a/test.json").attr("id","downloadlink");
+  //d3.selectAll("[id=downloadlink]")[0][0].click().remove();
+  s[0][0].click();
+  s.remove();
 }
 function addTest()
 {
