@@ -11,16 +11,20 @@ function drawMainMenu()
   console.log(getClasses());
   showClassInfo();
 }
-function showClassInfo()
+function getSelectedClassName()
 {
   var sel=d3.select("#selectClass")[0][0];
   if(sel.selectedIndex<0)
-    return;
+    return null;
+  return sel[sel.selectedIndex].value;
+}
+function showClassInfo()
+{
   var m2=emptyMenu2();
-  var className=sel[sel.selectedIndex].value;
+  var className=getSelectedClassName();
   var pupils=getPupils(className);
   var d=emptyForm1();
-  m2.append("p").append("button").attr("onclick","editOral('"+sel+"')").html("Mündliche Noten");
+  m2.append("p").append("button").attr("onclick","editOral()").html("Mündliche Noten");
   var selp=m2.append("p");
   var sel=selp.append("select").attr("id","selectExercise");
   sel.append("option").attr("value","new_small").html("Neuer kleiner Leistungsnachweis");
@@ -28,6 +32,41 @@ function showClassInfo()
   sel.selectAll("option").data(getSmall(className),function(d){return d;}).enter().append("option").attr("value",function(d){return d.name;}).html(function(d){return d.name;});
   selp.append("button").attr("onclick","editExercise()").html("Bearbeiten");
   d.selectAll("p").data(getPupils(className)).enter().append("p").html(function(d){return d.name + " (" + (d.male?"m":"w")+")";});
+}
+
+function editOral()
+{
+  var m2=emptyMenu2();
+  var d=emptyForm1();
+  var className=getSelectedClassName();
+  m2.append("select").attr("id","selectPupilForOralGrades").attr("onchange","showOralGrades()").selectAll("option").data(getPupils(className)).enter().append("option").attr("value",function(d){return d.name;}).html(function(d){return d.name});
+  m2.append("button").html("Daten übernehmen").attr("onclick","saveOralGrades()");
+  showOralGrades();
+}
+function saveOralGrades()
+{
+  alert("Implement me!");
+}
+function showOralGrades()
+{
+  var d=emptyForm1();
+  var className=getSelectedClassName();
+  var pupil=d3.select("#selectPupilForOralGrades")[0][0].value;
+  var grades= getOralGrades(className,pupil);
+  var p_demo=d.append("p").attr("id","p_oral_demo");
+    p_demo.append("input").attr("placeHolder","Datum").attr("value","Datum").attr("disabled",true);
+    p_demo.append("input").attr("placeHolder","Art").attr("value","Art").attr("disabled",true);
+    p_demo.append("input").attr("placeHolder","Faktor").attr("value","Faktor").attr("disabled",true);
+    p_demo.append("input").attr("placeHolder","Note").attr("value","Note").attr("disabled",true).attr("style","color:#FF0000;text-align:center;");
+
+  for(i=0;i<grades.length;i++)//yeah, this could be done better with d3
+  {
+    var p=d.append("p").attr("id","p_oral_"+i);
+    p.append("input").attr("placeHolder","Datum").attr("value",grades[i].date);
+    p.append("input").attr("placeHolder","Art").attr("value",grades[i].kind);
+    p.append("input").attr("placeHolder","Faktor").attr("value",grades[i].factor);
+    p.append("input").attr("placeHolder","Note").attr("value",grades[i].grade).attr("style","color:#FF0000;text-align:center;");
+  }
 }
 function maintenance()
 { 

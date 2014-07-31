@@ -34,3 +34,8 @@ function getBig(className)
 {
   return theData[className].big;
 }
+
+function getOralGrades(className,pupilName)
+{
+  return theData[className]["oral"].filter(function (d){return (d.name==pupilName);});
+}
