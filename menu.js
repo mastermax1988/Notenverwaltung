@@ -1,19 +1,31 @@
 //code for generating the menus
+var maxpupils=35;
 function drawMainMenu()
 {
   var d=d3.select("[id=menu1]");
   d.selectAll("*").remove();
+  d.append("label").html("Klasse: ");
+  d.append("select").attr("id","selectClass").selectAll("option").data(getClasses(),function(p){return p;}).enter().append("option").attr("value",function(d){return d;}).html(function(d){return d;});
   d.append("button").attr("onclick","saveData()").html("Speichern");
   d.append("button").attr("onclick","maintenance()").html("Wartung");
-  var d2=emptyForm1();
-  d2.append("select").attr("id","selectClass").selectAll("option").data(getClasses(),function(p){return p;}).enter().append("option").attr("value",function(d){return d;}).html(function(d){return d;});
   console.log(getClasses());
+  showClassInfo();
+}
+function showClassInfo()
+{
+  var sel=d3.select("#selectClass")[0][0];
+  if(sel.selectedIndex<0)
+    return;
+  var className=sel[sel.selectedIndex].value;
+  var pupils=getPupils(className);
+  var d=emptyForm1();
+  d.selectAll("p").data(pupils).enter().append("p").html(function(d){return d.name + " (" + (d.male?"m":"w")+")";});
 }
 function maintenance()
-{
+{ 
   var d=emptyMenu2();
   d.append("button").html("Klasse hinzufügen").attr("onclick","addClassMenu()");
-  d.append("button").html("Schüler hinzufügen").attr("onclick","addPupilMenu()");
+  d.append("button").html("Schüler bearbeiten").attr("onclick","addPupilMenu()");
 }
 function menuEnabled(b)
 {
@@ -28,32 +40,51 @@ function addClassMenu()
   var d=emptyForm1();
   d.append("input").attr("placeholder","name").attr("id","className");
   d.append("button").attr("onclick","addClass()").html("Klasse anlegen");
-  d.append("button").attr("onclick","abordForm()").html("Abbrechen");
+  d.append("button").attr("onclick","abortForm()").html("Abbrechen");
 }
 function addPupilMenu()
 {
   var sel=d3.select("#selectClass")[0][0];
+  if(sel.selectedIndex<0)
+    return;
   var className=sel[sel.selectedIndex].value;
   var d=emptyForm1();
   var pup=getPupils(className);
-  for(i=0;i<35;i++)
+  for(i=0;i<maxpupils;i++)
   {
     var line=d.append("p");
     if(i<pup.length)
     {
-      line.append("input").attr("placeholder","name").attr("id",i).attr("value",pup[i].name)
-      line.append("input").attr("type", "checkbox").attr("id",i).property('checked', pup[i].male);
+      line.append("input").attr("placeholder","name").attr("id","pupilName_"+i).attr("value",pup[i].name)
+        line.append("input").attr("type", "checkbox").attr("id","pupilMale_"+i).property('checked', pup[i].male);
     }
     else
     {
-      line.append("input").attr("placeholder","name").attr("id",i)
-      line.append("input").attr("type", "checkbox").attr("id",i).property('checked', false);
+      line.append("input").attr("placeholder","name").attr("id","pupilName_"+i);
+      line.append("input").attr("type", "checkbox").attr("id","pupilMale_"+i).property('checked', false)
     }
     line.append("label").html("männlich")
   }
-
+  var m=emptyMenu2();
+  m.append("button").attr("onclick","updatePupilsFromForm('"+className+"')").html("Änderungen übernehmen");
 }
-function abordForm()
+function updatePupilsFromForm(className)
+{
+  var newPupils=[];
+  for(i=0;i<maxpupils;i++)
+  {
+    var pupilName=d3.select("#pupilName_"+i)[0][0].value;
+    var pupilMale=d3.select("#pupilMale_"+i)[0][0].checked;
+    if(pupilName=="")
+      continue;
+    console.log(pupilName);
+    newPupils.push({name:capitaliseFirstLetter(pupilName), male:pupilMale});
+  }
+  updatePupils(className,newPupils);
+  drawMainMenu();
+}
+
+function abortForm()
 {
   emptyForm1();
   menuEnabled(true);
