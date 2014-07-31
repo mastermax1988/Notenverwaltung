@@ -45,7 +45,16 @@ function editOral()
 }
 function saveOralGrades()
 {
-  alert("Implement me!");
+  var i=0;
+  var grades=[];
+  var pupil=d3.select("#selectPupilForOralGrades")[0][0].value;
+  while(d3.select("#p_oral_"+i).length>0)
+  {
+    var p=d3.select("#p_oral_"+i);
+    grades.push({name:pupil,grade:p.select("#grade")[0][0].value,factor:p.select("#factor")[0][0].value,kind:p.select("#kind")[0][0].value,date:p.select("#date")[0][0].value});
+    console.log(grades[i]);
+    i++;
+  }
 }
 function showOralGrades()
 {
@@ -54,19 +63,25 @@ function showOralGrades()
   var pupil=d3.select("#selectPupilForOralGrades")[0][0].value;
   var grades= getOralGrades(className,pupil);
   var p_demo=d.append("p").attr("id","p_oral_demo");
-    p_demo.append("input").attr("placeHolder","Datum").attr("value","Datum").attr("disabled",true);
-    p_demo.append("input").attr("placeHolder","Art").attr("value","Art").attr("disabled",true);
-    p_demo.append("input").attr("placeHolder","Faktor").attr("value","Faktor").attr("disabled",true);
-    p_demo.append("input").attr("placeHolder","Note").attr("value","Note").attr("disabled",true).attr("style","color:#FF0000;text-align:center;");
+  p_demo.append("input").attr("placeHolder","Datum").attr("value","Datum").attr("disabled",true);
+  p_demo.append("input").attr("placeHolder","Art").attr("value","Art").attr("disabled",true);
+  p_demo.append("input").attr("placeHolder","Faktor").attr("value","Faktor").attr("disabled",true);
+  p_demo.append("input").attr("placeHolder","Note").attr("value","Note").attr("disabled",true).attr("style","color:#FF0000;text-align:center;");
 
   for(i=0;i<grades.length;i++)//yeah, this could be done better with d3
   {
     var p=d.append("p").attr("id","p_oral_"+i);
-    p.append("input").attr("placeHolder","Datum").attr("value",grades[i].date);
-    p.append("input").attr("placeHolder","Art").attr("value",grades[i].kind);
-    p.append("input").attr("placeHolder","Faktor").attr("value",grades[i].factor);
-    p.append("input").attr("placeHolder","Note").attr("value",grades[i].grade).attr("style","color:#FF0000;text-align:center;");
+    p.append("input").attr("placeHolder","Datum").attr("id","date").attr("value",grades[i].date);
+    p.append("input").attr("placeHolder","Art").attr("id","kind").attr("value",grades[i].kind);
+    p.append("input").attr("placeHolder","Faktor").attr("id","factor").attr("value",grades[i].factor);
+    p.append("input").attr("placeHolder","Note").attr("id","grade").attr("value",grades[i].grade).attr("style","color:#FF0000;text-align:center;");
   }
+  var index=grades.length;
+  var p=d.append("p").attr("id","p_oral_"+index);
+  p.append("input").attr("placeHolder","Datum").attr("id","date");
+  p.append("input").attr("placeHolder","Art").attr("id","kind");
+  p.append("input").attr("placeHolder","Faktor").attr("id","factor");
+  p.append("input").attr("placeHolder","Note").attr("id","grade").attr("style","color:#FF0000;text-align:center;");
 }
 function maintenance()
 { 
