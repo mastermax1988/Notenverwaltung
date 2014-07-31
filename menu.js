@@ -19,7 +19,14 @@ function showClassInfo()
   var className=sel[sel.selectedIndex].value;
   var pupils=getPupils(className);
   var d=emptyForm1();
+  d.append("button").attr("onclick","editOral('"+sel+"')").html("Mündliche Noten");
+  var selSmall=d.append("select").attr("id","selectSmall").attr("size",1);
+  selSmall.append("option").attr("value","new").html("Neuer kleiner Leistungsnachweis");
+  selSmall.selectAll("option").data(getSmall(className),function(d){return d;}).enter().append("option").attr("value",function(d){return d.date;}).html(function(d){return d.date;});
+  d.append("select").attr("id","selectBig").append("option").attr("value","new").html("Neuer großer Leistungsnachweis");
+  d.select("#selectBig").selectAll("option").data(getBig(className)).enter().append("option").attr("value",function(d){return d.date;}).html(function(d){return d.date;});
   d.selectAll("p").data(pupils).enter().append("p").html(function(d){return d.name + " (" + (d.male?"m":"w")+")";});
+
 }
 function maintenance()
 { 

@@ -25,3 +25,12 @@ function capitaliseFirstLetter(string)
 {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+function getSmall(className)
+{
+  return theData[className].small;
+}
+function getBig(className)
+{
+  return theData[className].big;
+}
