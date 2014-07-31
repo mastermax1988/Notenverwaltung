@@ -5,7 +5,7 @@ function drawMainMenu()
   var d=d3.select("[id=menu1]");
   d.selectAll("*").remove();
   d.append("label").html("Klasse: ");
-  d.append("select").attr("id","selectClass").selectAll("option").data(getClasses(),function(p){return p;}).enter().append("option").attr("value",function(d){return d;}).html(function(d){return d;});
+  d.append("select").attr("id","selectClass").attr("onchange","showClassInfo()").selectAll("option").data(getClasses(),function(p){return p;}).enter().append("option").attr("value",function(d){return d;}).html(function(d){return d;});
   d.append("button").attr("onclick","saveData()").html("Speichern");
   d.append("button").attr("onclick","maintenance()").html("Wartung");
   console.log(getClasses());
@@ -16,23 +16,25 @@ function showClassInfo()
   var sel=d3.select("#selectClass")[0][0];
   if(sel.selectedIndex<0)
     return;
+  var m2=emptyMenu2();
   var className=sel[sel.selectedIndex].value;
   var pupils=getPupils(className);
   var d=emptyForm1();
-  d.append("button").attr("onclick","editOral('"+sel+"')").html("Mündliche Noten");
-  var selSmall=d.append("select").attr("id","selectSmall").attr("size",1);
-  selSmall.append("option").attr("value","new").html("Neuer kleiner Leistungsnachweis");
-  selSmall.selectAll("option").data(getSmall(className),function(d){return d;}).enter().append("option").attr("value",function(d){return d.date;}).html(function(d){return d.date;});
-  d.append("select").attr("id","selectBig").append("option").attr("value","new").html("Neuer großer Leistungsnachweis");
-  d.select("#selectBig").selectAll("option").data(getBig(className)).enter().append("option").attr("value",function(d){return d.date;}).html(function(d){return d.date;});
-  d.selectAll("p").data(pupils).enter().append("p").html(function(d){return d.name + " (" + (d.male?"m":"w")+")";});
-
+  m2.append("p").append("button").attr("onclick","editOral('"+sel+"')").html("Mündliche Noten");
+  var selp=m2.append("p");
+  var sel=selp.append("select").attr("id","selectExercise");
+  sel.append("option").attr("value","new_small").html("Neuer kleiner Leistungsnachweis");
+  sel.append("option").attr("value","new_big").html("Neuer großer Leistungsnachweis");
+  sel.selectAll("option").data(getSmall(className),function(d){return d;}).enter().append("option").attr("value",function(d){return d.name;}).html(function(d){return d.name;});
+  selp.append("button").attr("onclick","editExercise()").html("Bearbeiten");
+  d.selectAll("p").data(getPupils(className)).enter().append("p").html(function(d){return d.name + " (" + (d.male?"m":"w")+")";});
 }
 function maintenance()
 { 
   var d=emptyMenu2();
   d.append("button").html("Klasse hinzufügen").attr("onclick","addClassMenu()");
   d.append("button").html("Schüler bearbeiten").attr("onclick","addPupilMenu()");
+  emptyForm1();
 }
 function menuEnabled(b)
 {
