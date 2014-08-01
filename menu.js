@@ -68,7 +68,7 @@ function showOralGrades()
   p_demo.append("input").attr("placeHolder","Faktor").attr("value","Faktor").attr("disabled",true);
   p_demo.append("input").attr("placeHolder","Note").attr("value","Note").attr("disabled",true).attr("style","color:#FF0000;text-align:center;");
 
-  for(i=0;i<grades.length;i++)//yeah, this could be done better with d3
+  for(var i=0;i<grades.length;i++)//yeah, this could be done better with d3
   {
     var p=d.append("p").attr("id","p_oral_"+i);
     p.append("input").attr("placeHolder","Datum").attr("id","date").attr("value",grades[i].date);
@@ -113,7 +113,7 @@ function addPupilMenu()
   var className=sel[sel.selectedIndex].value;
   var d=emptyForm1();
   var pup=getPupils(className);
-  for(i=0;i<maxpupils;i++)
+  for(var i=0;i<maxpupils;i++)
   {
     var line=d.append("p");
     if(i<pup.length)
@@ -134,7 +134,7 @@ function addPupilMenu()
 function updatePupilsFromForm(className)
 {
   var newPupils=[];
-  for(i=0;i<maxpupils;i++)
+  for(var i=0;i<maxpupils;i++)
   {
     var pupilName=d3.select("#pupilName_"+i)[0][0].value;
     var pupilMale=d3.select("#pupilMale_"+i)[0][0].checked;
