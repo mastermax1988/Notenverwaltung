@@ -77,7 +77,7 @@ function saveOralGrades()
 			i++;
 			continue;
 		}
-    var d=new Date(p.select("#date")[0][0].value);
+		var d = new Date(p.select("#date")[0][0].value);
 		grades.push({name: pupil, grade: p.select("#grade")[0][0].value, factor: p.select("#factor")[0][0].value, kind: p.select("#kind")[0][0].value, date: d.toISOString()});
 		console.log(grades[i]);
 		i++;
@@ -99,17 +99,17 @@ function showOralGrades()
 	for(var i = 0; i < grades.length; i++) //yeah, this could be done better with d3
 	{
 		var p = d.append("p").attr("id", "p_oral_" + i);
-p.append("input").attr("placeHolder", "Datum").attr("id", "date").attr("value", grades[i].date.slice(0,10));
-p.append("input").attr("placeHolder", "Art").attr("id", "kind").attr("value", grades[i].kind);
-p.append("input").attr("placeHolder", "Faktor").attr("id", "factor").attr("value", grades[i].factor);
-p.append("input").attr("placeHolder", "Note").attr("id", "grade").attr("value", grades[i].grade).attr("style", "color:#FF0000;text-align:center;");
-}
-var index = grades.length;
-var p = d.append("p").attr("id", "p_oral_" + index);
-p.append("input").attr("placeHolder", "Datum").attr("id", "date");
-p.append("input").attr("placeHolder", "Art").attr("id", "kind");
-p.append("input").attr("placeHolder", "Faktor").attr("id", "factor");
-p.append("input").attr("placeHolder", "Note").attr("id", "grade").attr("style", "color:#FF0000;text-align:center;");
+		p.append("input").attr("placeHolder", "Datum").attr("id", "date").attr("value", grades[i].date.slice(0, 10));
+		p.append("input").attr("placeHolder", "Art").attr("id", "kind").attr("value", grades[i].kind);
+		p.append("input").attr("placeHolder", "Faktor").attr("id", "factor").attr("value", grades[i].factor);
+		p.append("input").attr("placeHolder", "Note").attr("id", "grade").attr("value", grades[i].grade).attr("style", "color:#FF0000;text-align:center;");
+	}
+	var index = grades.length;
+	var p = d.append("p").attr("id", "p_oral_" + index);
+	p.append("input").attr("placeHolder", "Datum").attr("id", "date");
+	p.append("input").attr("placeHolder", "Art").attr("id", "kind");
+	p.append("input").attr("placeHolder", "Faktor").attr("id", "factor");
+	p.append("input").attr("placeHolder", "Note").attr("id", "grade").attr("style", "color:#FF0000;text-align:center;");
 }
 function maintenance()
 {
