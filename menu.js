@@ -12,6 +12,7 @@ function drawMainMenu()
 	}).html(function(d) {
 		return d;
 	});
+  d.append("button").attr("onclick","showClassInfo()").html("Klassenübersicht");
 	d.append("button").attr("onclick", "saveData()").html("Speichern");
 	d.append("button").attr("onclick", "maintenance()").html("Wartung");
 	console.log(getClasses());
