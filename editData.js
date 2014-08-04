@@ -49,17 +49,16 @@ function updateOralGrades(className, pupilName, grades)
 {
 	console.log("editData enter");
 	console.log(theData[className].oral);
-	for(var i = theData[className].oral.length - 1; i > 0; i--)
-		if(theData[className].oral[i].Name == pupilName)
+	for(var i = theData[className].oral.length - 1; i >= 0; i--)
+	{
+		if(theData[className].oral[i].name == pupilName)
 		{
-			console.log("slice");
-			theData.slice(i, 1);
+			theData[className].oral.splice(i, 1);
 		}
+	}
 	console.log(theData[className].oral);
-	return;
-	theData[className].oral.push(grades);
+	for(var i = 0; i < grades.length; i++)
+		theData[className].oral.splice(theData[className].oral.length, 0, grades[i]);
 	console.log(theData[className].oral);
-
 }
-
 

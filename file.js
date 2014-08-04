@@ -33,7 +33,7 @@ function parseFile(s)
 }
 function newJson()
 {
-	theData = new Object();
+	theData = {};
 	drawMainMenu();
 }
 

@@ -20,20 +20,20 @@
                 "grade": 1,
                 "factor": 1,
                 "kind": "UB",
-                "date": "26.07.2015"
+                "date": "2015-07-26"
             },
             {
                 "name": "Müller Hans",
                 "grade": 1,
                 "factor": 1.5,
                 "kind": "RA",
-                "date": "28.07.2015"
+                "date": "2015-07-28"
             }
         ],
         "small": [
             {
                 "name": "1. Stegreifaufgabe",
-                "date": "14.07.2014",
+                "date": "2014-07-14",
                 "factor": 1,
                 "gradingkey": [
                     9,
