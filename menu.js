@@ -71,10 +71,10 @@ function getNrOfGroups()
 	while(d3.select("#exercisePupilGroup_" + j)[0][0] != null)
 	{
 		if (d3.select("#exercisePupilGroup_" + j).select("#exerciseGroupSelect")[0][0].selectedIndex == 2)
-      return 2;
+			return 2;
 		j++
 	}
-  return 1;
+	return 1;
 }
 function addExerciseMenu(bigExercise)
 {
@@ -83,7 +83,7 @@ function addExerciseMenu(bigExercise)
 	p.append("input").attr("id", "exerciseName").attr("placeHolder", "Name");
 	p.append("input").attr("id", "exerciseDate").attr("placeHolder", "Datum");
 	p.append("input").attr("id", "exerciseFactor").attr("placeHolder", "Faktor");
-	p.append("label").attr("id","exerciseNrOfGroupsLabel");
+	p.append("label").attr("id", "exerciseNrOfGroupsLabel");
 	p.append("input").attr("id", "exerciseGradingKey").attr("placeHolder", "Bewertungsschlüssel");
 	p.append("button").attr("id", "exerciseGenerateGradingKey").attr("onclick", "generateGradingKey()").html("Bewertungsschlüssel erstellen");
 	for(var i = 0; i < 15; i++)
@@ -99,19 +99,19 @@ function addExerciseMenu(bigExercise)
 	{
 		p = d.append("p").attr("id", "exercisePupilGroup_" + i);
 		p.append("label").html(pupils[i].name).attr("id", "exercisePupilName");
-		var s = p.append("select").attr("id", "exerciseGroupSelect").attr("onchange","updateNrOfGroups()");
+		var s = p.append("select").attr("id", "exerciseGroupSelect").attr("onchange", "updateNrOfGroups()");
 		s.append("option").attr("value", "-").html("-");
 		s.append("option").attr("value", "A").html("A").attr("selected", "selected");
 		s.append("option").attr("value", "B").html("B");
 	}
 	var m = emptyMenu2();
 	m.append("button").attr("onclick", "saveNewExercise(" + bigExercise + ")").html("Neuen " + (bigExercise ? "großen " : "kleinen") + " Leistungsnachweis anlegen");
-  updateNrOfGroups();
+	updateNrOfGroups();
 }
 
 function updateNrOfGroups()
 {
-  d3.select("#exerciseNrOfGroupsLabel")[0][0].innerHTML="Anzahl an Gruppen: "+getNrOfGroups();
+	d3.select("#exerciseNrOfGroupsLabel")[0][0].innerHTML = "Anzahl an Gruppen: " + getNrOfGroups();
 }
 function saveNewExercise(bigExercise)
 {
@@ -130,7 +130,7 @@ function saveNewExercise(bigExercise)
 		j++;
 	}
 
-	for(var i = 0; i < d3.select("#exerciseNrOfGroups")[0][0].selectedIndex + 1; i++)
+	for(var i = 0; i < getNrOfGroups(); i++)
 	{
 		var j = 0;
 		var theExercises = [];
