@@ -12,7 +12,7 @@ function drawMainMenu()
 	}).html(function(d) {
 		return d;
 	});
-  d.append("button").attr("onclick","showClassInfo()").html("Klassenübersicht");
+	d.append("button").attr("onclick", "showClassInfo()").html("Klassenübersicht");
 	d.append("button").attr("onclick", "saveData()").html("Speichern");
 	d.append("button").attr("onclick", "maintenance()").html("Wartung");
 	console.log(getClasses());
@@ -49,6 +49,106 @@ function showClassInfo()
 	});
 }
 
+
+function editExercise()
+{
+	var exercise = d3.select("#selectExercise")[0][0].value;
+	if(exercise == "new_small")
+	{
+		addExerciseMenu(false);
+		return;
+	}
+	else if(exercise == "new_big")
+	{
+		addExerciseMenu(true);
+		return;
+	}
+	emptyMenu2();
+}
+function getNrOfGroups()
+{
+	var j = 0;
+	while(d3.select("#exercisePupilGroup_" + j)[0][0] != null)
+	{
+		if (d3.select("#exercisePupilGroup_" + j).select("#exerciseGroupSelect")[0][0].selectedIndex == 2)
+      return 2;
+		j++
+	}
+  return 1;
+}
+function addExerciseMenu(bigExercise)
+{
+	var d = emptyForm1();
+	var p = d.append("p");
+	p.append("input").attr("id", "exerciseName").attr("placeHolder", "Name");
+	p.append("input").attr("id", "exerciseDate").attr("placeHolder", "Datum");
+	p.append("input").attr("id", "exerciseFactor").attr("placeHolder", "Faktor");
+	p.append("label").attr("id","exerciseNrOfGroupsLabel");
+	p.append("input").attr("id", "exerciseGradingKey").attr("placeHolder", "Bewertungsschlüssel");
+	p.append("button").attr("id", "exerciseGenerateGradingKey").attr("onclick", "generateGradingKey()").html("Bewertungsschlüssel erstellen");
+	for(var i = 0; i < 15; i++)
+	{
+		p = d.append("p");
+		p.append("input").attr("placeHolder", "Name A").attr("id", "exerciseName_" + i + "_A").attr("onchange", "copyExerciseMenuData('exerciseName'," + i + ")");
+		p.append("input").attr("placeHolder", "Punkte A").attr("id", "exercisePoints_" + i + "_A").attr("onchange", "copyExerciseMenuData('exercisePoints'," + i + ")");
+		p.append("input").attr("placeHolder", "Name B").attr("id", "exerciseName_" + i + "_B");
+		p.append("input").attr("placeHolder", "Punkte B").attr("id", "exercisePoints_" + i + "_B");
+	}
+	var pupils = getPupils(getSelectedClassName());
+	for(var i = 0; i < pupils.length; i++)
+	{
+		p = d.append("p").attr("id", "exercisePupilGroup_" + i);
+		p.append("label").html(pupils[i].name).attr("id", "exercisePupilName");
+		var s = p.append("select").attr("id", "exerciseGroupSelect").attr("onchange","updateNrOfGroups()");
+		s.append("option").attr("value", "-").html("-");
+		s.append("option").attr("value", "A").html("A").attr("selected", "selected");
+		s.append("option").attr("value", "B").html("B");
+	}
+	var m = emptyMenu2();
+	m.append("button").attr("onclick", "saveNewExercise(" + bigExercise + ")").html("Neuen " + (bigExercise ? "großen " : "kleinen") + " Leistungsnachweis anlegen");
+  updateNrOfGroups();
+}
+
+function updateNrOfGroups()
+{
+  d3.select("#exerciseNrOfGroupsLabel")[0][0].innerHTML="Anzahl an Gruppen: "+getNrOfGroups();
+}
+function saveNewExercise(bigExercise)
+{
+	var d = new Date(d3.select("#exerciseDate")[0][0].value);
+	var groups = [];
+	var pupilsA = [];
+	var pupilsB = [];
+	var j = 0;
+	while(d3.select("#exercisePupilGroup_" + j)[0][0] != null)
+	{
+		var pup = {name: d3.select("#exercisePupilGroup_" + j).select("#exercisePupilName")[0][0].innerHTML, points: [], sum: 0, grade: ""};
+		if(d3.select("#exercisePupilGroup_" + j).select("#exerciseGroupSelect")[0][0].selectedIndex == 1)
+			pupilsA.push(pup);
+		else if (d3.select("#exercisePupilGroup_" + j).select("#exerciseGroupSelect")[0][0].selectedIndex == 2)
+			pupilsB.push(pup);
+		j++;
+	}
+
+	for(var i = 0; i < d3.select("#exerciseNrOfGroups")[0][0].selectedIndex + 1; i++)
+	{
+		var j = 0;
+		var theExercises = [];
+		while(d3.select("#exerciseName_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value != "")
+		{
+			theExercises.push({name: d3.select("#exerciseName_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value, points: d3.select("#exercisePoints_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value});
+			j++;
+		}
+		groups.push({name: i == 0 ? "A" : "B", exercises : theExercises, pupils : (i == 0 ? pupilsA : pupilsB)});
+	}
+	addExercise(getSelectedClassName(), bigExercise ? "big" : "small", d3.select("#exerciseName")[0][0].value, d.toISOString(), d3.select("#exerciseFactor")[0][0].value, d3.select("#exerciseGradingKey")[0][0].value.split(','), groups);
+}
+function copyExerciseMenuData(fieldName, index)
+{
+	console.log(fieldName);
+	console.log(index);
+	d3.select("#" + fieldName + "_" + index + "_B")[0][0].value = d3.select("#" + fieldName + "_" + index + "_A")[0][0].value;
+}
 function editOral()
 {
 	var m2 = emptyMenu2();
@@ -119,16 +219,9 @@ function maintenance()
 	d.append("button").html("Schüler bearbeiten").attr("onclick", "addPupilMenu()");
 	emptyForm1();
 }
-function menuEnabled(b)
-{
-	if(!b)
-		d3.selectAll("[kind=menu]").selectAll("button").attr("disabled", "disabled");
-	else
-		d3.selectAll("[kind=menu]").selectAll("button").attr("disabled", null);
-}
+
 function addClassMenu()
 {
-	menuEnabled(false);
 	var d = emptyForm1();
 	d.append("input").attr("placeholder", "name").attr("id", "className");
 	d.append("button").attr("onclick", "addClass()").html("Klasse anlegen");
@@ -179,14 +272,12 @@ function updatePupilsFromForm(className)
 function abortForm()
 {
 	emptyForm1();
-	menuEnabled(true);
 }
 function addClass()
 {
 	var name = d3.select("[id=className]")[0][0].value;
 	if(name == "")
 		return;
-	menuEnabled(true);
 	emptyForm1();
 	addNewClass(name);
 	drawMainMenu();

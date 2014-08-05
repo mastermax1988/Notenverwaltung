@@ -11,7 +11,10 @@ function getClasses()
 {
 	return Object.keys(theData);
 }
-
+function addExercise(className,exerciseCategory,exerciseName,exerciseDate,exerciseFactor,exerciseGradingKey,exerciseGroups)
+{
+  theData[className][exerciseCategory].push({name:exerciseName,date:exerciseDate,factor:exerciseFactor,gradingKey:exerciseGradingKey,groups:exerciseGroups});
+}
 function getPupils(className)
 {
 	return theData[className]["pupils"].sort(function(a, b) {

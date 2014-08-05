@@ -1,120 +1,149 @@
 {
-    "5a": {
-        "pupils": [
-            {
-                "name": "Müller Hans",
-                "male": true
-            },
-            {
-                "name": "Mustermann Max",
-                "male": true
-            },
-            {
-                "name": "Huber Max",
-                "male": true
-            }
+  "5a": {
+    "pupils": [
+      {
+        "name": "Huber Max",
+        "male": true
+      },
+      {
+        "name": "Müller Hans",
+        "male": true
+      },
+      {
+        "name": "Mustermann Max",
+        "male": true
+      }
+    ],
+    "oral": [
+      {
+        "name": "Müller Hans",
+        "grade": "1",
+        "factor": "1",
+        "kind": "UB",
+        "date": "2015-07-26T00:00:00.000Z"
+      },
+      {
+        "name": "Müller Hans",
+        "grade": "1",
+        "factor": "1.5",
+        "kind": "RA",
+        "date": "2015-07-28T00:00:00.000Z"
+      },
+      {
+        "name": "Huber Max",
+        "grade": "2",
+        "factor": "1",
+        "kind": "UB",
+        "date": "2014-06-26T00:00:00.000Z"
+      },
+      {
+        "name": "Mustermann Max",
+        "grade": "3",
+        "factor": "2",
+        "kind": "Ref",
+        "date": "2014-08-05T00:00:00.000Z"
+      }
+    ],
+    "small": [
+      {
+        "name": "1. Stegreifaufgabe",
+        "date": "2014-07-14",
+        "factor": 1,
+        "gradingkey": [
+          9,
+          7,
+          5,
+          3,
+          1,
+          0
         ],
-        "oral": [
-            {
+        "groups": [
+          {
+            "name": "A",
+            "exercises": [
+              {
+                "name": "1",
+                "points": 5
+              },
+              {
+                "name": "2a",
+                "points": 2
+              },
+              {
+                "name": "2b",
+                "points": 3
+              }
+            ],
+            "pupils": [
+              {
                 "name": "Müller Hans",
-                "grade": 1,
-                "factor": 1,
-                "kind": "UB",
-                "date": "2015-07-26"
-            },
-            {
-                "name": "Müller Hans",
-                "grade": 1,
-                "factor": 1.5,
-                "kind": "RA",
-                "date": "2015-07-28"
-            }
-        ],
-        "small": [
-            {
-                "name": "1. Stegreifaufgabe",
-                "date": "2014-07-14",
-                "factor": 1,
-                "gradingkey": [
-                    9,
-                    7,
-                    5,
-                    3,
-                    1,
-                    0
+                "points": [
+                  5,
+                  2,
+                  3
                 ],
-                "groups": [
-                    {
-                        "name": "A",
-                        "exercises": [
-                            {
-                                "name": "1",
-                                "points": 5
-                            },
-                            {
-                                "name": "2a",
-                                "points": 2
-                            },
-                            {
-                                "name": "2b",
-                                "points": 3
-                            }
-                        ],
-                        "pupils": [
-                            {
-                                "name": "Müller Hans",
-                                "points": [
-                                    5,
-                                    2,
-                                    3
-                                ],
-                                "sum":10,
-                                "grade":1
-                            },
-                            {
-                                "name": "Mustermann Max",
-                                "points": [
-                                    5,
-                                    2,
-                                    1
-                                ],
-                                "sum":8,
-                                "grade":2
-                            }
-                        ]
-                    },
-                    {
-                        "name": "B",
-                        "exercises": [
-                            {
-                                "name": "1",
-                                "points": 5
-                            },
-                            {
-                                "name": "2a",
-                                "points": 3
-                            },
-                            {
-                                "name": "2b",
-                                "points": 2
-                            }
-                        ],
-                        "pupils": [
-                            {
-                                "name": "Huber Max",
-                                "points": [
-                                    4,
-                                    3,
-                                    2
-                                ],
-                                "sum":9,
-                                "grade":1
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "big":[]
-    }
+                "sum": 10,
+                "grade": 1
+              },
+              {
+                "name": "Mustermann Max",
+                "points": [
+                  5,
+                  2,
+                  1
+                ],
+                "sum": 8,
+                "grade": 2
+              }
+            ]
+          },
+          {
+            "name": "B",
+            "exercises": [
+              {
+                "name": "1",
+                "points": 5
+              },
+              {
+                "name": "2a",
+                "points": 3
+              },
+              {
+                "name": "2b",
+                "points": 2
+              }
+            ],
+            "pupils": [
+              {
+                "name": "Huber Max",
+                "points": [
+                  4,
+                  3,
+                  2
+                ],
+                "sum": 9,
+                "grade": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "big": []
+  },
+  "5b": {
+    "oral": [],
+    "small": [],
+    "big": [],
+    "pupils": [
+      {
+        "name": "Berg Mustervorname",
+        "male": true
+      },
+      {
+        "name": "Börnemann Frau",
+        "male": false
+      }
+    ]
+  }
 }
