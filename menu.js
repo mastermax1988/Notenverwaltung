@@ -1,5 +1,6 @@
 //code for generating the menus
 var maxpupils = 35;
+var maxexercises = 15;
 function drawMainMenu()
 {
 	var d = d3.select("[id=menu1]");
@@ -39,7 +40,7 @@ function showClassInfo()
 	sel.selectAll("option").data(getSmall(className), function(d) {
 		return d;
 	}).enter().append("option").attr("value", function(d) {
-		return d.name;
+		return (d.name + "_small");
 	}).html(function(d) {
 		return d.name;
 	});
@@ -63,7 +64,14 @@ function editExercise()
 		addExerciseMenu(true);
 		return;
 	}
+	showExistingTest(getSelectedClassName(), exercise.split('_')[0], d3.select("#selectExercise")[0][0].value.split('_')[1] == "big");
 	emptyMenu2();
+}
+function showExistingTest(className, exerciseName, bigExercise)
+{
+	var exercise = getExerciseData(className, exerciseName, bigExercise);
+	var d = emptyForm1();
+
 }
 function getNrOfGroups()
 {
@@ -76,17 +84,38 @@ function getNrOfGroups()
 	}
 	return 1;
 }
+
+function generateGradingKey()
+{
+	var maxpoints = 0;
+	for(var i = 0; i < maxexercises; i++)
+		maxpoints += parseFloat("0" + d3.select("#exercisePoints_" + i + "_A")[0][0].value); //0+string to prevent NaN parsing error
+	var points = "";
+	points += Math.round(maxpoints * 8.5 * 2, 0) / 20 + ",";
+	points += Math.round(maxpoints * 7 * 2, 0) / 20 + ",";
+	points += Math.round(maxpoints * 5.5 * 2, 0) / 20 + ",";
+	points += Math.round(maxpoints * 4 * 2, 0) / 20 + ",";
+	points += Math.round(maxpoints * 2 * 2, 0) / 20 + "";
+	d3.select("#exerciseGradingKey")[0][0].value = points;
+}
+
+function getCurrentDate()
+{
+	var d = new Date()
+	return d.toISOString().slice(0, 10);
+}
+
 function addExerciseMenu(bigExercise)
 {
 	var d = emptyForm1();
 	var p = d.append("p");
 	p.append("input").attr("id", "exerciseName").attr("placeHolder", "Name");
-	p.append("input").attr("id", "exerciseDate").attr("placeHolder", "Datum");
+	p.append("input").attr("id", "exerciseDate").attr("placeHolder", "Datum").attr("value", getCurrentDate());
 	p.append("input").attr("id", "exerciseFactor").attr("placeHolder", "Faktor");
 	p.append("label").attr("id", "exerciseNrOfGroupsLabel");
 	p.append("input").attr("id", "exerciseGradingKey").attr("placeHolder", "Bewertungsschlüssel");
 	p.append("button").attr("id", "exerciseGenerateGradingKey").attr("onclick", "generateGradingKey()").html("Bewertungsschlüssel erstellen");
-	for(var i = 0; i < 15; i++)
+	for(var i = 0; i < maxexercises; i++)
 	{
 		p = d.append("p");
 		p.append("input").attr("placeHolder", "Name A").attr("id", "exerciseName_" + i + "_A").attr("onchange", "copyExerciseMenuData('exerciseName'," + i + ")");

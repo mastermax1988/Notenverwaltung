@@ -11,15 +11,23 @@ function getClasses()
 {
 	return Object.keys(theData);
 }
-function addExercise(className,exerciseCategory,exerciseName,exerciseDate,exerciseFactor,exerciseGradingKey,exerciseGroups)
+function addExercise(className, exerciseCategory, exerciseName, exerciseDate, exerciseFactor, exerciseGradingKey, exerciseGroups)
 {
-  theData[className][exerciseCategory].push({name:exerciseName,date:exerciseDate,factor:exerciseFactor,gradingKey:exerciseGradingKey,groups:exerciseGroups});
+	theData[className][exerciseCategory].push({name: exerciseName, date: exerciseDate, factor: exerciseFactor, gradingKey: exerciseGradingKey, groups: exerciseGroups});
 }
 function getPupils(className)
 {
 	return theData[className]["pupils"].sort(function(a, b) {
 		return removeSpecialSignsForSortung(a.name) > removeSpecialSignsForSortung(b.name);
 	});
+}
+
+function getExerciseData(className, exerciseName, bigExercise)
+{
+	var exercises = theData[className][bigExercise ? "big" : "small"];
+	for(var i = 0; i < exercises.length; i++)
+		if(exercises[i].name == exerciseName)
+			return exercises[i];
 }
 
 function removeSpecialSignsForSortung(a)
