@@ -71,6 +71,25 @@ function showExistingTest(className, exerciseName, bigExercise)
 	var exercise = getExerciseData(className, exerciseName, bigExercise);
 	var d = emptyForm1();
 	console.log(exercise);
+	var nrOfGroups = exercise.groups.length;
+	var pupils = [];
+	pupils.push(exercise.groups[0].pupils);
+	if(nrOfGroups == 2)
+		pupils.push(exercise.groups[1].pupils);
+	console.log(pupils);
+	for(var i = 0; i < nrOfGroups; i++)
+	{
+		d.append("p").html("Gruppe " + (i == 0 ? "A" : "B"));
+		for(var j = 0; j < pupils[i].length; j++)
+		{
+			var p = d.append("p");
+			p.append("label").html(pupils[i][j].name);
+			for(var k = 0; k < pupils[i][j].points.length; k++)
+			{
+
+			}
+		}
+	}
 }
 function getNrOfGroups()
 {
@@ -141,16 +160,33 @@ function updateNrOfGroups()
 {
 	d3.select("#exerciseNrOfGroupsLabel")[0][0].innerHTML = "Anzahl an Gruppen: " + getNrOfGroups();
 }
+
+function getEmptyPointArray(length)
+{
+	var arr = [];
+	for(var i = 0; i < length; i++)
+		arr.push("-");
+	return arr;
+}
+function getNrOfExercises()
+{
+	var nr = 0;
+	for(var i = 0; i < maxexercises; i++)
+		if(d3.select("#exerciseName_" + i + "_A")[0][0].value != "")
+			nr++;
+	return nr;
+}
 function saveNewExercise(bigExercise)
 {
-	if(d3.select("#exerciseName")[0][0].value == "")
+	var exerciseName = d3.select("#exerciseName")[0][0].value;
+	if(exerciseName == "")
 	{
 		alert("Bitte geben Sie einen Namen ein");
 		return;
 	}
-	if(checkIfExerciseAlreadyExists(getSelectedClassName(), d3.select("#exerciseName")[0][0].value, bigExercise))
+	if(checkIfExerciseAlreadyExists(getSelectedClassName(), exerciseName, bigExercise))
 	{
-		alert("Es gibt bereits einen " + (bigExercise ? "großen" : "kleinen") + " Leistungsnachweis namens " + d3.select("#exerciseName")[0][0].value);
+		alert("Es gibt bereits einen " + (bigExercise ? "großen" : "kleinen") + " Leistungsnachweis namens " + exerciseName);
 		return;
 	}
 	var d = new Date(d3.select("#exerciseDate")[0][0].value);
@@ -160,7 +196,7 @@ function saveNewExercise(bigExercise)
 	var j = 0;
 	while(d3.select("#exercisePupilGroup_" + j)[0][0] != null)
 	{
-		var pup = {name: d3.select("#exercisePupilGroup_" + j).select("#exercisePupilName")[0][0].innerHTML, points: [], sum: 0, grade: ""};
+		var pup = {name: d3.select("#exercisePupilGroup_" + j).select("#exercisePupilName")[0][0].innerHTML, points: getEmptyPointArray(getNrOfExercises()), sum: 0, grade: ""};
 		if(d3.select("#exercisePupilGroup_" + j).select("#exerciseGroupSelect")[0][0].selectedIndex == 1)
 			pupilsA.push(pup);
 		else if (d3.select("#exercisePupilGroup_" + j).select("#exerciseGroupSelect")[0][0].selectedIndex == 2)
@@ -172,20 +208,20 @@ function saveNewExercise(bigExercise)
 	{
 		var j = 0;
 		var theExercises = [];
-		while(d3.select("#exerciseName_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value != "")
+		for(var j = 0; j < maxexercises; j++)
 		{
-			theExercises.push({name: d3.select("#exerciseName_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value, points: d3.select("#exercisePoints_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value});
-			j++;
+			var exerciseName = d3.select("#exerciseName_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value;
+			if(exerciseName == "")
+				continue;
+			theExercises.push({name: exerciseName, points: d3.select("#exercisePoints_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value});
 		}
 		groups.push({name: i == 0 ? "A" : "B", exercises : theExercises, pupils : (i == 0 ? pupilsA : pupilsB)});
 	}
-	addExercise(getSelectedClassName(), bigExercise ? "big" : "small", d3.select("#exerciseName")[0][0].value, d.toISOString(), d3.select("#exerciseFactor")[0][0].value, d3.select("#exerciseGradingKey")[0][0].value.split(','), groups);
+	addExercise(getSelectedClassName(), bigExercise ? "big" : "small", exerciseName, d.toISOString(), d3.select("#exerciseFactor")[0][0].value, d3.select("#exerciseGradingKey")[0][0].value.split(','), groups);
 	showClassInfo();
 }
 function copyExerciseMenuData(fieldName, index)
 {
-	console.log(fieldName);
-	console.log(index);
 	d3.select("#" + fieldName + "_" + index + "_B")[0][0].value = d3.select("#" + fieldName + "_" + index + "_A")[0][0].value;
 }
 function editOral()
