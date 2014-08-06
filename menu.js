@@ -144,6 +144,16 @@ function updateNrOfGroups()
 }
 function saveNewExercise(bigExercise)
 {
+	if(d3.select("#exerciseName")[0][0].value == "")
+	{
+		alert("Bitte geben Sie einen Namen ein");
+		return;
+	}
+	if(checkIfExerciseAlreadyExists(getSelectedClassName(), d3.select("#exerciseName")[0][0].value, bigExercise))
+	{
+		alert("Es gibt bereits einen " + (bigExercise ? "großen" : "kleinen") + " Leistungsnachweis namens " + d3.select("#exerciseName")[0][0].value);
+		return;
+	}
 	var d = new Date(d3.select("#exerciseDate")[0][0].value);
 	var groups = [];
 	var pupilsA = [];
@@ -171,6 +181,7 @@ function saveNewExercise(bigExercise)
 		groups.push({name: i == 0 ? "A" : "B", exercises : theExercises, pupils : (i == 0 ? pupilsA : pupilsB)});
 	}
 	addExercise(getSelectedClassName(), bigExercise ? "big" : "small", d3.select("#exerciseName")[0][0].value, d.toISOString(), d3.select("#exerciseFactor")[0][0].value, d3.select("#exerciseGradingKey")[0][0].value.split(','), groups);
+	showClassInfo();
 }
 function copyExerciseMenuData(fieldName, index)
 {
