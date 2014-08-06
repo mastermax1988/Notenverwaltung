@@ -37,13 +37,12 @@ function showClassInfo()
 	var sel = selp.append("select").attr("id", "selectExercise");
 	sel.append("option").attr("value", "new_small").html("Neuer kleiner Leistungsnachweis");
 	sel.append("option").attr("value", "new_big").html("Neuer großer Leistungsnachweis");
-	sel.selectAll("option").data(getSmall(className), function(d) {
-		return d;
-	}).enter().append("option").attr("value", function(d) {
-		return (d.name + "_small");
-	}).html(function(d) {
-		return d.name;
-	});
+	var small = getSmall(className);
+	for(var i = 0; i < small.length; i++)
+		sel.append("option").attr("value", small[i].name + "_small").html(small[i].name);
+	var big = getBig(className);
+	for(var i = 0; i < big.length; i++)
+		sel.append("option").attr("value", big[i].name + "_big").html(big[i].name);
 	selp.append("button").attr("onclick", "editExercise()").html("Bearbeiten");
 	d.selectAll("p").data(getPupils(className)).enter().append("p").html(function(d) {
 		return d.name + " (" + (d.male ? "m" : "w") + ")";
@@ -71,7 +70,7 @@ function showExistingTest(className, exerciseName, bigExercise)
 {
 	var exercise = getExerciseData(className, exerciseName, bigExercise);
 	var d = emptyForm1();
-
+	console.log(exercise);
 }
 function getNrOfGroups()
 {

@@ -21,13 +21,13 @@ function getPupils(className)
 		return removeSpecialSignsForSortung(a.name) > removeSpecialSignsForSortung(b.name);
 	});
 }
-function checkIfExerciseAlreadyExists(className,exerciseName,bigExercise)
+function checkIfExerciseAlreadyExists(className, exerciseName, bigExercise)
 {
-  var exercises = theData[className][bigExercise ? "big" : "small"];
+	var exercises = theData[className][bigExercise ? "big" : "small"];
 	for(var i = 0; i < exercises.length; i++)
 		if(exercises[i].name == exerciseName)
 			return true;
-  return false;
+	return false;
 }
 function getExerciseData(className, exerciseName, bigExercise)
 {
@@ -50,6 +50,11 @@ function getSmall(className)
 {
 	return theData[className].small;
 }
+function getBig(className)
+{
+	return theData[className].big;
+}
+
 function getBig(className)
 {
 	return theData[className].big;
