@@ -66,66 +66,67 @@ function editExercise()
 	showExistingTest(getSelectedClassName(), exercise.split('_')[0], d3.select("#selectExercise")[0][0].value.split('_')[1] == "big");
 	emptyMenu2();
 }
+var currentExercise;
 function showExistingTest(className, exerciseName, bigExercise)
 {
-	var exercise = getExerciseData(className, exerciseName, bigExercise);
+	currentExercise = getExerciseData(className, exerciseName, bigExercise);
 	var d = emptyForm1();
-	var nrOfGroups = exercise.groups.length;
+	var nrOfGroups = currentExercise.groups.length;
 	var pupils = [];
-	pupils.push(exercise.groups[0].pupils);
+	pupils.push(currentExercise.groups[0].pupils);
 	if(nrOfGroups == 2)
-		pupils.push(exercise.groups[1].pupils);
+		pupils.push(currentExercise.groups[1].pupils);
 	console.log(pupils);
 	for(var i = 0; i < nrOfGroups; i++)
 	{
 		d.append("p").html("Gruppe " + (i == 0 ? "A" : "B"));
 		var p = d.append("p").attr("id", "p_exercisePupil_demo");
 		p.append("input").attr("value", "Aufgabe (max. Punkte)").attr("disabled", "disabled");
-		for(var k = 0; k < exercise.groups[i].exercises.length; k++)
-			p.append("input").attr("value", exercise.groups[i].exercises[k].name+"("+exercise.groups[i].exercises[k].points+")").attr("size", 4).attr("id", "subtast_" + k).attr("disabled", "disabled");
+		for(var k = 0; k < currentExercise.groups[i].exercises.length; k++)
+			p.append("input").attr("value", currentExercise.groups[i].exercises[k].name + "(" + currentExercise.groups[i].exercises[k].points + ")").attr("size", 4).attr("id", "subtast_" + k).attr("disabled", "disabled");
+		var maxpoints = 0;
+		for(var k = 0; k < currentExercise.groups[i].exercises.length; k++)
+			maxpoints += currentExercise.groups[i].exercises[k].points;
+		p.append("input").attr("size", 5).attr("id", "sum").attr("disabled", "disabled").attr("value", "Σ " + maxpoints);
+		p.append("input").attr("size", 4).attr("id", "grade").attr("disabled", "disabled").attr("value", "Note");
 		for(var j = 0; j < pupils[i].length; j++)
 		{
 			p = d.append("p").attr("id", "p_exercisePupil_" + i + "_" + j);
 			p.append("input").attr("value", pupils[i][j].name).attr("disabled", "disabled");
 			for(var k = 0; k < pupils[i][j].points.length; k++)
-				p.append("input").attr("placeholder", exercise.groups[i].exercises[k].name).attr("value", pupils[i][j].points[k]).attr("size", 4).attr("id", "subtask_" + k).attr("onchange",function(d){updateSumAndGrade(exercise);});
-		  p.append("input").attr("placeholder","Summe").attr("size", 5).attr("id", "sum").attr("disabled", "disabled");
-		  p.append("input").attr("placeholder","Note").attr("size", 4).attr("id", "grade").attr("disabled", "disabled");
-    }
+				p.append("input").attr("placeholder", currentExercise.groups[i].exercises[k].name).attr("value", pupils[i][j].points[k]).attr("size", 4).attr("id", "subtask_" + k).attr("onchange", "updateSumAndGrade()");
+			p.append("input").attr("placeholder", "Summe").attr("size", 5).attr("id", "sum").attr("disabled", "disabled");
+			p.append("input").attr("placeholder", "Note").attr("size", 4).attr("id", "grade").attr("disabled", "disabled");
+		}
 	}
+	updateSumAndGrade();
 }
 
-function updateSumAndGrade(exercise)
+function updateSumAndGrade()
 {
-  var nrOfGroups = exercise.groups.length;
-  var pupils = [];
-	pupils.push(exercise.groups[0].pupils);
+	var nrOfGroups = currentExercise.groups.length;
+	var pupils = [];
+	pupils.push(currentExercise.groups[0].pupils);
 	if(nrOfGroups == 2)
-		pupils.push(exercise.groups[1].pupils);
-  console.log("update");
-  console.log(d3.select("#p_exercisePupil_"+nrOfGroups-1+"_"+pupils[nrOfGroups-1].length-1).select("#subtask_"+exercise.groups[nrOfGroups-1].exercises.length-1));
-  if(d3.select("#p_exercisePupil_"+nrOfGroups-1+"_"+pupils[nrOfGroups-1].length-1).select("#subtask_"+exercise.groups[nrOfGroups-1].exercises.length-1)[0][0]==null)//form not completely drawn
-    return;
-  console.log("update after");
-  for(var i=0;i<nrOfGroups;i++)
-    for(var j=0;i<pupils[i].length;j++)
-    {
-      var sum=0;
-      var p=d3.select("#p_exersicePupil_"+i+"_"+j)[0][0];
-      for(var k = 0; k < exercise.groups[i].exercises.length; k++)
-        sum+=parseFloat("0"+d3.select("#p_exercisePupil_"+i+"_"+j).select("#subtask_"+k)[0][0].value);
-      console.log(sum);
-      d3.select("#p_exercisePupil_"+i+"_"+j).select("#sum").value=sum;
-      d3.select("#p_exercisePupil_"+i+"_"+j).select("#grade").value=getGrade(sum,exercise.gradingKey);
-    }
-      
+		pupils.push(currentExercise.groups[1].pupils);
+	for(var i = 0; i < nrOfGroups; i++)
+		for(var j = 0; j < pupils[i].length; j++)
+		{
+			var sum = 0;
+			var p = d3.select("#p_exersicePupil_" + i + "_" + j)[0][0];
+			for(var k = 0; k < currentExercise.groups[i].exercises.length; k++)
+				sum += parseFloat("0" + d3.select("#p_exercisePupil_" + i + "_" + j).select("#subtask_" + k)[0][0].value);
+			d3.select("#p_exercisePupil_" + i + "_" + j).select("#sum").attr("value", sum);
+			d3.select("#p_exercisePupil_" + i + "_" + j).select("#grade").attr("value", getGrade(sum, currentExercise.gradingkey));
+		}
+
 }
 function getGrade(sum, gradingKey)
 {
-  for(var i=0;i<5;i++)
-    if(sum>gradingKey[i])
-      return i+1;
-  return 6;
+	for(var i = 0; i < 5; i++)
+		if(sum > gradingKey[i])
+			return i + 1;
+	return 6;
 }
 function getNrOfGroups()
 {
