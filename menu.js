@@ -70,7 +70,6 @@ function showExistingTest(className, exerciseName, bigExercise)
 {
 	var exercise = getExerciseData(className, exerciseName, bigExercise);
 	var d = emptyForm1();
-	console.log(exercise);
 	var nrOfGroups = exercise.groups.length;
 	var pupils = [];
 	pupils.push(exercise.groups[0].pupils);
@@ -80,16 +79,53 @@ function showExistingTest(className, exerciseName, bigExercise)
 	for(var i = 0; i < nrOfGroups; i++)
 	{
 		d.append("p").html("Gruppe " + (i == 0 ? "A" : "B"));
+		var p = d.append("p").attr("id", "p_exercisePupil_demo");
+		p.append("input").attr("value", "Aufgabe (max. Punkte)").attr("disabled", "disabled");
+		for(var k = 0; k < exercise.groups[i].exercises.length; k++)
+			p.append("input").attr("value", exercise.groups[i].exercises[k].name+"("+exercise.groups[i].exercises[k].points+")").attr("size", 4).attr("id", "subtast_" + k).attr("disabled", "disabled");
 		for(var j = 0; j < pupils[i].length; j++)
 		{
-			var p = d.append("p");
-			p.append("label").html(pupils[i][j].name);
+			p = d.append("p").attr("id", "p_exercisePupil_" + i + "_" + j);
+			p.append("input").attr("value", pupils[i][j].name).attr("disabled", "disabled");
 			for(var k = 0; k < pupils[i][j].points.length; k++)
-			{
-
-			}
-		}
+				p.append("input").attr("placeholder", exercise.groups[i].exercises[k].name).attr("value", pupils[i][j].points[k]).attr("size", 4).attr("id", "subtask_" + k).attr("onchange",function(d){updateSumAndGrade(exercise);});
+		  p.append("input").attr("placeholder","Summe").attr("size", 5).attr("id", "sum").attr("disabled", "disabled");
+		  p.append("input").attr("placeholder","Note").attr("size", 4).attr("id", "grade").attr("disabled", "disabled");
+    }
 	}
+}
+
+function updateSumAndGrade(exercise)
+{
+  var nrOfGroups = exercise.groups.length;
+  var pupils = [];
+	pupils.push(exercise.groups[0].pupils);
+	if(nrOfGroups == 2)
+		pupils.push(exercise.groups[1].pupils);
+  console.log("update");
+  console.log(d3.select("#p_exercisePupil_"+nrOfGroups-1+"_"+pupils[nrOfGroups-1].length-1).select("#subtask_"+exercise.groups[nrOfGroups-1].exercises.length-1));
+  if(d3.select("#p_exercisePupil_"+nrOfGroups-1+"_"+pupils[nrOfGroups-1].length-1).select("#subtask_"+exercise.groups[nrOfGroups-1].exercises.length-1)[0][0]==null)//form not completely drawn
+    return;
+  console.log("update after");
+  for(var i=0;i<nrOfGroups;i++)
+    for(var j=0;i<pupils[i].length;j++)
+    {
+      var sum=0;
+      var p=d3.select("#p_exersicePupil_"+i+"_"+j)[0][0];
+      for(var k = 0; k < exercise.groups[i].exercises.length; k++)
+        sum+=parseFloat("0"+d3.select("#p_exercisePupil_"+i+"_"+j).select("#subtask_"+k)[0][0].value);
+      console.log(sum);
+      d3.select("#p_exercisePupil_"+i+"_"+j).select("#sum").value=sum;
+      d3.select("#p_exercisePupil_"+i+"_"+j).select("#grade").value=getGrade(sum,exercise.gradingKey);
+    }
+      
+}
+function getGrade(sum, gradingKey)
+{
+  for(var i=0;i<5;i++)
+    if(sum>gradingKey[i])
+      return i+1;
+  return 6;
 }
 function getNrOfGroups()
 {
@@ -210,10 +246,10 @@ function saveNewExercise(bigExercise)
 		var theExercises = [];
 		for(var j = 0; j < maxexercises; j++)
 		{
-			var exerciseName = d3.select("#exerciseName_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value;
-			if(exerciseName == "")
+			var subtaskName = d3.select("#exerciseName_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value;
+			if(subtaskName == "")
 				continue;
-			theExercises.push({name: exerciseName, points: d3.select("#exercisePoints_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value});
+			theExercises.push({name: subtaskName, points: d3.select("#exercisePoints_" + j + "_" + (i == 0 ? "A" : "B"))[0][0].value});
 		}
 		groups.push({name: i == 0 ? "A" : "B", exercises : theExercises, pupils : (i == 0 ? pupilsA : pupilsB)});
 	}
