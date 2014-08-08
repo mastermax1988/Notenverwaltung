@@ -105,6 +105,7 @@ function saveExistingTest()
 					points.push(parseFloat("0" + s));
 			}
 			currentExercise.groups[i].pupils[j].points = points;
+      alert("todo");
 		}
 
 }
