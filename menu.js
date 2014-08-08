@@ -64,11 +64,53 @@ function editExercise()
 		return;
 	}
 	showExistingTest(getSelectedClassName(), exercise.split('_')[0], d3.select("#selectExercise")[0][0].value.split('_')[1] == "big");
-	emptyMenu2();
+}
+function restoreDefaultGradingKey()
+{
+	d3.select("#exerciseGradingKey")[0][0].value = getGeneratedGradingKey(getCurrentExerciseMaxPoints());
+	updateSumAndGrade();
+}
+function getCurrentExerciseMaxPoints()
+{
+	var maxpoints = 0;
+	for(var k = 0; k < currentExercise.groups[0].exercises.length; k++)
+		maxpoints += parseFloat("0"+ currentExercise.groups[0].exercises[k].points);
+	return maxpoints;
+}
+function applyNewGradingKey()
+{
+	currentExercise.gradingKey = d3.select("#exerciseGradingKey")[0][0].value.split(",");
+	updateSumAndGrade();
+}
+function saveExistingTest()
+{
+	var nrOfGroups = currentExercise.groups.length;
+	var pupils = [];
+	pupils.push(currentExercise.groups[0].pupils);
+	if(nrOfGroups == 2)
+		pupils.push(currentExercise.groups[1].pupils);
+	for(var i = 0; i < nrOfGroups; i++)
+		for(var j = 0; j < pupils[i].length; j++)
+		{
+			var points = [];
+			for(var k = 0; k < pupils[i][j].points.length; k++)
+			{
+				var s = d3.select("#p_exercisePupil_" + i + "_" + j).select("#subtask_" + k)[0][0].value;
+				console.log(s);
+        if(s == "-")
+					points.push("-");
+				else
+					points.push(parseFloat("0" + s));
+			}
+			currentExercise.groups[i].pupils[j].points = points;
+		}
+
 }
 var currentExercise;
 function showExistingTest(className, exerciseName, bigExercise)
 {
+	var m2 = emptyMenu2();
+	m2.append("button").attr("onclick", "saveExistingTest()").html("Punkte übernehmen");
 	currentExercise = getExerciseData(className, exerciseName, bigExercise);
 	var d = emptyForm1();
 	var nrOfGroups = currentExercise.groups.length;
@@ -77,6 +119,15 @@ function showExistingTest(className, exerciseName, bigExercise)
 	if(nrOfGroups == 2)
 		pupils.push(currentExercise.groups[1].pupils);
 	console.log(pupils);
+	d.append("p").html(currentExercise.name + " vom " + currentExercise.date.slice(0, 10));
+	var sGradingKey = "";
+	for(var i = 0; i < currentExercise.gradingKey.length; i++)
+		sGradingKey += currentExercise.gradingKey[i] + ",";
+	sGradingKey = sGradingKey.slice(0, sGradingKey.length - 1);
+	d.append("p");
+	d.append("input").attr("id", "exerciseGradingKey").attr("value", sGradingKey);
+	d.append("button").attr("onclick", "restoreDefaultGradingKey()").html("Bewertungsschlüssel generieren");
+	d.append("button").attr("onclick", "applyNewGradingKey()").html("Bewertungsschlüssel übernehmen");
 	for(var i = 0; i < nrOfGroups; i++)
 	{
 		d.append("p").html("Gruppe " + (i == 0 ? "A" : "B"));
@@ -84,9 +135,7 @@ function showExistingTest(className, exerciseName, bigExercise)
 		p.append("input").attr("value", "Aufgabe (max. Punkte)").attr("disabled", "disabled");
 		for(var k = 0; k < currentExercise.groups[i].exercises.length; k++)
 			p.append("input").attr("value", currentExercise.groups[i].exercises[k].name + "(" + currentExercise.groups[i].exercises[k].points + ")").attr("size", 4).attr("id", "subtast_" + k).attr("disabled", "disabled");
-		var maxpoints = 0;
-		for(var k = 0; k < currentExercise.groups[i].exercises.length; k++)
-			maxpoints += currentExercise.groups[i].exercises[k].points;
+		var maxpoints = getCurrentExerciseMaxPoints();
 		p.append("input").attr("size", 5).attr("id", "sum").attr("disabled", "disabled").attr("value", "Σ " + maxpoints);
 		p.append("input").attr("size", 4).attr("id", "grade").attr("disabled", "disabled").attr("value", "Note");
 		for(var j = 0; j < pupils[i].length; j++)
@@ -117,7 +166,7 @@ function updateSumAndGrade()
 			for(var k = 0; k < currentExercise.groups[i].exercises.length; k++)
 				sum += parseFloat("0" + d3.select("#p_exercisePupil_" + i + "_" + j).select("#subtask_" + k)[0][0].value);
 			d3.select("#p_exercisePupil_" + i + "_" + j).select("#sum").attr("value", sum);
-			d3.select("#p_exercisePupil_" + i + "_" + j).select("#grade").attr("value", getGrade(sum, currentExercise.gradingkey));
+			d3.select("#p_exercisePupil_" + i + "_" + j).select("#grade").attr("value", getGrade(sum, currentExercise.gradingKey));
 		}
 
 }
@@ -140,20 +189,23 @@ function getNrOfGroups()
 	return 1;
 }
 
-function generateGradingKey()
+function generateNewGradingKey()
 {
 	var maxpoints = 0;
 	for(var i = 0; i < maxexercises; i++)
 		maxpoints += parseFloat("0" + d3.select("#exercisePoints_" + i + "_A")[0][0].value); //0+string to prevent NaN parsing error
+	d3.select("#exerciseGradingKey")[0][0].value = getGeneratedGradingKey(maxpoints);
+}
+function getGeneratedGradingKey(maxpoints)
+{
 	var points = "";
 	points += Math.round(maxpoints * 8.5 * 2, 0) / 20 + ",";
 	points += Math.round(maxpoints * 7 * 2, 0) / 20 + ",";
 	points += Math.round(maxpoints * 5.5 * 2, 0) / 20 + ",";
 	points += Math.round(maxpoints * 4 * 2, 0) / 20 + ",";
 	points += Math.round(maxpoints * 2 * 2, 0) / 20 + "";
-	d3.select("#exerciseGradingKey")[0][0].value = points;
+	return points;
 }
-
 function getCurrentDate()
 {
 	var d = new Date()
@@ -169,7 +221,7 @@ function addExerciseMenu(bigExercise)
 	p.append("input").attr("id", "exerciseFactor").attr("placeHolder", "Faktor");
 	p.append("label").attr("id", "exerciseNrOfGroupsLabel");
 	p.append("input").attr("id", "exerciseGradingKey").attr("placeHolder", "Bewertungsschlüssel");
-	p.append("button").attr("id", "exerciseGenerateGradingKey").attr("onclick", "generateGradingKey()").html("Bewertungsschlüssel erstellen");
+	p.append("button").attr("id", "exerciseGenerateGradingKey").attr("onclick", "generateNewGradingKey()").html("Bewertungsschlüssel erstellen");
 	for(var i = 0; i < maxexercises; i++)
 	{
 		p = d.append("p");
