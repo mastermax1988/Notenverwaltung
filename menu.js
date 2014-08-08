@@ -74,7 +74,7 @@ function getCurrentExerciseMaxPoints()
 {
 	var maxpoints = 0;
 	for(var k = 0; k < currentExercise.groups[0].exercises.length; k++)
-		maxpoints += parseFloat("0"+ currentExercise.groups[0].exercises[k].points);
+		maxpoints += parseFloat("0" + currentExercise.groups[0].exercises[k].points);
 	return maxpoints;
 }
 function applyNewGradingKey()
@@ -97,7 +97,9 @@ function saveExistingTest()
 			{
 				var s = d3.select("#p_exercisePupil_" + i + "_" + j).select("#subtask_" + k)[0][0].value;
 				console.log(s);
-        if(s == "-")
+				if(s == "")
+					s = "-";
+				if(s == "-")
 					points.push("-");
 				else
 					points.push(parseFloat("0" + s));
@@ -110,20 +112,15 @@ var currentExercise;
 function showExistingTest(className, exerciseName, bigExercise)
 {
 	var m2 = emptyMenu2();
-	m2.append("button").attr("onclick", "saveExistingTest()").html("Punkte übernehmen");
 	currentExercise = getExerciseData(className, exerciseName, bigExercise);
+	m2.append("button").attr("onclick", "saveExistingTest()").html("Punkte übernehmen für " + currentExercise.name + " vom " + currentExercise.date.slice(0, 10));
 	var d = emptyForm1();
 	var nrOfGroups = currentExercise.groups.length;
 	var pupils = [];
 	pupils.push(currentExercise.groups[0].pupils);
 	if(nrOfGroups == 2)
 		pupils.push(currentExercise.groups[1].pupils);
-	console.log(pupils);
-	d.append("p").html(currentExercise.name + " vom " + currentExercise.date.slice(0, 10));
-	var sGradingKey = "";
-	for(var i = 0; i < currentExercise.gradingKey.length; i++)
-		sGradingKey += currentExercise.gradingKey[i] + ",";
-	sGradingKey = sGradingKey.slice(0, sGradingKey.length - 1);
+	var sGradingKey = currentExercise.gradingKey.join(",");
 	d.append("p");
 	d.append("input").attr("id", "exerciseGradingKey").attr("value", sGradingKey);
 	d.append("button").attr("onclick", "restoreDefaultGradingKey()").html("Bewertungsschlüssel generieren");
