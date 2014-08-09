@@ -28,8 +28,8 @@ function getAllGrades(className, pupilName)
 		for(var j = 0; j < big[i].groups.length; j++)
 			for(var k = 0; k < big[i].groups[j].pupils.length; k++)
 				if(big[i].groups[j].pupils[k].name == pupilName)
-				{	
-          var obj = {};
+				{
+					var obj = {};
 					obj.points = big[i].groups[j].pupils[k].points;
 					obj.sum = big[i].groups[j].pupils[k].sum;
 					obj.grade = big[i].groups[j].pupils[k].grade;
@@ -111,6 +111,15 @@ function evalExercise(className, exerciseName, bigExericse)
 			continue;
 		dataSorted.pupils.push(pupilData);
 	}
+	var gradeDistribution = [0, 0, 0, 0, 0, 0];
+	var total = 0;
+	for(var i = 0; i < dataSorted.pupils.length; i++)
+	{
+		gradeDistribution[dataSorted.pupils[i].grade]++;
+		total += dataSorted.pupils[i].grade;
+	}
+	dataSorted.gradeDistribution = gradeDistribution;
+	dataSorted.average = Math.round(total / dataSorted.pupils.length * 1000) / 1000;
 	return dataSorted;
 }
 
@@ -129,7 +138,7 @@ function getPupilData(exerciseData, pupilName)
 	}
 	if(indexPupil == -1)
 		return null;
-	var pupil = exerciseData.groups[indexGroup].pupils[indexPupil];
+	var pupil = {name: exerciseData.groups[indexGroup].pupils[indexPupil].name, points: exerciseData.groups[indexGroup].pupils[indexPupil].points, sum: exerciseData.groups[indexGroup].pupils[indexPupil].sum, grade: exerciseData.groups[indexGroup].pupils[indexPupil].grade};
 	pupil.group = indexGroup == 0 ? "A" : "B";
 	return exerciseData.groups[indexGroup].pupils[indexPupil];
 }
