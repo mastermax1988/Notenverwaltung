@@ -62,6 +62,7 @@ function showClassInfo()
 	table.append("th").html("kl.");
 	table.append("th").html("gr.");
 	table.append("th").html("Endnote");
+	table.append("th").html("Anzahl mdl.");
 	for(var i = 0; i < pupils.length; i++)
 	{
 		var tr = table.append("tr");
@@ -72,6 +73,8 @@ function showClassInfo()
 		tr.append("td").attr("class", "alnright").html(scores.small);
 		tr.append("td").attr("class", "alnright").html(scores.big);
 		tr.append("td").attr("class", "alnright").html(scores.end);
+		var grades = getAllGrades(className, pupils[i].name);
+		tr.append("td").html(grades.small.length + grades.oral.length).attr("class", "alnright");
 	}
 }
 
@@ -123,19 +126,19 @@ function showPupilInfoPage(pupilName)
 		tr.append("td").html(grades.oral[i].date.slice(0, 10));
 		tr.append("td").attr("class", "alnright_red").html(grades.oral[i].grade);
 	}
-  table.append("tr").append("td").html("");
-  tr=table.append("tr");
-  tr.append("td").html("Schnitt klein");
-  tr.append("td").html("");
-  tr.append("td").html(score.small).attr("class", "alnright_red");
-  tr=table.append("tr");
-  tr.append("td").html("Schnitt groß");
-  tr.append("td").html("");
-  tr.append("td").html(score.big).attr("class", "alnright_red");
-  tr=table.append("tr");
-  tr.append("td").html("Endnote");
-  tr.append("td").html("");
-  tr.append("td").html(score.end).attr("class", "alnright_red");
+	table.append("tr").append("td").html("");
+	tr = table.append("tr");
+	tr.append("td").html("Schnitt klein");
+	tr.append("td").html("");
+	tr.append("td").html(score.small).attr("class", "alnright_red");
+	tr = table.append("tr");
+	tr.append("td").html("Schnitt groß");
+	tr.append("td").html("");
+	tr.append("td").html(score.big).attr("class", "alnright_red");
+	tr = table.append("tr");
+	tr.append("td").html("Endnote");
+	tr.append("td").html("");
+	tr.append("td").html(score.end).attr("class", "alnright_red");
 }
 
 function editExercise()
@@ -452,6 +455,7 @@ function saveOralGrades()
 		i++;
 	}
 	updateOralGrades(getSelectedClassName(), pupil, grades);
+  showClassInfo();
 }
 function showOralGrades()
 {
