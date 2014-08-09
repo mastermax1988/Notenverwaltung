@@ -3,6 +3,7 @@
 function getAllGrades(className, pupilName)
 {
 	var data = {oral: [], small: [], big: []};
+	data.gradeRatio = theData[className].gradeRatio;
 	var oral = theData[className].oral;
 	for(var i = 0; i < oral.length; i++)
 		if(oral[i].name == pupilName)
@@ -28,35 +29,51 @@ function getAllGrades(className, pupilName)
 	return data;
 }
 
-function getFinalScores(className,pupilName)
+function getFinalScores(className, pupilName)
 {
-  var data={small:null,big:null,end:null};
-  var grades=getAllGrades(className,pupilName);
-  var factor=0;
-  var small=0;
-  for(var i=0;i<grades.oral.length;i++)
-  {
-    factor+=grades.oral[i].factor;
-    small+=grades.oral[i].grade*grades.oral[i].factor;
+	var data = {small: null, big: null, end: null};
+	var grades = getAllGrades(className, pupilName);
+	var factor = 0;
+	var small = 0;
+	for(var i = 0; i < grades.oral.length; i++)
+	{
+		factor += grades.oral[i].factor;
+		small += grades.oral[i].grade * grades.oral[i].factor;
+	}
+	for(var i = 0; i < grades.small.length; i++)
+	{
+		if(grades.small[i].grade == "-")
+			continue;
+		factor += grades.small[i].factor;
+		small += grades.small[i].grade * grades.small[i].factor;
+	}
+	small /= factor;
+	var big = 0;
+	factor = 0;
+	for(var i = 0; i < grades.big.length; i++)
+	{
+		if(grades.big[i].grade == "-")
+			continue;
+		factor += grades.big[i].factor;
+		big += grades.big[i].grade * grades.big[i].factor;
+	}
+	big /= factor;
+	data.small = Math.round(small * 1000) / 1000;
+	if(isNaN(big))
+	{
+		data.end = small;
+		data.big = big;
+	}
+	else
+	{
+		data.big = Math.round(big * 1000) / 1000;
+		var gradeRatio = grades.gradeRatio.split("_");
+		var ratioSmall = parseFloat("0" + gradeRatio[1]);
+		var ratioBig = parseFloat("0" + gradeRatio[0]);
+		var end = (big * ratioBig + small * ratioSmall) / (ratioBig + ratioSmall);
+		data.end = Math.round(end * 1000) / 1000;
   }
-  for(var i=0;i<grades.small.length;i++)
-  {  
-    factor+=grades.small[i].factor;
-    small+=grades.small[i].grade*grades.small[i].factor;
-  }
-  small/=factor;
-  var big=0;
-  factor=0;
-  for(var i=0;i<grades.big.length;i++)
-  {  
-    factor+=grades.big[i].factor;
-    big+=grades.big[i].grade*grades.big[i].factor;
-  }
-  big/=factor;
-  data.small=small;
-  data.big=big;
-  data.end=(2*big+small)/3;
-  return data;
+	return data;
 }
 
 function evalExercise(className, exerciseName, bigExericse)
@@ -74,15 +91,15 @@ function evalExercise(className, exerciseName, bigExericse)
 	dataSorted.exercises = [data.groups[0].exercises];
 	if(data.groups.length == 2)
 		dataSorted.exercises.push(data.groups[1].exercises);
-  dataSorted.pupils=[];
+	dataSorted.pupils = [];
 	for(var i = 0; i < pupils.length; i++)
 	{
-    var pupilData=getPupilData(data,pupils[i].name);
-    if(pupilData==null)
-      continue;
-    dataSorted.pupils.push(pupilData);
+		var pupilData = getPupilData(data, pupils[i].name);
+		if(pupilData == null)
+			continue;
+		dataSorted.pupils.push(pupilData);
 	}
-  return dataSorted;
+	return dataSorted;
 }
 
 function getPupilData(exerciseData, pupilName)
