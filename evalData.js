@@ -103,6 +103,10 @@ function evalExercise(className, exerciseName, bigExericse)
 	dataSorted.exercises = [data.groups[0].exercises];
 	if(data.groups.length == 2)
 		dataSorted.exercises.push(data.groups[1].exercises);
+	var maxpoints = 0;
+	for(var i = 0; i < data.groups[0].exercises.length; i++)
+		maxpoints += data.groups[0].exercises[i].points;
+	dataSorted.maxpoints = maxpoints;
 	dataSorted.pupils = [];
 	for(var i = 0; i < pupils.length; i++)
 	{
@@ -138,7 +142,5 @@ function getPupilData(exerciseData, pupilName)
 	}
 	if(indexPupil == -1)
 		return null;
-	var pupil = {name: exerciseData.groups[indexGroup].pupils[indexPupil].name, points: exerciseData.groups[indexGroup].pupils[indexPupil].points, sum: exerciseData.groups[indexGroup].pupils[indexPupil].sum, grade: exerciseData.groups[indexGroup].pupils[indexPupil].grade};
-	pupil.group = indexGroup == 0 ? "A" : "B";
-	return exerciseData.groups[indexGroup].pupils[indexPupil];
+	return {name: exerciseData.groups[indexGroup].pupils[indexPupil].name, points: exerciseData.groups[indexGroup].pupils[indexPupil].points, sum: exerciseData.groups[indexGroup].pupils[indexPupil].sum, grade: exerciseData.groups[indexGroup].pupils[indexPupil].grade, group: (indexGroup == 0 ? "A" : "B")};
 }

@@ -77,7 +77,49 @@ function showClassInfo()
 		tr.append("td").html(grades.small.length + grades.oral.length).attr("class", "alnright");
 	}
 }
+function showEvalExercise()
+{
+	var d = emptyForm1();
+	var className = getSelectedClassName();
+	var exerciseSel = d3.select("#selectExercise")[0][0].value;
+	if(exerciseSel == "new_small" || exerciseSel == "new_big")
+	{
+    showClassInfo();
+    return;
+  }
 
+	var exercise = evalExercise(className, exerciseSel.split('_')[0], exerciseSel.split('_')[1] == "big");
+  console.log(exercise);
+  d.append("p").html(className + " - " + exercise.name + " - " + exercise.date.slice(0,10));
+  var table = d.append("table");
+	var tr = table.append("tr");
+  var b2Groups = exercise.exercises.length == 2;
+	tr.append("th").html("Name");
+	if(b2Groups)
+		tr.append("th").html("A<br>B");
+	for(var i = 0; i < exercise.exercises[0].length; i++)
+	{
+		var s = exercise.exercises[0][i].name + " (" + exercise.exercises[0][i].points + ")";
+		if(b2Groups)
+		{
+			s += "<br>" + exercise.exercises[1][i].name + " (" + exercise.exercises[1][i].points + ")";
+		}
+		tr.append("th").html(s);
+	}
+	tr.append("th").html("Σ" + " (" + exercise.maxpoints + ")");
+	tr.append("th").html("Note");
+	for(var i = 0; i < exercise.pupils.length; i++)
+	{
+		tr = table.append("tr");
+		tr.append("td").html(exercise.pupils[i].name);
+		if(b2Groups)
+			tr.append("td").html(exercise.pupils[i].group);
+		for(var j = 0; j < exercise.pupils[i].points.length; j++)
+			tr.append("td").html(exercise.pupils[i].points[j]);
+		tr.append("td").html(exercise.pupils[i].sum);
+		tr.append("td").html(exercise.pupils[i].grade).attr("class", "alnright_red");
+	}
+}
 function showPupilInfo(pupilName)
 {
 	var m = emptyMenu2();
@@ -455,7 +497,7 @@ function saveOralGrades()
 		i++;
 	}
 	updateOralGrades(getSelectedClassName(), pupil, grades);
-  showClassInfo();
+	showClassInfo();
 }
 function showOralGrades()
 {
