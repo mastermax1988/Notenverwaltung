@@ -15,6 +15,7 @@ function drawMainMenu()
 	});
 	d.append("button").attr("onclick", "showClassInfo()").html("Klassenübersicht");
 	d.append("button").attr("onclick", "saveData()").html("Speichern");
+	d.append("button").attr("onclick", "window.print()").html("Daten drucken");
 	d.append("button").attr("onclick", "maintenance()").html("Wartung");
 	console.log(getClasses());
 	showClassInfo();
@@ -26,6 +27,15 @@ function getSelectedClassName()
 		return null;
 	return sel[sel.selectedIndex].value;
 }
+function printTable()
+{
+	var divToPrint = document.getElementById('form1');
+	var newWin = window.open("#");
+	newWin.document.write(divToPrint.outerHTML);
+	newWin.print();
+	newWin.close();
+}
+
 function showClassInfo()
 {
 	var m2 = emptyMenu2();
@@ -44,32 +54,88 @@ function showClassInfo()
 	for(var i = 0; i < big.length; i++)
 		sel.append("option").attr("value", big[i].name + "_big").html(big[i].name);
 	selp.append("button").attr("onclick", "editExercise()").html("Bearbeiten");
-	//d.selectAll("p").data(getPupils(className)).enter().append("p").html(function(d) {
-	//	var s=d.name + " (" + (d.male ? "m" : "w") + ")";
-	//  return s;
-	//});
+	selp.append("button").attr("onclick", "showEvalExercise()").html("Auswertung anzeigen");
+	d.append("p").html(className);
 	var table = d.append("table");
-  table.append("th").html("Name");
-  table.append("th").html("");
-  table.append("th").html("kl.");
-  table.append("th").html("gr.");
-  table.append("th").html("Endnote");
-
+	table.append("th").html("Name");
+	table.append("th").html("");
+	table.append("th").html("kl.");
+	table.append("th").html("gr.");
+	table.append("th").html("Endnote");
 	for(var i = 0; i < pupils.length; i++)
 	{
 		var tr = table.append("tr");
-	//	tr.append("td").html(pupils[i].name);
-		tr.append("td").append("a").html(pupils[i].name).attr("href","#").attr("onclick","showPupilInfo('"+pupils[i].name+"')");
+		//	tr.append("td").html(pupils[i].name);
+		tr.append("td").append("a").html(pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + pupils[i].name + "')");
 		tr.append("td").html(pupils[i].male ? "m" : "w");
 		var scores = getFinalScores(className, pupils[i].name);
-		tr.append("td").attr("class","alnright").html(scores.small);
-		tr.append("td").attr("class","alnright").html(scores.big);
-		tr.append("td").attr("class","alnright").html(scores.end);
+		tr.append("td").attr("class", "alnright").html(scores.small);
+		tr.append("td").attr("class", "alnright").html(scores.big);
+		tr.append("td").attr("class", "alnright").html(scores.end);
 	}
 }
+
 function showPupilInfo(pupilName)
 {
-  alert(pupilName);
+	var m = emptyMenu2();
+	var sel = m.append("select").attr("id", "selectPupilForInfo");
+	var className = getSelectedClassName();
+	var pupils = getPupils(className);
+	for(var i = 0; i < pupils.length; i++)
+		sel.append("option").html(pupils[i].name).attr("value", pupils[i].name).attr("onclick", "showPupilInfoPage('" + pupils[i].name + "')");
+	d3.select("#selectPupilForInfo")[0][0].selectedIndex = pupils.map(function (d) {
+		return d.name;
+	}).indexOf(pupilName);
+	showPupilInfoPage(pupilName);
+}
+function showPupilInfoPage(pupilName)
+{
+	var className = getSelectedClassName();
+	var d = emptyForm1();
+	d.append("p").html(className + " - " + pupilName)
+	var grades = getAllGrades(className, pupilName);
+	var score = getFinalScores(className, pupilName);
+	var table = d.append("table");
+	var tr = table.append("tr");
+	tr.append("th").html("Name (Faktor)");
+	tr.append("th").html("Datum");
+	tr.append("th").html("Note");
+	for(var i = 0; i < grades.big.length; i++)
+	{
+		tr = table.append("tr");
+		tr.append("td").html(grades.big[i].exerciseName + " (" + grades.big[i].factor + ")");
+		tr.append("td").html(grades.big[i].date.slice(0, 10));
+		tr.append("td").attr("class", "alnright_red").html(grades.big[i].grade);
+	}
+	table.append("tr").append("td").html("");
+	for(var i = 0; i < grades.small.length; i++)
+	{
+		tr = table.append("tr");
+		tr.append("td").html(grades.small[i].exerciseName + " (" + grades.small[i].factor + ")");
+		tr.append("td").html(grades.small[i].date.slice(0, 10));
+		tr.append("td").attr("class", "alnright_red").html(grades.small[i].grade);
+	}
+	table.append("tr").append("td").html("");
+	for(var i = 0; i < grades.oral.length; i++)
+	{
+		tr = table.append("tr");
+		tr.append("td").html(grades.oral[i].kind + " (" + grades.oral[i].factor + ")");
+		tr.append("td").html(grades.oral[i].date.slice(0, 10));
+		tr.append("td").attr("class", "alnright_red").html(grades.oral[i].grade);
+	}
+  table.append("tr").append("td").html("");
+  tr=table.append("tr");
+  tr.append("td").html("Schnitt klein");
+  tr.append("td").html("");
+  tr.append("td").html(score.small).attr("class", "alnright_red");
+  tr=table.append("tr");
+  tr.append("td").html("Schnitt groß");
+  tr.append("td").html("");
+  tr.append("td").html(score.big).attr("class", "alnright_red");
+  tr=table.append("tr");
+  tr.append("td").html("Endnote");
+  tr.append("td").html("");
+  tr.append("td").html(score.end).attr("class", "alnright_red");
 }
 
 function editExercise()

@@ -14,17 +14,29 @@ function getAllGrades(className, pupilName)
 			for(var k = 0; k < small[i].groups[j].pupils.length; k++)
 				if(small[i].groups[j].pupils[k].name == pupilName)
 				{
-					data.small.push(small[i].groups[j].pupils[k]);
-					data.small[data.small.length - 1].factor = small[i].factor;
+					var obj = {};
+					obj.points = small[i].groups[j].pupils[k].points;
+					obj.sum = small[i].groups[j].pupils[k].sum;
+					obj.grade = small[i].groups[j].pupils[k].grade;
+					obj.factor = small[i].factor;
+					obj.date = small[i].date;
+					obj.exerciseName = small[i].name;
+					data.small.push(obj);
 				}
 	var big = theData[className].big;
 	for(var i = 0; i < big.length; i++)
 		for(var j = 0; j < big[i].groups.length; j++)
 			for(var k = 0; k < big[i].groups[j].pupils.length; k++)
 				if(big[i].groups[j].pupils[k].name == pupilName)
-				{
-					data.big.push(big[i].groups[j].pupils[k]);
-					data.big[data.big.length - 1].factor = big[i].factor;
+				{	
+          var obj = {};
+					obj.points = big[i].groups[j].pupils[k].points;
+					obj.sum = big[i].groups[j].pupils[k].sum;
+					obj.grade = big[i].groups[j].pupils[k].grade;
+					obj.factor = big[i].factor;
+					obj.date = big[i].date;
+					obj.exerciseName = big[i].name;
+					data.big.push(obj);
 				}
 	return data;
 }
@@ -72,7 +84,7 @@ function getFinalScores(className, pupilName)
 		var ratioBig = parseFloat("0" + gradeRatio[0]);
 		var end = (big * ratioBig + small * ratioSmall) / (ratioBig + ratioSmall);
 		data.end = Math.round(end * 1000) / 1000;
-  }
+	}
 	return data;
 }
 

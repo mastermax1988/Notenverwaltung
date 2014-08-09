@@ -4,8 +4,8 @@
     "oral": [
       {
         "name": "Huber Max",
-        "grade": 1,
-        "factor": 1,
+        "grade": 5,
+        "factor": 2,
         "kind": "UB",
         "date": "2014-08-09T00:00:00.000Z"
       },
@@ -50,8 +50,7 @@
                   7
                 ],
                 "sum": 11,
-                "grade": 2,
-                "factor": 1
+                "grade": 2
               },
               {
                 "name": "Müller Anna",
@@ -98,8 +97,7 @@
                   2
                 ],
                 "sum": 10,
-                "grade": 3,
-                "factor": 1
+                "grade": 3
               },
               {
                 "name": "Müller Anna",
@@ -148,8 +146,7 @@
                   19
                 ],
                 "sum": 27,
-                "grade": 1,
-                "factor": 1
+                "grade": 1
               }
             ]
           },
