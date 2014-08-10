@@ -84,16 +84,16 @@ function showEvalExercise()
 	var exerciseSel = d3.select("#selectExercise")[0][0].value;
 	if(exerciseSel == "new_small" || exerciseSel == "new_big")
 	{
-    showClassInfo();
-    return;
-  }
+		showClassInfo();
+		return;
+	}
 
 	var exercise = evalExercise(className, exerciseSel.split('_')[0], exerciseSel.split('_')[1] == "big");
-  console.log(exercise);
-  d.append("p").html(className + " - " + exercise.name + " - " + exercise.date.slice(0,10));
-  var table = d.append("table");
+	console.log(exercise);
+	d.append("p").html(className + " - " + exercise.name + " - " + exercise.date.slice(0, 10));
+	var table = d.append("table");
 	var tr = table.append("tr");
-  var b2Groups = exercise.exercises.length == 2;
+	var b2Groups = exercise.exercises.length == 2;
 	tr.append("th").html("Name");
 	if(b2Groups)
 		tr.append("th").html("A<br>B");
@@ -119,6 +119,33 @@ function showEvalExercise()
 		tr.append("td").html(exercise.pupils[i].sum);
 		tr.append("td").html(exercise.pupils[i].grade).attr("class", "alnright_red");
 	}
+	d.append("p").html(exercise.pupils.length + " Arbeiten, Durchschnittsnote " + exercise.average);
+	table =  d.append("table");
+	tr = table.append("tr");
+	for(var i = 0; i < 2; i++)
+	{
+		tr.append("th").html("Note");
+		tr.append("th").html("Anzahl");
+		tr.append("th").html("BE");
+		if(i == 0)
+			tr.append("th").html("");
+	}
+	for(var i = 0; i < 3; i++)
+	{
+		tr = table.append("tr");
+		tr.append("td").html(i + 1);
+		tr.append("td").html(exercise.gradeDistribution[i]);
+		tr.append("td").html(">" + exercise.gradingKey[i]);
+		tr.append("th").html("");
+		tr.append("td").html(i + 4);
+		tr.append("td").html(exercise.gradeDistribution[i + 3]);
+		if(i < 2)
+			tr.append("td").html(">" + exercise.gradingKey[i + 3]);
+    else
+			tr.append("td").html("<=" + exercise.gradingKey[4]);
+      
+	}
+
 }
 function showPupilInfo(pupilName)
 {
