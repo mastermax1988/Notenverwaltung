@@ -1,6 +1,6 @@
 German manual beneath English summary
 
-Developed and tested in latest firefox nightly (34). Problems are reported for chrome.
+Developed and tested in latest firefox nightly (34). Bugs may occur in other browsers, since I only use firefox.
 
 A software for keeping track of student's grades for teachers. Done in JS with d3 abuse.
 It runs locally and stores the all grades in a json file. Oral grades, small and big exercises can be managed with this software. Developed for the German Gymnasium, but it can be easily modified for other schools :)
