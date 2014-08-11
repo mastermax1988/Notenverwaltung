@@ -150,15 +150,22 @@ function showEvalExercise()
 function showPupilInfo(pupilName)
 {
 	var m = emptyMenu2();
-	var sel = m.append("select").attr("id", "selectPupilForInfo");
+	var sel = m.append("select").attr("id", "selectPupilForInfo").attr("onchange","showPupilSelectChanged()");
 	var className = getSelectedClassName();
 	var pupils = getPupils(className);
 	for(var i = 0; i < pupils.length; i++)
-		sel.append("option").html(pupils[i].name).attr("value", pupils[i].name).attr("onclick", "showPupilInfoPage('" + pupils[i].name + "')");
+		sel.append("option").html(pupils[i].name).attr("value", pupils[i].name);
 	d3.select("#selectPupilForInfo")[0][0].selectedIndex = pupils.map(function (d) {
 		return d.name;
 	}).indexOf(pupilName);
 	showPupilInfoPage(pupilName);
+}
+function showPupilSelectChanged()
+{
+  var sel=d3.select("#selectPupilForInfo")[0][0];
+  if(sel.selectedIndex<0)
+    return;
+  showPupilInfoPage(sel[sel.selectedIndex].value);
 }
 function showPupilInfoPage(pupilName)
 {
