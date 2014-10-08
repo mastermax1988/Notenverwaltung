@@ -119,7 +119,7 @@ function evalExercise(className, exerciseName, bigExericse)
 	var total = 0;
 	for(var i = 0; i < dataSorted.pupils.length; i++)
 	{
-		gradeDistribution[dataSorted.pupils[i].grade]++;
+		gradeDistribution[dataSorted.pupils[i].grade-1]++;
 		total += dataSorted.pupils[i].grade;
 	}
 	dataSorted.gradeDistribution = gradeDistribution;
