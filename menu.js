@@ -601,7 +601,16 @@ function addPupilMenu()
 	}
 	var m = emptyMenu2();
 	m.append("button").attr("onclick", "updatePupilsFromForm('" + className + "')").html("Änderungen übernehmen");
+  m.append("textarea").attr("rows",40).attr("cols",50).attr("id","pupilpaste");
+  m.append("button").attr("onclick","parsePupils()").html("Daten parsen");
 }
+ function parsePupils()
+{
+  var pup_tmp=d3.select("#pupilpaste")[0][0].value.split("\n");
+  for(var i=0;i<pup_tmp.length;i++)
+    d3.select("#pupilName_"+i).attr("value",pup_tmp[i].replace("\t"," "));
+}
+
 function updatePupilsFromForm(className)
 {
 	var newPupils = [];
