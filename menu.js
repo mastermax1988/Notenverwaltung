@@ -601,7 +601,7 @@ function addPupilMenu()
 	}
 	var m = emptyMenu2();
 	m.append("button").attr("onclick", "updatePupilsFromForm('" + className + "')").html("Änderungen übernehmen");
-  m.append("textarea").attr("rows",40).attr("cols",50).attr("id","pupilpaste");
+  m.append("textarea").attr("rows",4).attr("cols",50).attr("id","pupilpaste");
   m.append("button").attr("onclick","parsePupils()").html("Daten parsen");
 }
  function parsePupils()
