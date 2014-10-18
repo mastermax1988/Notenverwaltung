@@ -273,7 +273,7 @@ function saveExistingTest()
 				}
 				else
 				{
-					var point = parseFloat("0" + s);
+					var point = parseFloat("0" + s.replace(',','.'));
 					sum += point;
 					points.push(point);
 				}
@@ -343,7 +343,7 @@ function updateSumAndGrade()
 			for(var k = 0; k < currentExercise.groups[i].exercises.length; k++)
 			{
 				var s = d3.select("#p_exercisePupil_" + i + "_" + j).select("#subtask_" + k)[0][0].value;
-				sum += parseFloat("0" + s);
+				sum += parseFloat("0" + s.replace(',','.'));
 				if(s == "" || s == "-")
 					bFinished = false;
 			}
@@ -491,7 +491,7 @@ function saveNewExercise(bigExercise)
 		}
 		groups.push({name: i == 0 ? "A" : "B", exercises : theExercises, pupils : (i == 0 ? pupilsA : pupilsB)});
 	}
-	addExercise(getSelectedClassName(), bigExercise ? "big" : "small", exerciseName, d.toISOString(), parseFloat("0" + d3.select("#exerciseFactor")[0][0].value), d3.select("#exerciseGradingKey")[0][0].value.split(','), groups);
+	addExercise(getSelectedClassName(), bigExercise ? "big" : "small", exerciseName, d.toISOString(), parseFloat("0" + d3.select("#exerciseFactor")[0][0].value.replace(',','.')), d3.select("#exerciseGradingKey")[0][0].value.split(','), groups);
 	showClassInfo();
 }
 function copyExerciseMenuData(fieldName, index)
@@ -527,7 +527,7 @@ function saveOralGrades()
 			continue;
 		}
 		var d = new Date(p.select("#date")[0][0].value);
-		grades.push({name: pupil, grade: parseFloat("0" + p.select("#grade")[0][0].value), factor: parseFloat("0" + p.select("#factor")[0][0].value), kind: p.select("#kind")[0][0].value, date: d.toISOString()});
+		grades.push({name: pupil, grade: parseFloat("0" + p.select("#grade")[0][0].value), factor: parseFloat("0" + p.select("#factor")[0][0].value.replace(',','.')), kind: p.select("#kind")[0][0].value, date: d.toISOString()});
 		i++;
 	}
 	updateOralGrades(getSelectedClassName(), pupil, grades);
