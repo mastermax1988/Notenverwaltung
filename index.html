@@ -6,6 +6,12 @@
 <script src="menu.js"></script>
 <script src="editData.js"></script>
 <script src="evalData.js"></script>
+<script>
+    window.onbeforeunload = confirmExit;
+    function confirmExit() {
+        return "Aktuellen Datensatz heruntergeladen?";
+    }
+</script>
 <style>
 table,th,td
 {
