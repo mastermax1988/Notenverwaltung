@@ -110,7 +110,7 @@ function showEvalExercise()
 	tr.append("th").html("Name");
 	if(b2Groups)
 		tr.append("th").html("A<br>B");
-  var bCol=false;
+	var bCol = false;
 	for(var i = 0; i < exercise.exercises[0].length; i++)
 	{
 		var s = exercise.exercises[0][i].name + " (" + exercise.exercises[0][i].points + ")";
@@ -122,17 +122,19 @@ function showEvalExercise()
 	}
 	tr.append("th").html("Σ" + " (" + exercise.maxpoints + ")");
 	tr.append("th").html("Note");
+	//tr.append("th").html("");
 	for(var i = 0; i < exercise.pupils.length; i++)
 	{
 		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
-    bCol=!bCol;
+		bCol = !bCol;
 		tr.append("td").html(exercise.pupils[i].name);
 		if(b2Groups)
 			tr.append("td").html(exercise.pupils[i].group);
 		for(var j = 0; j < exercise.pupils[i].points.length; j++)
 			tr.append("td").html(exercise.pupils[i].points[j]);
 		tr.append("td").html(exercise.pupils[i].sum);
-		tr.append("td").html(exercise.pupils[i].grade).attr("class", "alnright_red");
+		tr.append("td").html(exercise.pupils[i].grade + getTrend(exercise.pupils[i].sum, exercise.gradingKey)).attr("class", "alnleft_red");
+		//tr.append("td").html(getTrend(exercise.pupils[i].sum,exercise.gradingKey));
 	}
 	d.append("p").html(exercise.pupils.length + " Arbeiten, Durchschnittsnote " + exercise.average);
 	table =  d.append("table");
@@ -371,6 +373,18 @@ function updateSumAndGrade()
 		}
 
 }
+function getTrend(sum, gradingKey)
+{
+	console.log(gradingKey);
+	var grade = getGrade(sum, gradingKey);
+	if(grade > getGrade(sum + 0.5, gradingKey))
+		return " +";
+	if(grade < getGrade(sum - 0.5, gradingKey))
+		return " —";
+	return "";
+
+}
+
 function getGrade(sum, gradingKey)
 {
 	for(var i = 0; i < 5; i++)
