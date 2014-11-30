@@ -35,7 +35,18 @@ function printTable()
 	newWin.print();
 	newWin.close();
 }
-
+function showClassInfoAndJumpToEval(s)
+{
+	showClassInfo();
+	var sel = d3.select("#selectExercise")[0][0];
+	for(var i = 0; i < sel.length; i++)
+		if(sel[i].label == s)
+		{
+			sel.selectedIndex = i;
+			break;
+		}
+	showEvalExercise();
+}
 function showClassInfo()
 {
 	var m2 = emptyMenu2();
@@ -63,9 +74,11 @@ function showClassInfo()
 	table.append("th").html("gr.");
 	table.append("th").html("Endnote");
 	table.append("th").html("Anzahl mdl.");
+	var bCol = false;
 	for(var i = 0; i < pupils.length; i++)
 	{
-		var tr = table.append("tr");
+		var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		bCol = !bCol;
 		//	tr.append("td").html(pupils[i].name);
 		tr.append("td").append("a").html(pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + pupils[i].name + "')");
 		tr.append("td").html(pupils[i].male ? "m" : "w");
@@ -97,6 +110,7 @@ function showEvalExercise()
 	tr.append("th").html("Name");
 	if(b2Groups)
 		tr.append("th").html("A<br>B");
+  var bCol=false;
 	for(var i = 0; i < exercise.exercises[0].length; i++)
 	{
 		var s = exercise.exercises[0][i].name + " (" + exercise.exercises[0][i].points + ")";
@@ -110,7 +124,8 @@ function showEvalExercise()
 	tr.append("th").html("Note");
 	for(var i = 0; i < exercise.pupils.length; i++)
 	{
-		tr = table.append("tr");
+		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+    bCol=!bCol;
 		tr.append("td").html(exercise.pupils[i].name);
 		if(b2Groups)
 			tr.append("td").html(exercise.pupils[i].group);
@@ -141,16 +156,16 @@ function showEvalExercise()
 		tr.append("td").html(exercise.gradeDistribution[i + 3]);
 		if(i < 2)
 			tr.append("td").html(">" + exercise.gradingKey[i + 3]);
-    else
+		else
 			tr.append("td").html("<=" + exercise.gradingKey[4]);
-      
+
 	}
 
 }
 function showPupilInfo(pupilName)
 {
 	var m = emptyMenu2();
-	var sel = m.append("select").attr("id", "selectPupilForInfo").attr("onchange","showPupilSelectChanged()");
+	var sel = m.append("select").attr("id", "selectPupilForInfo").attr("onchange", "showPupilSelectChanged()");
 	var className = getSelectedClassName();
 	var pupils = getPupils(className);
 	for(var i = 0; i < pupils.length; i++)
@@ -162,10 +177,10 @@ function showPupilInfo(pupilName)
 }
 function showPupilSelectChanged()
 {
-  var sel=d3.select("#selectPupilForInfo")[0][0];
-  if(sel.selectedIndex<0)
-    return;
-  showPupilInfoPage(sel[sel.selectedIndex].value);
+	var sel = d3.select("#selectPupilForInfo")[0][0];
+	if(sel.selectedIndex < 0)
+		return;
+	showPupilInfoPage(sel[sel.selectedIndex].value);
 }
 function showPupilInfoPage(pupilName)
 {
@@ -273,7 +288,7 @@ function saveExistingTest()
 				}
 				else
 				{
-					var point = parseFloat("0" + s.replace(',','.'));
+					var point = parseFloat("0" + s.replace(',', '.'));
 					sum += point;
 					points.push(point);
 				}
@@ -285,8 +300,9 @@ function saveExistingTest()
 			else
 				currentExercise.groups[i].pupils[j].grade = "-";
 		}
-	showClassInfo();
+	showClassInfoAndJumpToEval(currentExercise.name);
 }
+
 var currentExercise;
 function showExistingTest(className, exerciseName, bigExercise)
 {
@@ -343,7 +359,7 @@ function updateSumAndGrade()
 			for(var k = 0; k < currentExercise.groups[i].exercises.length; k++)
 			{
 				var s = d3.select("#p_exercisePupil_" + i + "_" + j).select("#subtask_" + k)[0][0].value;
-				sum += parseFloat("0" + s.replace(',','.'));
+				sum += parseFloat("0" + s.replace(',', '.'));
 				if(s == "" || s == "-")
 					bFinished = false;
 			}
@@ -491,7 +507,7 @@ function saveNewExercise(bigExercise)
 		}
 		groups.push({name: i == 0 ? "A" : "B", exercises : theExercises, pupils : (i == 0 ? pupilsA : pupilsB)});
 	}
-	addExercise(getSelectedClassName(), bigExercise ? "big" : "small", exerciseName, d.toISOString(), parseFloat("0" + d3.select("#exerciseFactor")[0][0].value.replace(',','.')), d3.select("#exerciseGradingKey")[0][0].value.split(','), groups);
+	addExercise(getSelectedClassName(), bigExercise ? "big" : "small", exerciseName, d.toISOString(), parseFloat("0" + d3.select("#exerciseFactor")[0][0].value.replace(',', '.')), d3.select("#exerciseGradingKey")[0][0].value.split(','), groups);
 	showClassInfo();
 }
 function copyExerciseMenuData(fieldName, index)
@@ -527,7 +543,7 @@ function saveOralGrades()
 			continue;
 		}
 		var d = new Date(p.select("#date")[0][0].value);
-		grades.push({name: pupil, grade: parseFloat("0" + p.select("#grade")[0][0].value), factor: parseFloat("0" + p.select("#factor")[0][0].value.replace(',','.')), kind: p.select("#kind")[0][0].value, date: d.toISOString()});
+		grades.push({name: pupil, grade: parseFloat("0" + p.select("#grade")[0][0].value), factor: parseFloat("0" + p.select("#factor")[0][0].value.replace(',', '.')), kind: p.select("#kind")[0][0].value, date: d.toISOString()});
 		i++;
 	}
 	updateOralGrades(getSelectedClassName(), pupil, grades);
@@ -601,14 +617,14 @@ function addPupilMenu()
 	}
 	var m = emptyMenu2();
 	m.append("button").attr("onclick", "updatePupilsFromForm('" + className + "')").html("Änderungen übernehmen");
-  m.append("textarea").attr("rows",4).attr("cols",50).attr("id","pupilpaste");
-  m.append("button").attr("onclick","parsePupils()").html("Daten parsen");
+	m.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "pupilpaste");
+	m.append("button").attr("onclick", "parsePupils()").html("Daten parsen");
 }
- function parsePupils()
+function parsePupils()
 {
-  var pup_tmp=d3.select("#pupilpaste")[0][0].value.split("\n");
-  for(var i=0;i<pup_tmp.length;i++)
-    d3.select("#pupilName_"+i).attr("value",pup_tmp[i].replace("\t"," "));
+	var pup_tmp = d3.select("#pupilpaste")[0][0].value.split("\n");
+	for(var i = 0; i < pup_tmp.length; i++)
+		d3.select("#pupilName_" + i).attr("value", pup_tmp[i].replace("\t", " "));
 }
 
 function updatePupilsFromForm(className)
