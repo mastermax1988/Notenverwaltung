@@ -132,7 +132,7 @@ function showEvalExercise()
 			tr.append("td").html(exercise.pupils[i].group);
 		for(var j = 0; j < exercise.pupils[i].points.length; j++)
 			tr.append("td").html(exercise.pupils[i].points[j]);
-		tr.append("td").html(exercise.pupils[i].sum);
+		tr.append("td").html(exercise.pupils[i].sum).attr("class", "alnleft_bold");
 		tr.append("td").html(exercise.pupils[i].grade + getTrend(exercise.pupils[i].sum, exercise.gradingKey)).attr("class", "alnleft_red");
 		//tr.append("td").html(getTrend(exercise.pupils[i].sum,exercise.gradingKey));
 	}
