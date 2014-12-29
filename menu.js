@@ -254,6 +254,11 @@ function restoreDefaultGradingKey()
 	d3.select("#exerciseGradingKey")[0][0].value = getGeneratedGradingKey(getCurrentExerciseMaxPoints());
 	updateSumAndGrade();
 }
+function restoreDefaultLinearGradingKey()
+{
+	d3.select("#exerciseGradingKey")[0][0].value = getGeneratedLinearGradingKey(getCurrentExerciseMaxPoints());
+	updateSumAndGrade();
+}
 function getCurrentExerciseMaxPoints()
 {
 	var maxpoints = 0;
@@ -321,6 +326,7 @@ function showExistingTest(className, exerciseName, bigExercise)
 	d.append("p");
 	d.append("input").attr("id", "exerciseGradingKey").attr("value", sGradingKey);
 	d.append("button").attr("onclick", "restoreDefaultGradingKey()").html("Bewertungsschlüssel generieren");
+	d.append("button").attr("onclick", "restoreDefaultLinearGradingKey()").html("Linearen Bewertungsschlüssel generieren");
 	d.append("button").attr("onclick", "applyNewGradingKey()").html("Bewertungsschlüssel übernehmen");
 	for(var i = 0; i < nrOfGroups; i++)
 	{
@@ -419,6 +425,16 @@ function getGeneratedGradingKey(maxpoints)
 	points += Math.round(maxpoints * 5.5 * 2, 0) / 20 + ",";
 	points += Math.round(maxpoints * 4 * 2, 0) / 20 + ",";
 	points += Math.round(maxpoints * 2 * 2, 0) / 20 + "";
+	return points;
+}
+function getGeneratedLinearGradingKey(maxpoints)
+{
+	var points = "";
+	points += Math.round(maxpoints * 50 / 6 * 2, 0) / 20 + ",";
+	points += Math.round(maxpoints * 40 / 6 * 2, 0) / 20 + ",";
+	points += Math.round(maxpoints * 30 / 6 * 2, 0) / 20 + ",";
+	points += Math.round(maxpoints * 20 / 6 * 2, 0) / 20 + ",";
+	points += Math.round(maxpoints * 10 / 6 * 2, 0) / 20 + "";
 	return points;
 }
 function getCurrentDate()
