@@ -123,7 +123,7 @@ function evalExercise(className, exerciseName, bigExericse)
         averagepoints[grpIndex][j]+=pupilData.points[j]/data.groups[grpIndex].pupils.length;
     if(averagepoints[1].length>0)
       for(var j=0;j<averagepoints[0].length;j++)
-        averagepoints[2][j]=(averagepoints[0][j]*data.groups[0].pupils.length+averagepoints[1][j]*data.groups[1].pupils.length)/pupils.length;
+        averagepoints[2][j]=(averagepoints[0][j]*data.groups[0].pupils.length+averagepoints[1][j]*data.groups[1].pupils.length)/(data.groups[0].pupils.length+data.groups[1].pupils.length);
   }
   dataSorted.averagepoints=averagepoints;
   var gradeDistribution = [0, 0, 0, 0, 0, 0];
