@@ -391,9 +391,9 @@ function updateSumAndGrade()
 function getTrend(sum, gradingKey)
 {
   var grade = getGrade(sum, gradingKey);
-  if(grade > getGrade(sum + 0.5, gradingKey))
+  if(grade > getGrade(sum + 1, gradingKey))
     return " +";
-  if(grade < getGrade(sum - 0.5, gradingKey))
+  if(grade < getGrade(sum - 1, gradingKey))
     return " —";
   return "";
 
