@@ -144,7 +144,7 @@ function getPupilData(exerciseData, pupilName)
   var indexPupil = exerciseData.groups[0].pupils.map(function (d) {
     return d.name;
   }).indexOf(pupilName);
-  if(indexPupil == -1)
+  if(indexPupil == -1 &&  exerciseData.groups.length>1)
   {
     indexGroup = 1;
     indexPupil = exerciseData.groups[1].pupils.map(function (d) {
