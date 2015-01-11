@@ -66,6 +66,8 @@ function showClassInfo()
     sel.append("option").attr("value", big[i].name + "_big").html(big[i].name);
   selp.append("button").attr("onclick", "editExercise()").html("Bearbeiten");
   selp.append("button").attr("onclick", "showEvalExercise()").html("Auswertung anzeigen");
+  selp.append("input").attr("type","checkbox").attr("id","cbShowGradeOnly").attr("onchange","showEvalExercise()");
+  selp.append("label").html("Zeige nur Noten");
   d.append("p").html(className);
   var table = d.append("table");
   table.append("th").html("Name");
@@ -100,7 +102,7 @@ function showEvalExercise()
     showClassInfo();
     return;
   }
-
+  var bShowGradOnly=d3.select("#cbShowGradeOnly")[0][0].checked;
   var exercise = evalExercise(className, exerciseSel.split('_')[0], exerciseSel.split('_')[1] == "big");
   console.log(exercise);
   d.append("p").html(className + " - " + exercise.name + " - " + exercise.date.slice(0, 10));
@@ -108,45 +110,54 @@ function showEvalExercise()
   var tr = table.append("tr");
   var b2Groups = exercise.exercises.length == 2;
   tr.append("th").html("Name");
-  if(b2Groups)
+  if(b2Groups&&!bShowGradOnly)
     tr.append("th").html("A<br>B");
   var bCol = false;
-  for(var i = 0; i < exercise.exercises[0].length; i++)
+  if(!bShowGradOnly)
   {
-    var s = exercise.exercises[0][i].name + " (" + exercise.exercises[0][i].points + ")";
-    if(b2Groups)
+    for(var i = 0; i < exercise.exercises[0].length; i++)
     {
-      s += "<br>" + exercise.exercises[1][i].name + " (" + exercise.exercises[1][i].points + ")";
+      var s = exercise.exercises[0][i].name + " (" + exercise.exercises[0][i].points + ")";
+      if(b2Groups)
+      {
+        s += "<br>" + exercise.exercises[1][i].name + " (" + exercise.exercises[1][i].points + ")";
+      }
+      tr.append("th").html(s);
     }
-    tr.append("th").html(s);
+    tr.append("th").html("Σ" + " (" + exercise.maxpoints + ")");
   }
-  tr.append("th").html("Σ" + " (" + exercise.maxpoints + ")");
   tr.append("th").html("Note");
   for(var i = 0; i < exercise.pupils.length; i++)
   {
     tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
     bCol = !bCol;
     tr.append("td").html(exercise.pupils[i].name);
-    if(b2Groups)
-      tr.append("td").html(exercise.pupils[i].group);
-    for(var j = 0; j < exercise.pupils[i].points.length; j++)
-      tr.append("td").html(exercise.pupils[i].points[j]);
-    tr.append("td").html(exercise.pupils[i].sum).attr("class", "alnleft_bold");
+    if(!bShowGradOnly)
+    {
+      if(b2Groups)
+        tr.append("td").html(exercise.pupils[i].group);
+      for(var j = 0; j < exercise.pupils[i].points.length; j++)
+        tr.append("td").html(exercise.pupils[i].points[j]);
+      tr.append("td").html(exercise.pupils[i].sum).attr("class", "alnleft_bold");
+    }
     tr.append("td").html(exercise.pupils[i].grade + getTrend(exercise.pupils[i].sum, exercise.gradingKey)).attr("class", "alnleft_red");
   }
-  for(var i=0;i<(b2Groups?3:1);i++)
+  if(!bShowGradOnly)
   {
-    tr = table.append("tr").attr("style", "background-color: yellow");
-    tr.append("td").html(b2Groups?i==0?"Durchschnitt A":i==1?"Durchschnitt B":"Durchschnitt":"Durchschnitt");
-    if(b2Groups)
-      tr.append("td").html("");
-    for(var j = 0; j < exercise.pupils[i].points.length; j++)
-      tr.append("td").html(Math.round(exercise.averagepoints[i][j]*100)/100);
-    tr.append("td").html("").attr("class", "alnleft_bold");
-    tr.append("td").html("").attr("class", "alnleft_red");
-  }
+    for(var i=0;i<(b2Groups?3:1);i++)
+    {
+      tr = table.append("tr").attr("style", "background-color: yellow");
+      tr.append("td").html(b2Groups?i==0?"Durchschnitt A":i==1?"Durchschnitt B":"Durchschnitt":"Durchschnitt");
+      if(b2Groups)
+        tr.append("td").html("");
+      for(var j = 0; j < exercise.pupils[i].points.length; j++)
+        tr.append("td").html(Math.round(exercise.averagepoints[i][j]*100)/100);
+      tr.append("td").html("").attr("class", "alnleft_bold");
+      tr.append("td").html("").attr("class", "alnleft_red");
+    }
 
-  d.append("p").html(exercise.pupils.length + " Arbeiten, Durchschnittsnote " + exercise.average);
+    d.append("p").html(exercise.pupils.length + " Arbeiten, Durchschnittsnote " + exercise.average);
+  }
   table =  d.append("table");
   tr = table.append("tr");
   for(var i = 0; i < 2; i++)
@@ -643,15 +654,15 @@ function addPupilMenu()
     var line = d.append("p");
     if(i < pup.length)
     {
-      line.append("input").attr("placeholder", "name").attr("id", "pupilName_" + i).attr("value", pup[i].name)
-        line.append("input").attr("type", "checkbox").attr("id", "pupilMale_" + i).property('checked', pup[i].male);
+      line.append("input").attr("placeholder", "name").attr("id", "pupilName_" + i).attr("value", pup[i].name);
+      line.append("input").attr("type", "checkbox").attr("id", "pupilMale_" + i).property('checked', pup[i].male);
     }
     else
     {
       line.append("input").attr("placeholder", "name").attr("id", "pupilName_" + i);
-      line.append("input").attr("type", "checkbox").attr("id", "pupilMale_" + i).property('checked', false)
+      line.append("input").attr("type", "checkbox").attr("id", "pupilMale_" + i).property('checked', false);
     }
-    line.append("label").html("männlich")
+    line.append("label").html("männlich");
   }
   var m = emptyMenu2();
   m.append("button").attr("onclick", "updatePupilsFromForm('" + className + "')").html("Änderungen übernehmen");
