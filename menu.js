@@ -155,9 +155,9 @@ function showEvalExercise()
       tr.append("td").html("").attr("class", "alnleft_bold");
       tr.append("td").html("").attr("class", "alnleft_red");
     }
-
-    d.append("p").html(exercise.pupils.length + " Arbeiten, Durchschnittsnote " + exercise.average);
   }
+    d.append("p").html(exercise.pupils.length + " Arbeiten, Durchschnittsnote " + exercise.average);
+  
   table =  d.append("table");
   tr = table.append("tr");
   for(var i = 0; i < 2; i++)
