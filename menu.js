@@ -47,6 +47,18 @@ function showClassInfoAndJumpToEval(s)
     }
   showEvalExercise();
 }
+function showClassInfoAndJumpToOral(s)
+{
+ showOralGrades();
+ var sel=d3.select("#selectPupilForOralGrades")[0][0].value;
+  for(var i = 0; i < sel.length; i++)
+    if(sel[i].label == s)
+    {
+      sel.selectedIndex = i;
+      break;
+    }
+  showOralGrades();
+}
 function showClassInfo()
 {
   var m2 = emptyMenu2();
@@ -613,7 +625,8 @@ function saveOralGrades()
     i++;
   }
   updateOralGrades(getSelectedClassName(), pupil, grades);
-  showClassInfo();
+  showClassInfoAndJumpToOral(pupil);
+
 }
 function showOralGrades()
 {
@@ -638,8 +651,8 @@ function showOralGrades()
   var index = grades.length;
   var p = d.append("p").attr("id", "p_oral_" + index);
   p.append("input").attr("placeHolder", "Datum").attr("id", "date").attr("value", getCurrentDate());
-  p.append("input").attr("placeHolder", "Art").attr("id", "kind");
-  p.append("input").attr("placeHolder", "Faktor").attr("id", "factor");
+  p.append("input").attr("placeHolder", "Art").attr("id", "kind").attr("value","Mdl");
+  p.append("input").attr("placeHolder", "Faktor").attr("id", "factor").attr("value","1");
   p.append("input").attr("placeHolder", "Note").attr("id", "grade").attr("style", "color:#FF0000;text-align:center;");
 }
 function maintenance()
