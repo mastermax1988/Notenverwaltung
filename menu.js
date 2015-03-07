@@ -252,8 +252,8 @@ function formatGradeDistribution(gradingKey, maxBE, index)
 	}
 	else if (currentGradingType == "Punkte")
 	{
-    index=15-index;
-    if(index == 0)
+		index = 15 - index;
+		if(index == 0)
 			return maxBE + " - " + helpFormatGradeDistribution(gradingKey[0]);
 		else if(index < 15)
 			return (helpFormatGradeDistribution(gradingKey[index - 1]) - 0.5) + " - " + helpFormatGradeDistribution(gradingKey[index]);
