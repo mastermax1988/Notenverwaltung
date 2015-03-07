@@ -134,14 +134,14 @@ function evalExercise(className, exerciseName, bigExericse)
 	dataSorted.averagepoints = averagepoints;
 	var gradeDistribution = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	var total = 0;
-  currentGradingType=getCurrentGradingType(className);
+	currentGradingType = getCurrentGradingType(className);
 	for(var i = 0; i < dataSorted.pupils.length; i++)
 	{
-    if(currentGradingType=="Note")
-		  gradeDistribution[dataSorted.pupils[i].grade - 1]++;
-		else if (currentGradingType=="Punkte")
-      gradeDistribution[dataSorted.pupils[i].grade]++;
-    total += dataSorted.pupils[i].grade;
+		if(currentGradingType == "Note")
+			gradeDistribution[dataSorted.pupils[i].grade - 1]++;
+		else if (currentGradingType == "Punkte")
+			gradeDistribution[dataSorted.pupils[i].grade]++;
+		total += dataSorted.pupils[i].grade;
 	}
 	dataSorted.gradeDistribution = gradeDistribution;
 	dataSorted.average = Math.round(total / dataSorted.pupils.length * 1000) / 1000;
