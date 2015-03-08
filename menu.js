@@ -537,7 +537,8 @@ function generateNewGradingKey()
 	var maxpoints = 0;
 	for(var i = 0; i < maxexercises; i++)
 		maxpoints += parseFloat("0" + d3.select("#exercisePoints_" + i + "_A")[0][0].value); //0+string to prevent NaN parsing error
-	d3.select("#exerciseGradingKey")[0][0].value = getGeneratedGradingKey(maxpoints);
+  currentGradingType=getCurrentGradingType(getSelectedClassName());	
+  d3.select("#exerciseGradingKey")[0][0].value = getGeneratedGradingKey(maxpoints);
 }
 function getGeneratedGradingKey(maxpoints)
 {

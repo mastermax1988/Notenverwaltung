@@ -1,7 +1,7 @@
 //the json object is manupiladed here
 function addNewClass(name, gradeRatio, gradeType)
 {
-	theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, gradeTypeoral: [], small: [], big: [], pupils: []};
+	theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, oral: [], small: [], big: [], pupils: []};
 }
 function updatePupils(className, newPupils)
 {
