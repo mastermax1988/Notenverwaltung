@@ -155,8 +155,8 @@ function getAverageGradeFromPunkte(gradeDistribution)
 		total += gradeDistribution[i];
 	for(var i = 0; i < 5; i++)
 		for(var j = 0; j < 3; j++)
-			av += gradeDistribution[15 - i * 3 - j] * (i + 1)
-						av += gradeDistribution[0] * 6;
+			av += gradeDistribution[15 - i * 3 - j] * (i + 1);
+			av += gradeDistribution[0] * 6;
 	return Math.round(1000 * av / total) / 1000;
 
 }
