@@ -236,6 +236,17 @@ function showEvalExercise()
 				}
 			}
 		}
+    tr=table.append("tr")
+    for(var i=0;i<23;i++)
+      tr.append("td");
+    tr=table.append("tr");
+    for(var i=0;i<23;i++)
+      if(i%4==0)
+        tr.append("td").html(i/4+1);
+      else if((i-1)%4==0)
+        tr.append("td").html(getGradeDistributionFromPunkte(exercise.gradeDistribution)[(i-1)/4]);
+      else
+        tr.append("td").html("");
 
 	}
 }

@@ -156,9 +156,19 @@ function getAverageGradeFromPunkte(gradeDistribution)
 	for(var i = 0; i < 5; i++)
 		for(var j = 0; j < 3; j++)
 			av += gradeDistribution[15 - i * 3 - j] * (i + 1);
-			av += gradeDistribution[0] * 6;
+	av += gradeDistribution[0] * 6;
 	return Math.round(1000 * av / total) / 1000;
 
+}
+
+function getGradeDistributionFromPunkte(gradeDistribution)
+{
+	var gradeDistribution2 = [0,0,0,0,0,0];
+	for(var i = 0; i < 5; i++)
+		for(var j = 0; j < 3; j++)
+			gradeDistribution2[i] += gradeDistribution[15 - i * 3 - j];
+	gradeDistribution2[5]= gradeDistribution[0];
+  return gradeDistribution2;
 }
 function getPupilData(exerciseData, pupilName)
 {
