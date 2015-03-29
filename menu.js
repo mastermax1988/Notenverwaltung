@@ -169,7 +169,7 @@ function showEvalExercise()
 			tr.append("td").html("").attr("class", "alnleft_red");
 		}
 	}
-	d.append("p").html(exercise.pupils.length + " Arbeiten, Durchschnittsnote " + exercise.average);
+	d.append("p").html(exercise.pupils.length + " Arbeiten, "+(currentGradingType=="Note"?"Durchschnittsnote ":"Durchschnittspunkte ") + exercise.average);
 
 	table =  d.append("table");
 	tr = table.append("tr");
