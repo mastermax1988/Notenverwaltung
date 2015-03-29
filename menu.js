@@ -139,7 +139,7 @@ function showEvalExercise()
 		}
 		tr.append("th").html("Σ" + " (" + exercise.maxpoints + ")");
 	}
-	tr.append("th").html("Note");
+	tr.append("th").html(currentGradingType == "Note" ? "Note" : "Punkte");
 	for(var i = 0; i < exercise.pupils.length; i++)
 	{
 		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
@@ -169,7 +169,7 @@ function showEvalExercise()
 			tr.append("td").html("").attr("class", "alnleft_red");
 		}
 	}
-	d.append("p").html(exercise.pupils.length + " Arbeiten, "+(currentGradingType=="Note"?"Durchschnittsnote ":"Durchschnittspunkte ") + exercise.average);
+	d.append("p").html(exercise.pupils.length + " Arbeiten, " + (currentGradingType == "Note" ? "Durchschnittsnote " : "Durchschnittspunkte ") + exercise.average + (currentGradingType == "Punkte" ? " (Note " + getAverageGradeFromPunkte(exercise.gradeDistribution) + ")" : ""));
 
 	table =  d.append("table");
 	tr = table.append("tr");
@@ -537,8 +537,8 @@ function generateNewGradingKey()
 	var maxpoints = 0;
 	for(var i = 0; i < maxexercises; i++)
 		maxpoints += parseFloat("0" + d3.select("#exercisePoints_" + i + "_A")[0][0].value); //0+string to prevent NaN parsing error
-  currentGradingType=getCurrentGradingType(getSelectedClassName());	
-  d3.select("#exerciseGradingKey")[0][0].value = getGeneratedGradingKey(maxpoints);
+	currentGradingType = getCurrentGradingType(getSelectedClassName());
+	d3.select("#exerciseGradingKey")[0][0].value = getGeneratedGradingKey(maxpoints);
 }
 function getGeneratedGradingKey(maxpoints)
 {

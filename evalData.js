@@ -147,7 +147,19 @@ function evalExercise(className, exerciseName, bigExericse)
 	dataSorted.average = Math.round(total / dataSorted.pupils.length * 1000) / 1000;
 	return dataSorted;
 }
+function getAverageGradeFromPunkte(gradeDistribution)
+{
+	var av = 0;
+	var total = 0;
+	for(var i = 0; i < 16; i++)
+		total += gradeDistribution[i];
+	for(var i = 0; i < 5; i++)
+		for(var j = 0; j < 3; j++)
+			av += gradeDistribution[15 - i * 3 - j] * (i + 1)
+						av += gradeDistribution[0] * 6;
+	return Math.round(1000 * av / total) / 1000;
 
+}
 function getPupilData(exerciseData, pupilName)
 {
 	var indexGroup = 0;
