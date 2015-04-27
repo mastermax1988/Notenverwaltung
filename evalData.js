@@ -41,6 +41,11 @@ function getAllGrades(className, pupilName)
 	return data;
 }
 
+function getDetailedClassInfo(className)
+{
+  return theData[className];
+}
+
 function getFinalScores(className, pupilName)
 {
 	var data = {small: null, big: null, end: null};

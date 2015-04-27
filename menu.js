@@ -274,6 +274,26 @@ function formatGradeDistribution(gradingKey, maxBE, index)
 	}
 
 }
+
+function showDetailedClassInfo(className)
+{
+  console.log("init");
+  var data=getDetailedClassInfo(className);
+  var oraltmp={};
+  for(var i=0;i<data.oral.length;i++)
+    if (oraltmp[data.oral[i].name]==null)
+      oraltmp[data.oral[i].name]=1;
+    else
+      oraltmp[data.oral[i].name]++;
+  console.log("finish");
+  var maxoral=0;
+  for (var i in oraltmp)  
+    if(oraltmp[i]>maxoral)
+      maxoral=oraltmp[i];
+  console.log(maxoral);
+
+}
+
 function helpFormatGradeDistribution(grade)
 {
 	grade = parseFloat(grade);
