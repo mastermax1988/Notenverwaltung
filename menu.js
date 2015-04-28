@@ -14,6 +14,7 @@ function drawMainMenu()
 		return d;
 	});
 	d.append("button").attr("onclick", "showClassInfo()").html("Klassenübersicht");
+	d.append("button").attr("onclick", "showDetailedClassInfo()").html("Notenbogen");
 	d.append("button").attr("onclick", "saveData()").html("Speichern");
 	d.append("button").attr("onclick", "window.print()").html("Daten drucken");
 	d.append("button").attr("onclick", "maintenance()").html("Wartung");
@@ -59,6 +60,8 @@ function showClassInfoAndJumpToOral(s)
 		}
 	showOralGrades();
 }
+
+
 function showClassInfo()
 {
 	var m2 = emptyMenu2();
@@ -275,9 +278,12 @@ function formatGradeDistribution(gradingKey, maxBE, index)
 
 }
 
-function showDetailedClassInfo(className)
+function showDetailedClassInfo()
 {
-  console.log("init");
+  emptyMenu2();
+  var d = emptyForm1();
+	var className = getSelectedClassName();
+  d.append("p").html(className);
   var data=getDetailedClassInfo(className);
   var oraltmp={};
   for(var i=0;i<data.oral.length;i++)
@@ -285,14 +291,69 @@ function showDetailedClassInfo(className)
       oraltmp[data.oral[i].name]=1;
     else
       oraltmp[data.oral[i].name]++;
-  console.log("finish");
   var maxoral=0;
   for (var i in oraltmp)  
     if(oraltmp[i]>maxoral)
       maxoral=oraltmp[i];
-  console.log(maxoral);
+  var maxsmall=0;
+  var maxbig=0;
+  for(var i=0;i<data.pupils.length;i++)
+  {
+    var pupdata=getAllGrades(className, data.pupils[i].name);
+    if (pupdata.small.length>maxsmall)
+      maxsmall=pupdata.small.length;
+    if (pupdata.big.length>maxbig)
+      maxbig=pupdata.big.length;
+  }
 
+
+  var table = d.append("table");
+	var bCol=false;
+  var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		bCol = !bCol;
+  //var tr = table.append("tr");
+  tr.append("td").html("Name");
+  for(var i=0;i<maxbig;i++)
+    tr.append("td").html("SA");
+  for(var i=0;i<maxsmall;i++)
+    tr.append("td").html("Ex");
+  for(var i=0;i<maxoral;i++)
+    tr.append("td").html("Mdl");
+  tr.append("td");
+  tr.append("td").html("klein");
+  tr.append("td").html("groß");
+  tr.append("td").html("gesamt");
+  for(var i=0;i<data.pupils.length;i++)
+  {
+    tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		bCol = !bCol;
+
+    var pupdata=getAllGrades(className, data.pupils[i].name);
+    
+		tr.append("td").append("a").html(data.pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + data.pupils[i].name + "')");
+    for(var j=0;j<maxbig;j++)
+      if(j>=pupdata.big.length)
+        tr.append("td");
+      else
+        tr.append("td").html(pupdata.big[j].grade);
+    for(var j=0;j<maxsmall;j++)
+      if(j>=pupdata.small.length)
+        tr.append("td");
+      else
+        tr.append("td").html(pupdata.small[j].grade);
+    for(var j=0;j<maxoral;j++)
+      if(j>=pupdata.oral.length)
+        tr.append("td");
+      else
+        tr.append("td").html(pupdata.oral[j].grade);
+    var finalScore=getFinalScores(className,data.pupils[i].name);
+    tr.append("td"); 
+    tr.append("td").html(finalScore.small);
+    tr.append("td").html(finalScore.big);
+    tr.append("td").html(finalScore.end);
+  }
 }
+
 
 function helpFormatGradeDistribution(grade)
 {
