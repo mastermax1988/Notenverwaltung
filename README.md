@@ -8,4 +8,5 @@ It runs locally and stores the all grades in a json file. Oral grades, small and
 Anleitung:
 Zuerst die Klasse(n) anlegen und danach die Schüler pro Klasse festlegen (Untermenu Wartung). Mündliche Noten einfach eintragen. Exen und Schulaufgaben über das Menu anlegen. Dabei ggf. 2 Gruppen festlegen und die Schüler entsprechend einteilen. Fehlende Schüler als fehlend markieren. Anschließend können die Punkte eingetragen werden. Die Note errechnet sich automatisch über den festgelegten Notenschlüssel. Zu jeder Arbeit und für jeden Schüler kann eine (zum Drucken optimierte) Übersicht erstellt werden.
   Beim Speichern wird eine Datei heruntergeladen. Diese beinhaltet sämtliche Daten und muss beim der nächsten Benutzung geladen werden. Die einzelnen Dateien eignen sich als Datensicherung, da so immer der komplette Notenstand zusammengefasst gespeichert wird.
-ToDo: Erweiterung auf Punkte für Oberstufe (werde ich wohl erst in einem Jahr machen)
+Erweitert auf Punktesystem für die Oberstufe.
+Neu: Strichliste für vergessene Hausaufgaben und Notizen
