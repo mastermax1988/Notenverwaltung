@@ -43,9 +43,17 @@ function getAllGrades(className, pupilName)
 
 function getDetailedClassInfo(className)
 {
-  return theData[className];
+	return theData[className];
 }
 
+function getHomeworkInfo(className, pupilName)
+{
+	var hw = [];
+	for(var i = 0; i < theData[className].homework.length; i++)
+		if(theData[className].homework[i].name == pupilName)
+			hw.push(theData[className].homework[i]);
+	return hw;
+}
 function getFinalScores(className, pupilName)
 {
 	var data = {small: null, big: null, end: null};
@@ -168,12 +176,12 @@ function getAverageGradeFromPunkte(gradeDistribution)
 
 function getGradeDistributionFromPunkte(gradeDistribution)
 {
-	var gradeDistribution2 = [0,0,0,0,0,0];
+	var gradeDistribution2 = [0, 0, 0, 0, 0, 0];
 	for(var i = 0; i < 5; i++)
 		for(var j = 0; j < 3; j++)
 			gradeDistribution2[i] += gradeDistribution[15 - i * 3 - j];
-	gradeDistribution2[5]= gradeDistribution[0];
-  return gradeDistribution2;
+	gradeDistribution2[5] = gradeDistribution[0];
+	return gradeDistribution2;
 }
 function getPupilData(exerciseData, pupilName)
 {
@@ -191,4 +199,12 @@ function getPupilData(exerciseData, pupilName)
 	if(indexPupil == -1)
 		return null;
 	return {name: exerciseData.groups[indexGroup].pupils[indexPupil].name, points: exerciseData.groups[indexGroup].pupils[indexPupil].points, sum: exerciseData.groups[indexGroup].pupils[indexPupil].sum, grade: exerciseData.groups[indexGroup].pupils[indexPupil].grade, group: (indexGroup == 0 ? "A" : "B")};
+}
+
+function getPupilNote(className, pupilName)
+{
+	for(var i = 0; i < theData[className].notes.length; i++)
+		if(theData[className].notes[i].name == pupilName)
+			return theData[className].notes[i].note
+						 return "";
 }

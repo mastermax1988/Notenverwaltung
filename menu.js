@@ -15,6 +15,7 @@ function drawMainMenu()
 	});
 	d.append("button").attr("onclick", "showClassInfo()").html("Klassenübersicht");
 	d.append("button").attr("onclick", "showDetailedClassInfo()").html("Notenbogen");
+	d.append("button").attr("onclick", "showHomeworkInfo()").html("Hausaufgaben");
 	d.append("button").attr("onclick", "saveData()").html("Speichern");
 	d.append("button").attr("onclick", "window.print()").html("Daten drucken");
 	d.append("button").attr("onclick", "maintenance()").html("Wartung");
@@ -239,17 +240,17 @@ function showEvalExercise()
 				}
 			}
 		}
-    tr=table.append("tr")
-    for(var i=0;i<23;i++)
-      tr.append("td");
-    tr=table.append("tr");
-    for(var i=0;i<23;i++)
-      if(i%4==0)
-        tr.append("td").html(i/4+1);
-      else if((i-1)%4==0)
-        tr.append("td").html(getGradeDistributionFromPunkte(exercise.gradeDistribution)[(i-1)/4]);
-      else
-        tr.append("td").html("");
+		tr = table.append("tr")
+				 for(var i = 0; i < 23; i++)
+					 tr.append("td");
+		tr = table.append("tr");
+		for(var i = 0; i < 23; i++)
+			if(i % 4 == 0)
+				tr.append("td").html(i / 4 + 1);
+			else if((i - 1) % 4 == 0)
+				tr.append("td").html(getGradeDistributionFromPunkte(exercise.gradeDistribution)[(i - 1) / 4]);
+			else
+				tr.append("td").html("");
 
 	}
 }
@@ -278,80 +279,119 @@ function formatGradeDistribution(gradingKey, maxBE, index)
 
 }
 
+function showHomeworkInfo()
+{
+	emptyMenu2();
+	var d = emptyForm1();
+	var className = getSelectedClassName();
+	d.append("p").html(className);
+	var data = getDetailedClassInfo(className);
+
+	var table = d.append("table");
+	var bCol = false;
+	var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+	bCol = !bCol;
+	tr.append("td").html("Name");
+	tr.append("td").html("heute keine HA");
+	tr.append("td").html("Strichliste");
+
+	for(var i = 0; i < data.pupils.length; i++)
+	{
+		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		bCol = !bCol;
+
+		var hw = getHomeworkInfo(className, data.pupils[i].name);
+
+		tr.append("td").append("a").html(data.pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + data.pupils[i].name + "')");
+		var td = tr.append("td");
+		td.append("button").attr("onclick", "pupilAddNoHomeworkAndReload('" + className + "','" + data.pupils[i].name + "',false)").html("Strich");
+		td.append("button").attr("onclick", "pupilAddNoHomeworkAndReload('" + className + "','" + data.pupils[i].name + "', true)").html("0.5 Strich");
+		var s = hw.length + ": ";
+		for(var j = 0; j < hw.length; j++)
+			s += hw[j].date + (hw[j].half ? "'" : "|") + "   ";
+		tr.append("td").html(s);
+	}
+}
+
+function pupilAddNoHomeworkAndReload(className, pupilName, half)
+{
+	pupilAddNoHomework(className, pupilName, half);
+	showHomeworkInfo();
+}
 function showDetailedClassInfo()
 {
-  emptyMenu2();
-  var d = emptyForm1();
+	emptyMenu2();
+	var d = emptyForm1();
 	var className = getSelectedClassName();
-  d.append("p").html(className);
-  var data=getDetailedClassInfo(className);
-  var oraltmp={};
-  for(var i=0;i<data.oral.length;i++)
-    if (oraltmp[data.oral[i].name]==null)
-      oraltmp[data.oral[i].name]=1;
-    else
-      oraltmp[data.oral[i].name]++;
-  var maxoral=0;
-  for (var i in oraltmp)  
-    if(oraltmp[i]>maxoral)
-      maxoral=oraltmp[i];
-  var maxsmall=0;
-  var maxbig=0;
-  for(var i=0;i<data.pupils.length;i++)
-  {
-    var pupdata=getAllGrades(className, data.pupils[i].name);
-    if (pupdata.small.length>maxsmall)
-      maxsmall=pupdata.small.length;
-    if (pupdata.big.length>maxbig)
-      maxbig=pupdata.big.length;
-  }
+	d.append("p").html(className);
+	var data = getDetailedClassInfo(className);
+	var oraltmp = {};
+	for(var i = 0; i < data.oral.length; i++)
+		if (oraltmp[data.oral[i].name] == null)
+			oraltmp[data.oral[i].name] = 1;
+		else
+			oraltmp[data.oral[i].name]++;
+	var maxoral = 0;
+	for (var i in oraltmp)
+		if(oraltmp[i] > maxoral)
+			maxoral = oraltmp[i];
+	var maxsmall = 0;
+	var maxbig = 0;
+	for(var i = 0; i < data.pupils.length; i++)
+	{
+		var pupdata = getAllGrades(className, data.pupils[i].name);
+		if (pupdata.small.length > maxsmall)
+			maxsmall = pupdata.small.length;
+		if (pupdata.big.length > maxbig)
+			maxbig = pupdata.big.length;
+	}
 
 
-  var table = d.append("table");
-	var bCol=false;
-  var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+	var table = d.append("table");
+	var bCol = false;
+	var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+	bCol = !bCol;
+	//var tr = table.append("tr");
+	tr.append("td").html("Name");
+	for(var i = 0; i < maxbig; i++)
+		tr.append("td").html("SA");
+	for(var i = 0; i < maxsmall; i++)
+		tr.append("td").html("Ex");
+	for(var i = 0; i < maxoral; i++)
+		tr.append("td").html("Mdl");
+	tr.append("td");
+	tr.append("td").html("klein");
+	tr.append("td").html("groß");
+	tr.append("td").html("gesamt");
+	for(var i = 0; i < data.pupils.length; i++)
+	{
+		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
 		bCol = !bCol;
-  //var tr = table.append("tr");
-  tr.append("td").html("Name");
-  for(var i=0;i<maxbig;i++)
-    tr.append("td").html("SA");
-  for(var i=0;i<maxsmall;i++)
-    tr.append("td").html("Ex");
-  for(var i=0;i<maxoral;i++)
-    tr.append("td").html("Mdl");
-  tr.append("td");
-  tr.append("td").html("klein");
-  tr.append("td").html("groß");
-  tr.append("td").html("gesamt");
-  for(var i=0;i<data.pupils.length;i++)
-  {
-    tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
-		bCol = !bCol;
 
-    var pupdata=getAllGrades(className, data.pupils[i].name);
-    
+		var pupdata = getAllGrades(className, data.pupils[i].name);
+
 		tr.append("td").append("a").html(data.pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + data.pupils[i].name + "')");
-    for(var j=0;j<maxbig;j++)
-      if(j>=pupdata.big.length)
-        tr.append("td");
-      else
-        tr.append("td").html(pupdata.big[j].grade);
-    for(var j=0;j<maxsmall;j++)
-      if(j>=pupdata.small.length)
-        tr.append("td");
-      else
-        tr.append("td").html(pupdata.small[j].grade);
-    for(var j=0;j<maxoral;j++)
-      if(j>=pupdata.oral.length)
-        tr.append("td");
-      else
-        tr.append("td").html(pupdata.oral[j].grade);
-    var finalScore=getFinalScores(className,data.pupils[i].name);
-    tr.append("td"); 
-    tr.append("td").html(finalScore.small);
-    tr.append("td").html(finalScore.big);
-    tr.append("td").html(finalScore.end);
-  }
+		for(var j = 0; j < maxbig; j++)
+			if(j >= pupdata.big.length)
+				tr.append("td");
+			else
+				tr.append("td").html(pupdata.big[j].grade);
+		for(var j = 0; j < maxsmall; j++)
+			if(j >= pupdata.small.length)
+				tr.append("td");
+			else
+				tr.append("td").html(pupdata.small[j].grade);
+		for(var j = 0; j < maxoral; j++)
+			if(j >= pupdata.oral.length)
+				tr.append("td");
+			else
+				tr.append("td").html(pupdata.oral[j].grade);
+		var finalScore = getFinalScores(className, data.pupils[i].name);
+		tr.append("td");
+		tr.append("td").html(finalScore.small);
+		tr.append("td").html(finalScore.big);
+		tr.append("td").html(finalScore.end);
+	}
 }
 
 
@@ -431,6 +471,23 @@ function showPupilInfoPage(pupilName)
 	tr.append("td").html("Endnote");
 	tr.append("td").html("");
 	tr.append("td").html(score.end).attr("class", "alnright_red");
+
+	var data = getDetailedClassInfo(className);
+	var hw = getHomeworkInfo(className, pupilName);
+
+	var s = "vergessene Hausaufgaben: " + hw.length + " mal: ";
+	for(var j = 0; j < hw.length; j++)
+		s += hw[j].date + (hw[j].half ? "'" : "|") + "   ";
+	d.append("div").html(s);
+	d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "pupilnote").html(getPupilNote(className, pupilName));
+
+	d.append("button").attr("onclick", "updatePupilInfoAndReload('" + className + "','" + pupilName + "')").html("Notizen übernehmen");
+}
+
+function updatePupilInfoAndReload(className, pupilName)
+{
+	updatePupilInfo(className, pupilName, d3.select("#pupilnote")[0][0].value);
+	showPupilInfo(pupilName);
 }
 
 function editExercise()

@@ -1,73 +1,12 @@
 {
-  "8a Mathematik": {
+  "Demoklasse": {
     "gradeRatio": "2_1",
-    "oral": [
-      {
-        "name": "Huber Max",
-        "grade": 5,
-        "factor": 2,
-        "kind": "UB",
-        "date": "2014-08-09T00:00:00.000Z"
-      },
-      {
-        "name": "Müller Anna",
-        "grade": 4,
-        "factor": 1,
-        "kind": "RA",
-        "date": "2014-08-09T00:00:00.000Z"
-      }
-    ],
+    "gradeType": "Note",
+    "oral": [],
     "small": [
       {
-        "name": "1. Stegreifaufgabe",
-        "date": "2014-08-09T00:00:00.000Z",
-        "factor": 1,
-        "gradingKey": [
-          "11.05",
-          "9.1",
-          "7.15",
-          "5.2",
-          "2.6"
-        ],
-        "groups": [
-          {
-            "name": "A",
-            "exercises": [
-              {
-                "name": "A1",
-                "points": 5
-              },
-              {
-                "name": "A2",
-                "points": 8
-              }
-            ],
-            "pupils": [
-              {
-                "name": "Huber Max",
-                "points": [
-                  4,
-                  7
-                ],
-                "sum": 11,
-                "grade": 2
-              },
-              {
-                "name": "Müller Anna",
-                "points": [
-                  5,
-                  2
-                ],
-                "sum": 7,
-                "grade": 4
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "2. Stegreifaufgabe",
-        "date": "2014-08-09T00:00:00.000Z",
+        "name": "testex",
+        "date": "2015-07-30T00:00:00.000Z",
         "factor": 1,
         "gradingKey": [
           "12.75",
@@ -91,22 +30,22 @@
             ],
             "pupils": [
               {
-                "name": "Huber Max",
+                "name": "Max",
                 "points": [
                   8,
-                  2
+                  3
                 ],
-                "sum": 10,
-                "grade": 3
+                "sum": 11,
+                "grade": 2
               },
               {
-                "name": "Müller Anna",
+                "name": "Moritz",
                 "points": [
                   10,
-                  4
+                  1
                 ],
-                "sum": 14,
-                "grade": 1
+                "sum": 11,
+                "grade": 2
               }
             ]
           }
@@ -115,15 +54,15 @@
     ],
     "big": [
       {
-        "name": "1. Schulaufgabe",
-        "date": "2014-08-09T00:00:00.000Z",
+        "name": "testSA",
+        "date": "2015-07-30T00:00:00.000Z",
         "factor": 1,
         "gradingKey": [
-          "25.5",
-          "21",
-          "16.5",
-          "12",
-          "6"
+          "51",
+          "42",
+          "33",
+          "24",
+          "12"
         ],
         "groups": [
           {
@@ -131,46 +70,25 @@
             "exercises": [
               {
                 "name": "A1",
-                "points": 10
-              },
-              {
-                "name": "A2",
-                "points": 20
+                "points": 60
               }
             ],
             "pupils": [
               {
-                "name": "Huber Max",
+                "name": "Max",
                 "points": [
-                  8,
-                  19
+                  55
                 ],
-                "sum": 27,
+                "sum": 55,
                 "grade": 1
-              }
-            ]
-          },
-          {
-            "name": "B",
-            "exercises": [
-              {
-                "name": "A1",
-                "points": 20
               },
               {
-                "name": "A2",
-                "points": 10
-              }
-            ],
-            "pupils": [
-              {
-                "name": "Müller Anna",
+                "name": "Moritz",
                 "points": [
-                  16,
-                  10
+                  40
                 ],
-                "sum": 26,
-                "grade": 1
+                "sum": 40,
+                "grade": 3
               }
             ]
           }
@@ -179,74 +97,30 @@
     ],
     "pupils": [
       {
-        "name": "Huber Max",
+        "name": "Max",
         "male": true
       },
       {
-        "name": "Müller Anna",
-        "male": false
-      }
-    ]
-  },
-  "8a Physik": {
-    "gradeRatio": "1_1",
-    "oral": [
-      {
-        "name": "Huber Max",
-        "grade": 2,
-        "factor": 1,
-        "kind": "RA",
-        "date": "2014-08-09T00:00:00.000Z"
-      },
-      {
-        "name": "Müller Anna",
-        "grade": 3,
-        "factor": 1,
-        "kind": "UB",
-        "date": "2014-08-09T00:00:00.000Z"
+        "name": "Moritz",
+        "male": true
       }
     ],
-    "small": [],
-    "big": [],
-    "pupils": [
+    "homework": [
       {
-        "name": "Huber Max",
-        "male": true
+        "name": "Max",
+        "date": "2015-07-30",
+        "half": false
       },
       {
-        "name": "Müller Anna",
-        "male": false
-      }
-    ]
-  },
-  "7a NuT": {
-    "gradeRatio": "1_1",
-    "oral": [
-      {
-        "name": "Mayr Detlef",
-        "grade": 2,
-        "factor": 2,
-        "kind": "Ref",
-        "date": "2014-08-09T00:00:00.000Z"
-      },
-      {
-        "name": "Mustermann Mustervorname",
-        "grade": 3,
-        "factor": 2,
-        "kind": "Ref",
-        "date": "2014-08-09T00:00:00.000Z"
+        "name": "Moritz",
+        "date": "2015-07-30",
+        "half": true
       }
     ],
-    "small": [],
-    "big": [],
-    "pupils": [
+    "notes": [
       {
-        "name": "Mayr Detlef",
-        "male": true
-      },
-      {
-        "name": "Mustermann Mustervorname",
-        "male": true
+        "name": "Max",
+        "note": "Bei SA wahrscheinlich gespickt..."
       }
     ]
   }
