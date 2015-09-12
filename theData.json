@@ -117,6 +117,20 @@
         "half": true
       }
     ],
+    "missing": [
+      {
+        "name": "Max",
+        "date": "2015-09-10"
+      },
+      {
+        "name": "Max",
+        "date": "2015-09-12"
+      },
+      {
+        "name": "Moritz",
+        "date": "2015-09-12"
+      }
+    ],
     "notes": [
       {
         "name": "Max",

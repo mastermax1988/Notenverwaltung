@@ -54,6 +54,17 @@ function getHomeworkInfo(className, pupilName)
 			hw.push(theData[className].homework[i]);
 	return hw;
 }
+
+function getMissingInfo(className,pupilName)
+{
+  var miss=[];
+  for(var i = 0; i < theData[className].missing.length; i++)
+		if(theData[className].missing[i].name == pupilName)
+			miss.push(theData[className].missing[i]);
+	return miss;
+
+ 
+}
 function getFinalScores(className, pupilName)
 {
 	var data = {small: null, big: null, end: null};

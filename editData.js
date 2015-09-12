@@ -1,7 +1,7 @@
 //the json object is manupiladed here
 function addNewClass(name, gradeRatio, gradeType)
 {
-	theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, oral: [], small: [], big: [], pupils: [], homework: [], notes: []};
+	theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, oral: [], small: [], big: [], pupils: [], homework: [], missing: [], notes: []};
 }
 function updatePupils(className, newPupils)
 {
@@ -88,6 +88,11 @@ function updateOralGrades(className, pupilName, grades)
 function pupilAddNoHomework(className, pupilName, half)
 {
 	theData[className].homework.push({name: pupilName, date: getCurrentDate(), half: half});
+}
+
+function pupilAddMissing(className, pupilName)
+{
+	theData[className].missing.push({name: pupilName, date: getCurrentDate()});
 }
 
 function updatePupilInfo(className, pupilName, note)

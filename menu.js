@@ -16,6 +16,7 @@ function drawMainMenu()
 	d.append("button").attr("onclick", "showClassInfo()").html("Klassenübersicht");
 	d.append("button").attr("onclick", "showDetailedClassInfo()").html("Notenbogen");
 	d.append("button").attr("onclick", "showHomeworkInfo()").html("Hausaufgaben");
+	d.append("button").attr("onclick", "showMissingInfo()").html("Fehltage");
 	d.append("button").attr("onclick", "saveData()").html("Speichern");
 	d.append("button").attr("onclick", "window.print()").html("Daten drucken");
 	d.append("button").attr("onclick", "maintenance()").html("Wartung");
@@ -313,10 +314,50 @@ function showHomeworkInfo()
 	}
 }
 
+function showMissingInfo()
+{
+	emptyMenu2();
+	var d = emptyForm1();
+	var className = getSelectedClassName();
+	d.append("p").html(className);
+	var data = getDetailedClassInfo(className);
+
+	var table = d.append("table");
+	var bCol = false;
+	var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+	bCol = !bCol;
+	tr.append("td").html("Name");
+	tr.append("td").html("fehlt heute");
+	tr.append("td").html("Fehltage");
+
+	for(var i = 0; i < data.pupils.length; i++)
+	{
+		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		bCol = !bCol;
+
+		var miss = getMissingInfo(className, data.pupils[i].name);
+
+		tr.append("td").append("a").html(data.pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + data.pupils[i].name + "')");
+		var td = tr.append("td");
+		td.append("button").attr("onclick", "pupilAddMissingAndReload('" + className + "','" + data.pupils[i].name + "')").html("fehlt");
+		var s = miss.length + ": ";
+		for(var j = 0; j < miss.length; j++)
+			s += miss[j].date  + "   ";
+		tr.append("td").html(s);
+	}
+
+}
+
 function pupilAddNoHomeworkAndReload(className, pupilName, half)
 {
 	pupilAddNoHomework(className, pupilName, half);
 	showHomeworkInfo();
+}
+
+function pupilAddMissingAndReload(className,pupilName)
+{
+  pupilAddMissing(className,pupilName);
+  showMissingInfo();
 }
 function showDetailedClassInfo()
 {
