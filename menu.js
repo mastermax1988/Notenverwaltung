@@ -87,6 +87,7 @@ function showClassInfo()
 	selp.append("label").html("Zeige nur Noten");
 	d.append("p").html(className);
 	var table = d.append("table");
+  table.append("td").html("#").attr("class","alnright");
 	table.append("th").html("Name");
 	table.append("th").html("");
 	table.append("th").html("kl.");
@@ -99,7 +100,8 @@ function showClassInfo()
 		var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
 		bCol = !bCol;
 		//	tr.append("td").html(pupils[i].name);
-		tr.append("td").append("a").html(pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + pupils[i].name + "')");
+		tr.append("td").attr("class","alnright").html((i+1).toString());
+    tr.append("td").append("a").html(pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + pupils[i].name + "')");
 		tr.append("td").html(pupils[i].male ? "m" : "w");
 		var scores = getFinalScores(className, pupils[i].name);
 		tr.append("td").attr("class", "alnright").html(scores.small);
