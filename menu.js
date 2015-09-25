@@ -521,8 +521,13 @@ function showPupilInfoPage(pupilName)
 	var s = "vergessene Hausaufgaben: " + hw.length + " mal: ";
 	for(var j = 0; j < hw.length; j++)
 		s += hw[j].date + (hw[j].half ? "'" : "|") + "   ";
-	d.append("div").html(s);
-	d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "pupilnote").html(getPupilNote(className, pupilName));
+  d.append("div").html(s);
+  var missing=getMissingInfo(className,pupilName);
+  s="Fehltage: " + missing.length + ": ";
+  for(var j=0;j<missing.length;j++)
+    s+=missing[j].date +", ";
+  d.append("div").html(s);
+  d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "pupilnote").html(getPupilNote(className, pupilName));
 
 	d.append("button").attr("onclick", "updatePupilInfoAndReload('" + className + "','" + pupilName + "')").html("Notizen übernehmen");
 }
