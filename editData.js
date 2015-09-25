@@ -95,7 +95,7 @@ function pupilAddMissing(className, pupilName)
 	theData[className].missing.push({name: pupilName, date: getCurrentDate()});
 }
 
-function updatePupilInfo(className, pupilName, note)
+function updateNote(className, pupilName, note)
 {
 	for(var i = 0; i < theData[className].notes.length; i++)
 		if(theData[className].notes[i].name = pupilName)

@@ -110,6 +110,11 @@ function showClassInfo()
 		var grades = getAllGrades(className, pupils[i].name);
 		tr.append("td").html(grades.small.length + grades.oral.length).attr("class", "alnright");
 	}
+  d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "classnote").html(getPupilNote(className, "classinfo"));
+
+	d.append("button").attr("onclick", "updateNoteAndShowClassInfo('" + className + "','classinfo')").html("Notizen übernehmen");
+
+
 }
 function showEvalExercise()
 {
@@ -529,13 +534,19 @@ function showPupilInfoPage(pupilName)
   d.append("div").html(s);
   d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "pupilnote").html(getPupilNote(className, pupilName));
 
-	d.append("button").attr("onclick", "updatePupilInfoAndReload('" + className + "','" + pupilName + "')").html("Notizen übernehmen");
+	d.append("button").attr("onclick", "updateNoteAndReload('" + className + "','" + pupilName + "')").html("Notizen übernehmen");
 }
 
-function updatePupilInfoAndReload(className, pupilName)
+function updateNoteAndReload(className, pupilName)
 {
-	updatePupilInfo(className, pupilName, d3.select("#pupilnote")[0][0].value);
+	updateNote(className, pupilName, d3.select("#pupilnote")[0][0].value);
 	showPupilInfo(pupilName);
+}
+
+function updateNoteAndShowClassInfo(className, pupilName)
+{
+	updateNote(className, pupilName, d3.select("#classnote")[0][0].value);
+	showClassInfo();
 }
 
 function editExercise()
