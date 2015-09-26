@@ -86,7 +86,7 @@ function showClassInfo()
 	selp.append("input").attr("type", "checkbox").attr("id", "cbShowGradeOnly").attr("onchange", "showEvalExercise()");
 	selp.append("label").html("Zeige nur Noten");
 	d.append("p").html(className);
-	var table = d.append("table");
+	var table = d.append("table").attr("class","layout_left");
   table.append("td").html("#").attr("class","alnright");
 	table.append("th").html("Name");
 	table.append("th").html("");
@@ -110,9 +110,8 @@ function showClassInfo()
 		var grades = getAllGrades(className, pupils[i].name);
 		tr.append("td").html(grades.small.length + grades.oral.length).attr("class", "alnright");
 	}
-  d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "classnote").html(getPupilNote(className, "classinfo"));
-
-	d.append("button").attr("onclick", "updateNoteAndShowClassInfo('" + className + "','classinfo')").html("Notizen übernehmen");
+  d.append("textarea").attr("rows", 40).attr("cols", 80).attr("id", "classnote").attr("class","layout_left").attr("onkeyup", "updateNoteClassInfo('" + className + "','classinfo')").html(getPupilNote(className, "classinfo"));
+	//d.append("button").attr("onclick", "updateNoteAndShowClassInfo('" + className + "','classinfo')").attr("class","layout_left").html("Notizen übernehmen");
 
 
 }
@@ -532,21 +531,18 @@ function showPupilInfoPage(pupilName)
   for(var j=0;j<missing.length;j++)
     s+=missing[j].date +", ";
   d.append("div").html(s);
-  d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "pupilnote").html(getPupilNote(className, pupilName));
+  d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "pupilnote").attr("onkeyup", "updateNoteNoReload('" + className + "','" + pupilName + "')").html(getPupilNote(className, pupilName));
 
-	d.append("button").attr("onclick", "updateNoteAndReload('" + className + "','" + pupilName + "')").html("Notizen übernehmen");
 }
 
-function updateNoteAndReload(className, pupilName)
+function updateNoteNoReload(className, pupilName)
 {
 	updateNote(className, pupilName, d3.select("#pupilnote")[0][0].value);
-	showPupilInfo(pupilName);
 }
 
-function updateNoteAndShowClassInfo(className, pupilName)
+function updateNoteClassInfo(className, pupilName)
 {
 	updateNote(className, pupilName, d3.select("#classnote")[0][0].value);
-	showClassInfo();
 }
 
 function editExercise()
@@ -592,6 +588,11 @@ function applyNewGradingKey()
 	currentExercise.gradingKey = d3.select("#exerciseGradingKey")[0][0].value.split(",");
 	updateSumAndGrade();
 }
+function saveExistingTestAndJumpToEval()
+{
+  saveExistingTest();
+  showClassInfoAndJumpToEval(currentExercise.name);
+}
 function saveExistingTest()
 {
 	var nrOfGroups = currentExercise.groups.length;
@@ -627,7 +628,7 @@ function saveExistingTest()
 			else
 				currentExercise.groups[i].pupils[j].grade = "-";
 		}
-	showClassInfoAndJumpToEval(currentExercise.name);
+	//showClassInfoAndJumpToEval(currentExercise.name);
 }
 
 var currentExercise, currentGradingType;
@@ -636,7 +637,7 @@ function showExistingTest(className, exerciseName, bigExercise)
 	var m2 = emptyMenu2();
 	currentGradingType = getCurrentGradingType(className);
 	currentExercise = getExerciseData(className, exerciseName, bigExercise);
-	m2.append("button").attr("onclick", "saveExistingTest()").html("Punkte übernehmen für " + currentExercise.name + " vom " + currentExercise.date.slice(0, 10));
+	m2.append("button").attr("onclick", "saveExistingTestAndJumpToEval()").html("Punkte übernehmen für " + currentExercise.name + " vom " + currentExercise.date.slice(0, 10));
 	var d = emptyForm1();
 	var nrOfGroups = currentExercise.groups.length;
 	var pupils = [];
@@ -664,7 +665,7 @@ function showExistingTest(className, exerciseName, bigExercise)
 			p = d.append("p").attr("id", "p_exercisePupil_" + i + "_" + j);
 			p.append("input").attr("value", pupils[i][j].name).attr("disabled", "disabled");
 			for(var k = 0; k < pupils[i][j].points.length; k++)
-				p.append("input").attr("placeholder", currentExercise.groups[i].exercises[k].name).attr("value", pupils[i][j].points[k]).attr("size", 4).attr("id", "subtask_" + k).attr("onchange", "updateSumAndGrade()");
+				p.append("input").attr("placeholder", currentExercise.groups[i].exercises[k].name).attr("value", pupils[i][j].points[k]).attr("size", 4).attr("id", "subtask_" + k).attr("onkeyup", "updateSumAndGrade()");
 			p.append("input").attr("placeholder", "Summe").attr("size", 5).attr("id", "sum").attr("disabled", "disabled");
 			p.append("input").attr("placeholder", "Note").attr("size", 4).attr("id", "grade").attr("disabled", "disabled");
 		}
@@ -698,7 +699,7 @@ function updateSumAndGrade()
 			else
 				d3.select("#p_exercisePupil_" + i + "_" + j).select("#grade").attr("value", "-");
 		}
-
+  saveExistingTest();
 }
 function getTrend(sum, gradingKey)
 {
