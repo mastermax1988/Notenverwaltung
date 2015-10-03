@@ -723,7 +723,7 @@ function getGrade(sum, gradingKey)
 	}
 	else if (currentGradingType == "Punkte")
 	{
-		for(var i = 14; i > 0; i--)
+		for(var i = 14; i >= 0; i--)
 			if(sum > gradingKey[14 - i])
 				return i + 1;
 		return 0;
