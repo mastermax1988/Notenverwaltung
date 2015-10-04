@@ -97,7 +97,7 @@ function showClassInfo()
 	var bCol = false;
 	for(var i = 0; i < pupils.length; i++)
 	{
-		var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		var tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 		bCol = !bCol;
 		//	tr.append("td").html(pupils[i].name);
 		tr.append("td").attr("class","alnright").html((i+1).toString());
@@ -153,7 +153,7 @@ function showEvalExercise()
 	tr.append("th").html(currentGradingType == "Note" ? "Note" : "Punkte");
 	for(var i = 0; i < exercise.pupils.length; i++)
 	{
-		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 		bCol = !bCol;
 		tr.append("td").html(exercise.pupils[i].name);
 		if(!bShowGradOnly)
@@ -296,7 +296,7 @@ function showHomeworkInfo()
 
 	var table = d.append("table");
 	var bCol = false;
-	var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+	var tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 	bCol = !bCol;
 	tr.append("td").html("Name");
 	tr.append("td").html("heute keine HA");
@@ -304,7 +304,7 @@ function showHomeworkInfo()
 
 	for(var i = 0; i < data.pupils.length; i++)
 	{
-		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 		bCol = !bCol;
 
 		var hw = getHomeworkInfo(className, data.pupils[i].name);
@@ -330,7 +330,7 @@ function showMissingInfo()
 
 	var table = d.append("table");
 	var bCol = false;
-	var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+	var tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 	bCol = !bCol;
 	tr.append("td").html("Name");
 	tr.append("td").html("fehlt heute");
@@ -338,7 +338,7 @@ function showMissingInfo()
 
 	for(var i = 0; i < data.pupils.length; i++)
 	{
-		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 		bCol = !bCol;
 
 		var miss = getMissingInfo(className, data.pupils[i].name);
@@ -396,7 +396,7 @@ function showDetailedClassInfo()
 
 	var table = d.append("table");
 	var bCol = false;
-	var tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+	var tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 	bCol = !bCol;
 	//var tr = table.append("tr");
 	tr.append("td").html("Name");
@@ -412,7 +412,7 @@ function showDetailedClassInfo()
 	tr.append("td").html("gesamt");
 	for(var i = 0; i < data.pupils.length; i++)
 	{
-		tr = table.append("tr").attr("style", bCol ? "background-color: lightgray" : "background-color: white");
+		tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 		bCol = !bCol;
 
 		var pupdata = getAllGrades(className, data.pupils[i].name);
