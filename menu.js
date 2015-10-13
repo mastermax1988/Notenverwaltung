@@ -741,13 +741,16 @@ function getNrOfGroups()
 	return 1;
 }
 
-function generateNewGradingKey()
+function generateNewGradingKey(bAbi)
 {
 	var maxpoints = 0;
 	for(var i = 0; i < maxexercises; i++)
 		maxpoints += parseFloat("0" + d3.select("#exercisePoints_" + i + "_A")[0][0].value); //0+string to prevent NaN parsing error
 	currentGradingType = getCurrentGradingType(getSelectedClassName());
-	d3.select("#exerciseGradingKey")[0][0].value = getGeneratedGradingKey(maxpoints);
+	if(bAbi)
+    d3.select("#exerciseGradingKey")[0][0].value = getGeneratedGradingKey(maxpoints);
+  else
+    d3.select("#exerciseGradingKey")[0][0].value = getGeneratedLinearGradingKey(maxpoints);
 }
 function getGeneratedGradingKey(maxpoints)
 {
@@ -830,7 +833,8 @@ function addExerciseMenu(bigExercise)
 	p.append("input").attr("id", "exerciseFactor").attr("placeHolder", "Faktor");
 	p.append("label").attr("id", "exerciseNrOfGroupsLabel");
 	p.append("input").attr("id", "exerciseGradingKey").attr("placeHolder", "Bewertungsschlüssel");
-	p.append("button").attr("id", "exerciseGenerateGradingKey").attr("onclick", "generateNewGradingKey()").html("Bewertungsschlüssel erstellen");
+	p.append("button").attr("id", "exerciseGenerateGradingKey").attr("onclick", "generateNewGradingKey(true)").html("Bewertungsschlüssel (abitur)  erstellen");
+	p.append("button").attr("id", "exerciseGenerateGradingKey").attr("onclick", "generateNewGradingKey(false)").html("Bewertungsschlüssel (linear) erstellen");
 	for(var i = 0; i < maxexercises; i++)
 	{
 		p = d.append("p");
