@@ -98,7 +98,7 @@ function pupilAddMissing(className, pupilName)
 function updateNote(className, pupilName, note)
 {
 	for(var i = 0; i < theData[className].notes.length; i++)
-		if(theData[className].notes[i].name = pupilName)
+		if(theData[className].notes[i].name == pupilName)
 		{
 			theData[className].notes[i].note = note;
 			return;
