@@ -537,7 +537,6 @@ function showPupilInfoPage(pupilName)
 
 function updateNoteNoReload(className, pupilName)
 {
-  console.log(className + " " +  pupilName + " " + d3.select("#pupilnote")[0][0].value);
 	updateNote(className, pupilName, d3.select("#pupilnote")[0][0].value);
 }
 
