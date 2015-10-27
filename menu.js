@@ -50,10 +50,15 @@ function showClassInfoAndJumpToEval(s)
 		}
 	showEvalExercise();
 }
+function jumpToOral(s)
+{
+  editOral();
+  showClassInfoAndJumpToOral(s);
+}
 function showClassInfoAndJumpToOral(s)
 {
 	showOralGrades();
-	var sel = d3.select("#selectPupilForOralGrades")[0][0].value;
+	var sel = d3.select("#selectPupilForOralGrades")[0][0].options;
 	for(var i = 0; i < sel.length; i++)
 		if(sel[i].label == s)
 		{
@@ -475,6 +480,7 @@ function showPupilInfoPage(pupilName)
 	var className = getSelectedClassName();
 	var d = emptyForm1();
 	d.append("p").html(className + " - " + pupilName)
+  d.append("button").attr("onclick", "jumpToOral('"+pupilName+"')").html("Mündliche Noten bearbeiten");
 	var grades = getAllGrades(className, pupilName);
 	var score = getFinalScores(className, pupilName);
 	var table = d.append("table");
@@ -1014,6 +1020,7 @@ function addPupilMenu()
 		return;
 	var className = sel[sel.selectedIndex].value;
 	var d = emptyForm1();
+  d.append("p").html("Am Ende unbedingt doppelte Leerzeichen in json löschen (sonst kein Springen zu mündlichen Noten möglich) :%s/__/_g");
 	var pup = getPupils(className);
 	for(var i = 0; i < maxpupils; i++)
 	{
