@@ -67,7 +67,12 @@ function showClassInfoAndJumpToOral(s)
 		}
 	showOralGrades();
 }
-
+function rndPupil()
+{
+  var pupils=getPupils(getSelectedClassName());
+  var rnd=Math.floor(Math.random()*pupils.length);
+  d3.select("#rndpupil")[0][0].innerHTML=" Nr "+(rnd+1)+": "+ pupils[rnd].name;
+}
 
 function showClassInfo()
 {
@@ -75,8 +80,12 @@ function showClassInfo()
 	var className = getSelectedClassName();
 	var pupils = getPupils(className);
 	var d = emptyForm1();
-	m2.append("p").append("button").attr("onclick", "editOral()").html("Mündliche Noten");
+	
 	var selp = m2.append("p");
+  selp.append("button").attr("onclick", "editOral()").html("Mündliche Noten");
+	selp.append("button").attr("onclick", "rndPupil()").html("Zufallsschüler");
+  selp.append("label").attr("id","rndpupil");
+  selp=m2.append("p");
 	var sel = selp.append("select").attr("id", "selectExercise");
 	sel.append("option").attr("value", "new_small").html("Neuer kleiner Leistungsnachweis");
 	sel.append("option").attr("value", "new_big").html("Neuer großer Leistungsnachweis");
