@@ -80,7 +80,7 @@ function showClassInfo()
 	var className = getSelectedClassName();
 	var pupils = getPupils(className);
 	var d = emptyForm1();
-	
+  	
 	var selp = m2.append("p");
   selp.append("button").attr("onclick", "editOral()").html("Mündliche Noten");
 	selp.append("button").attr("onclick", "rndPupil()").html("Zufallsschüler");
@@ -120,7 +120,11 @@ function showClassInfo()
 		var scores = getFinalScores(className, pupils[i].name);
 		tr.append("td").attr("class", "alnright").html(scores.small);
 		tr.append("td").attr("class", "alnright").html(scores.big);
-		tr.append("td").attr("class", "alnright").html(scores.end);
+    var gt=getCurrentGradingType(className)
+    if((gt=="Note"&&scores.end>4.5) || (gt=="Punkte" && scores.end<4.5))
+		  tr.append("td").attr("class", "alnright_red").html(scores.end);
+		else
+      tr.append("td").attr("class", "alnright").html(scores.end);
 		var grades = getAllGrades(className, pupils[i].name);
 		tr.append("td").html(grades.small.length + grades.oral.length).attr("class", "alnright");
 	}
