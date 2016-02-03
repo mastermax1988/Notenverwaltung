@@ -1013,9 +1013,20 @@ function maintenance()
 	var d = emptyMenu2();
 	d.append("button").html("Klasse hinzufügen").attr("onclick", "addClassMenu()");
 	d.append("button").html("Schüler bearbeiten").attr("onclick", "addPupilMenu()");
+  d.append("button").html("Klasse klonen").attr("onclick","cloneClass()");
 	emptyForm1();
 }
-
+var newclass;
+var oldclass;
+function cloneClass()
+{
+  oldclass=getSelectedClassName();
+  addClassMenu();
+  d3.select("#className").attr("value",oldclass+"_2");
+  d3.select("#gradeRatio").attr("value",theData[oldclass].gradeRatio);
+  d3.select("#gradeTypeCB").property('checked',theData[oldclass].gradeType=="Punkte");
+  d3.select("#addclassbutton").attr("onclick","addCloneClass()");
+}
 function addClassMenu()
 {
 	var d = emptyForm1();
@@ -1023,7 +1034,7 @@ function addClassMenu()
 	d.append("input").attr("placeholder", "Schlüssel 2_1 oder 1_1").attr("id", "gradeRatio");
 	d.append("label").html("Punke");
 	d.append("input").attr("type", "checkbox").attr("id", "gradeTypeCB");
-	d.append("button").attr("onclick", "addClass()").html("Klasse anlegen");
+	d.append("button").attr("onclick", "addClass()").html("Klasse anlegen").attr("id","addclassbutton");//is changed when cloning a class
 	d.append("button").attr("onclick", "abortForm()").html("Abbrechen");
 }
 function addPupilMenu()
@@ -1084,11 +1095,30 @@ function abortForm()
 function addClass()
 {
 	var name = d3.select("[id=className]")[0][0].value;
+  newclass=name; // for cloning
+  if(theData[name]!=null)
+  {
+    alert("Klasse schon vorhanden");
+    return;
+  }
 	var gradeRatio = d3.select("#gradeRatio")[0][0].value;
 	addNewClass(name, gradeRatio, d3.select("#gradeTypeCB")[0][0].checked ? "Punkte" : "Note");
 	if(name == "")
 		return;
 	emptyForm1();
+	drawMainMenu();
+}
+function addCloneClass()
+{
+  addClass();
+  var newPupils = [];
+	for(var i = 0; i < theData[oldclass].pupils.length; i++)
+	{
+		var pupilName = theData[oldclass].pupils[i].name;
+		var pupilMale = theData[oldclass].pupils[i].male;
+		newPupils.push({name: pupilName, male: pupilMale});
+	}
+	updatePupils(newclass, newPupils);
 	drawMainMenu();
 }
 function emptyForm1()
