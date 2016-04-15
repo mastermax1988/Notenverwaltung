@@ -917,7 +917,7 @@ function saveNewExercise(bigExercise)
 	var j = 0;
 	while(d3.select("#exercisePupilGroup_" + j)[0][0] != null)
 	{
-		var pup = {name: d3.select("#exercisePupilGroup_" + j).select("#exercisePupilName")[0][0].innerHTML, points: getEmptyPointArray(getNrOfExercises()), sum: 0, grade: "-"};
+		var pup = {name: d3.select("#exercisePupilGroup_" + j).select("#exercisePupilName")[0][0].innerHTML, points: getEmptyPointArray(getNrOfExercises()), sum: 0, grade: "-", returned: false};
 		if(d3.select("#exercisePupilGroup_" + j).select("#exerciseGroupSelect")[0][0].selectedIndex == 1)
 			pupilsA.push(pup);
 		else if (d3.select("#exercisePupilGroup_" + j).select("#exerciseGroupSelect")[0][0].selectedIndex == 2)

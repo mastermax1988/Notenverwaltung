@@ -2,7 +2,15 @@
   "Demoklasse": {
     "gradeRatio": "2_1",
     "gradeType": "Note",
-    "oral": [],
+    "oral": [
+      {
+        "name": "Moritz",
+        "grade": 4,
+        "factor": 1,
+        "kind": "Mdl",
+        "date": "2016-04-15T00:00:00.000Z"
+      }
+    ],
     "small": [
       {
         "name": "testex",
@@ -46,6 +54,55 @@
                 ],
                 "sum": 11,
                 "grade": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "returned",
+        "date": "2016-04-15T00:00:00.000Z",
+        "factor": 1,
+        "gradingKey": [
+          "8.5",
+          "7",
+          "5.5",
+          "4",
+          "2"
+        ],
+        "groups": [
+          {
+            "name": "A",
+            "exercises": [
+              {
+                "name": "a",
+                "points": 1
+              },
+              {
+                "name": "b",
+                "points": 9
+              }
+            ],
+            "pupils": [
+              {
+                "name": "Max",
+                "points": [
+                  "-",
+                  "-"
+                ],
+                "sum": 0,
+                "grade": "-",
+                "returned": false
+              },
+              {
+                "name": "Moritz",
+                "points": [
+                  "-",
+                  "-"
+                ],
+                "sum": 0,
+                "grade": "-",
+                "returned": false
               }
             ]
           }
