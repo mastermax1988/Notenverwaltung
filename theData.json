@@ -44,7 +44,8 @@
                   3
                 ],
                 "sum": 11,
-                "grade": 2
+                "grade": 2,
+                "returned": false
               },
               {
                 "name": "Moritz",
@@ -53,7 +54,8 @@
                   1
                 ],
                 "sum": 11,
-                "grade": 2
+                "grade": 2,
+                "returned": true
               }
             ]
           }
@@ -92,7 +94,7 @@
                 ],
                 "sum": 0,
                 "grade": "-",
-                "returned": false
+                "returned": true
               },
               {
                 "name": "Moritz",
@@ -102,7 +104,7 @@
                 ],
                 "sum": 0,
                 "grade": "-",
-                "returned": false
+                "returned": true
               }
             ]
           }
@@ -137,7 +139,8 @@
                   55
                 ],
                 "sum": 55,
-                "grade": 1
+                "grade": 1,
+                "returned": true
               },
               {
                 "name": "Moritz",
@@ -145,7 +148,8 @@
                   40
                 ],
                 "sum": 40,
-                "grade": 3
+                "grade": 3,
+                "returned": true
               }
             ]
           }
