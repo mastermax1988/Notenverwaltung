@@ -163,6 +163,7 @@ function evalExercise(className, exerciseName, bigExericse)
   dataSorted.factor = data.factor;
   dataSorted.gradingKey = data.gradingKey;
   dataSorted.exercises = [data.groups[0].exercises];
+  dataSorted.bBig=bigExericse;
   if(data.groups.length == 2)
     dataSorted.exercises.push(data.groups[1].exercises);
   var maxpoints = 0;
@@ -247,7 +248,7 @@ function getPupilData(exerciseData, pupilName)
   }
   if(indexPupil == -1)
     return null;
-  return {name: exerciseData.groups[indexGroup].pupils[indexPupil].name, points: exerciseData.groups[indexGroup].pupils[indexPupil].points, sum: exerciseData.groups[indexGroup].pupils[indexPupil].sum, grade: exerciseData.groups[indexGroup].pupils[indexPupil].grade, group: (indexGroup == 0 ? "A" : "B")};
+  return {name: exerciseData.groups[indexGroup].pupils[indexPupil].name, points: exerciseData.groups[indexGroup].pupils[indexPupil].points, sum: exerciseData.groups[indexGroup].pupils[indexPupil].sum, grade: exerciseData.groups[indexGroup].pupils[indexPupil].grade, group: (indexGroup == 0 ? "A" : "B"), returned:exerciseData.groups[indexGroup].pupils[indexPupil].returned };
 }
 
 function getPupilNote(className, pupilName)

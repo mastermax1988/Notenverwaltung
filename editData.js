@@ -16,6 +16,34 @@ function run_to_update_for_returned()
           theData[allClasses[i]].small[j].groups[k].pupils[l].returned=true;
   }
 }
+function updateReturnedInfo(className, exercisename, bBig, pupilname, bReturned)
+{
+  if(bBig)
+  {
+    var big=getBig(className);
+    for(var j=0;j<big.length;j++)//nr of big ex
+      for(var k=0;k<big[j].groups.length;k++)//nr of groups
+        for(var l=0;l<big[j].groups[k].pupils.length;l++)
+          if(theData[className].big[j].groups[k].pupils[l].name==pupilname)
+          {
+            theData[className].big[j].groups[k].pupils[l].returned=bReturned;
+            return;
+          }
+  }
+  else
+  {
+    var small=getSmall(className);
+    for(var j=0;j<small.length;j++)//nr of big ex
+      for(var k=0;k<small[j].groups.length;k++)//nr of groups
+        for(var l=0;l<small[j].groups[k].pupils.length;l++)
+          if(theData[className].small[j].groups[k].pupils[l].name==pupilname)
+          {
+            theData[className].small[j].groups[k].pupils[l].returned=bReturned;
+            return;
+          }
+
+  }
+}
 function addNewClass(name, gradeRatio, gradeType)
 {
   theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, oral: [], small: [], big: [], pupils: [], homework: [], missing: [], notes: []};
