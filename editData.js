@@ -22,25 +22,27 @@ function updateReturnedInfo(className, exercisename, bBig, pupilname, bReturned)
   {
     var big=getBig(className);
     for(var j=0;j<big.length;j++)//nr of big ex
-      for(var k=0;k<big[j].groups.length;k++)//nr of groups
-        for(var l=0;l<big[j].groups[k].pupils.length;l++)
-          if(theData[className].big[j].groups[k].pupils[l].name==pupilname)
-          {
-            theData[className].big[j].groups[k].pupils[l].returned=bReturned;
-            return;
-          }
+      if(big[j].name==exercisename)
+        for(var k=0;k<big[j].groups.length;k++)//nr of groups
+          for(var l=0;l<big[j].groups[k].pupils.length;l++)
+            if(theData[className].big[j].groups[k].pupils[l].name==pupilname)
+            {
+              theData[className].big[j].groups[k].pupils[l].returned=bReturned;
+              return;
+            }
   }
   else
   {
     var small=getSmall(className);
     for(var j=0;j<small.length;j++)//nr of big ex
-      for(var k=0;k<small[j].groups.length;k++)//nr of groups
-        for(var l=0;l<small[j].groups[k].pupils.length;l++)
-          if(theData[className].small[j].groups[k].pupils[l].name==pupilname)
-          {
-            theData[className].small[j].groups[k].pupils[l].returned=bReturned;
-            return;
-          }
+      if(small[j].name==exercisename)
+        for(var k=0;k<small[j].groups.length;k++)//nr of groups
+          for(var l=0;l<small[j].groups[k].pupils.length;l++)
+            if(theData[className].small[j].groups[k].pupils[l].name==pupilname)
+            {
+              theData[className].small[j].groups[k].pupils[l].returned=bReturned;
+              return;
+            }
 
   }
 }
@@ -95,11 +97,6 @@ function getSmall(className)
 {
   return theData[className].small;
 }
-function getBig(className)
-{
-  return theData[className].big;
-}
-
 function getBig(className)
 {
   return theData[className].big;

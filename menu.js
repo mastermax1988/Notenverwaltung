@@ -567,6 +567,13 @@ function showPupilInfoPage(pupilName)
   for(var j=0;j<missing.length;j++)
     s+=missing[j].date +", ";
   d.append("div").html(s);
+
+  s="Fehlende Leistungsnachweise: ";
+  var missingtests=getMissingTestsFromPupilName(className,pupilName);
+  for(var j=0;j<missingtests.length;j++)
+    s+=missingtests[j].exercisename+" ";
+  d.append("div").html(s);
+
   d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "pupilnote").attr("onkeyup", "updateNoteNoReload('" + className + "','" + pupilName + "')").html(getPupilNote(className, pupilName));
 
 }
