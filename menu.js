@@ -135,11 +135,11 @@ function showClassInfo()
     tr.append("td").html(grades.small.length + grades.oral.length).attr("class", "alnright");
     if(bMissingTests)
     {
+      var tdmiss=tr.append("td");
       var missingtest="";
       var missingtestdata=getMissingTestsFromPupilName(className, pupils[i].name);
       for (var j=0;j<missingtestdata.length; j++)
-        missingtest+=missingtestdata[j].exercisename + " ";
-      tr.append("td").html(missingtest);
+        tdmiss.append("a").html(missingtestdata[j].exercisename+" ").attr("href","#").attr("onclick","showClassInfoAndJumpToEval('"+missingtestdata[j].exercisename+"')");
     }
   }
   d.append("textarea").attr("rows", 40).attr("cols", 80).attr("id", "classnote").attr("class","layout_left").attr("onkeyup", "updateNoteClassInfo('" + className + "','classinfo')").html(getPupilNote(className, "classinfo"));
