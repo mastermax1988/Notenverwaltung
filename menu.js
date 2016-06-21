@@ -200,6 +200,26 @@ function showEvalExercise()
     tr.append("td").html(exercise.pupils[i].grade + getTrend(exercise.pupils[i].sum, exercise.gradingKey)).attr("class", "alnleft_red");
     tr.append("td").append("button").html(exercise.pupils[i].returned?"abgegeben":"fehlt").attr("onclick","updateReturnedInfo('"+className+"','"+exercise.name+"',"+(exercise.bBig?"true":"false")+",'"+exercise.pupils[i].name+"',"+(exercise.pupils[i].returned?"false":"true")+"); showEvalExercise();");
   }
+  tr=table.append("tr");
+  tr.append("th").html("");
+  if(b2Groups && !bShowGradOnly)
+    tr.append("th").html("A<br>B");
+  if(!bShowGradOnly)
+  {
+    for(var i = 0; i < exercise.exercises[0].length; i++)
+    {
+      var s = exercise.exercises[0][i].name + " (" + exercise.exercises[0][i].points + ")";
+      if(b2Groups)
+      {
+        s += "<br>" + exercise.exercises[1][i].name + " (" + exercise.exercises[1][i].points + ")";
+      }
+      tr.append("th").html(s);
+    }
+    tr.append("th").html("Σ" + " (" + exercise.maxpoints + ")");
+  }
+  tr.append("th").html("");
+  tr.append("th").html("");
+  
   if(!bShowGradOnly)
   {
     for(var i = 0; i < (b2Groups ? 3 : 1); i++)
