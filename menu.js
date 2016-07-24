@@ -1,6 +1,6 @@
 //code for generating the menus
 var maxpupils = 35;
-var maxexercises = 20;
+var maxexercises = 40;
 function drawMainMenu()
 {
   var d = d3.select("[id=menu1]");
