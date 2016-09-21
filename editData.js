@@ -48,7 +48,7 @@ function updateReturnedInfo(className, exercisename, bBig, pupilname, bReturned)
 }
 function addNewClass(name, gradeRatio, gradeType)
 {
-  theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, oral: [], small: [], big: [], pupils: [], homework: [], missing: [], notes: []};
+  theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, oral: [], small: [], big: [], pupils: [], homework: [], missing: [], notes: [], cl:[]};
 }
 function updatePupils(className, newPupils)
 {
@@ -101,7 +101,10 @@ function getBig(className)
 {
   return theData[className].big;
 }
-
+function getCl(className)
+{
+  return theData[className].cl;
+}
 function getOralGrades(className, pupilName)
 {
   console.log(theData[className].oral);

@@ -1,6 +1,7 @@
 //code for generating the menus
 var maxpupils = 35;
 var maxexercises = 40;
+var maxclcols=10;
 function drawMainMenu()
 {
   var d = d3.select("[id=menu1]");
@@ -74,6 +75,126 @@ function rndPupil()
   d3.select("#rndpupil")[0][0].innerHTML=" Nr "+(rnd+1)+": "+ pupils[rnd].name;
 }
 
+function clclick()
+{
+  var clval = d3.select("#clselect")[0][0].value;
+  if(clval == "new_cl")
+  {
+    showNewCl();
+    return;
+  }
+  showCl(clval);
+}
+
+function showCl(clname)
+{
+  var className=getSelectedClassName();
+  var allCl=getCl(className);
+  var cl;
+  for(var i=0;i<allCl.length;i++)
+    if(allCl[i].name==clname)
+    {
+      cl=allCl[i];
+      break;
+    }
+  var d = emptyForm1();
+  d.append("label").html(cl.name);
+  var table = d.append("p").append("table").attr("class","layout_left");
+  table.append("td").html("#").attr("class","layout_left");
+  table.append("th").html("Name");
+  for(var i=0;i<cl.cols.length;i++)
+    table.append("th").html(cl.cols[i].name);
+  var bCol=false;
+  for(var i=0;i<cl.pupils.length;i++)
+  {
+    var tr=table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
+    bCol = !bCol;
+    tr.append("td").attr("class","alnright").html((i+1).toString());
+    tr.append("td").append("a").html(cl.pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + cl.pupils[i].name + "')");
+    for(var j=0;j<cl.pupils[i].c.length;j++)
+      tr.append("td").append("input").attr("type", "checkbox").property('checked', cl.pupils[i].c[j]).attr("onclick","saveCurrentCl('"+clname+"')").attr("id","cl_"+cl.pupils[i].name.replace(" ","_")+"_"+j);
+  }
+}
+
+function saveCurrentCl(clname)
+{
+  var className=getSelectedClassName();
+  var allCl=getCl(className);
+  var cl;
+  for(var i=0;i<allCl.length;i++)
+    if(allCl[i].name==clname)
+    {
+      cl=allCl[i];
+      break;
+    }
+  var pups=cl.pupils;
+  for(var i=0;i<pups.length;i++)
+    for(var j=0;j<pups[i].c.length;j++)
+      pups[i].c[j]=d3.select("#cl_"+pups[i].name.replace(" ","_")+"_"+j)[0][0].checked;
+ showCl(clname); 
+}
+
+
+function showNewCl()
+{
+  var d = emptyForm1();
+  var m2=emptyMenu2();
+  m2.append("button").attr("onclick","savenewcl()").html("Neue Liste speichern");
+
+  var selp = d.append("p");
+  selp.append("label").html("Titel");
+  selp.append("input").attr("id","cltitle");
+  for(var i=0;i<maxclcols;i++)
+  {
+    d.append("p").append("input").attr("id","clcol_"+i);
+  }
+}
+
+function savenewcl()
+{
+  var className = getSelectedClassName();
+  var cl=getCl(className);
+  var newclname=d3.select("#cltitle")[0][0].value;
+  if(newclname=="")
+  {
+    alert("Bitte geben Sie einen Namen ein!");
+    return;
+  }
+  
+  for(var i=0;i<cl.length;i++)
+    if(cl[i].name==newclname)
+    {
+      alert("Liste existiert bereits");
+      return;
+    }
+
+  newcl={};
+  newcl.name=newclname;
+  newcl.cols=[];
+  for(var i=0;i<maxclcols;i++)
+  {
+    var colname=d3.select("#clcol_"+i)[0][0].value;
+    if(colname=="")
+      break;
+    newcl.cols.push({name: colname});
+  }
+  if(newcl.cols.length==0)
+  {
+    alert("Bitte mindestens eine Spalte anlegen!");
+    return;
+  }
+  newcl.pupils = [];
+  var pups=getPupils(className);
+  for(var i=0;i<pups.length;i++)
+  { 
+    var o={};
+    o.name=pups[i].name;
+    o.c=new Array(newcl.cols.length).fill(false);
+    newcl.pupils.push(o);
+  }
+  theData[className].cl.push(newcl);
+  showClassInfo();
+}
 function showClassInfo()
 {
   var m2 = emptyMenu2();
@@ -83,6 +204,12 @@ function showClassInfo()
 
   var selp = m2.append("p");
   selp.append("button").attr("onclick", "editOral()").html("Mündliche Noten");
+  var selcl = selp.append("select").attr("id","clselect");
+  selcl.append("option").attr("value","new_cl").html("Neue Liste");
+  var cl = getCl(getSelectedClassName())
+  for(var i=0;i<cl.length;i++)
+    selcl.append("option").attr("value",cl[i].name).html(cl[i].name);
+  selp.append("button").attr("onclick","clclick()").html("Zeige Liste"); 
   selp.append("button").attr("onclick", "rndPupil()").html("Zufallsschüler");
   selp.append("label").attr("id","rndpupil");
   selp=m2.append("p");
