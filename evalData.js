@@ -132,7 +132,7 @@ function getFinalScores(className, pupilName)
     big += grades.big[i].grade * grades.big[i].factor;
   }
   big /= factor;
-  data.small = Math.round(small * 1000) / 1000;
+  data.small = parseInt(small * 100) / 100;
   if(isNaN(big))
   {
     data.end = small;
@@ -140,12 +140,12 @@ function getFinalScores(className, pupilName)
   }
   else
   {
-    data.big = Math.round(big * 1000) / 1000;
+    data.big = parseInt(big * 100) / 100;
     var gradeRatio = grades.gradeRatio.split("_");
     var ratioSmall = parseFloat("0" + gradeRatio[1]);
     var ratioBig = parseFloat("0" + gradeRatio[0]);
     var end = (big * ratioBig + small * ratioSmall) / (ratioBig + ratioSmall);
-    data.end = Math.round(end * 1000) / 1000;
+    data.end = parseInt(end * 100) / 100;
   }
   return data;
 }

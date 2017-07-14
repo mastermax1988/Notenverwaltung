@@ -1,6 +1,6 @@
 //code for generating the menus
 var maxpupils = 35;
-var maxexercises = 40;
+var maxexercises = 45;
 var maxclcols=10;
 function drawMainMenu()
 {
