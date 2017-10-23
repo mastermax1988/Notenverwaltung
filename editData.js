@@ -46,6 +46,30 @@ function updateReturnedInfo(className, exercisename, bBig, pupilname, bReturned)
 
   }
 }
+
+function setAllReturned(className, exercisename, bBig, bReturned)
+{
+  if(bBig)
+  {
+    var big=getBig(className);
+    for(var j=0;j<big.length;j++)//nr of big ex
+      if(big[j].name==exercisename)
+        for(var k=0;k<big[j].groups.length;k++)//nr of groups
+          for(var l=0;l<big[j].groups[k].pupils.length;l++)
+              theData[className].big[j].groups[k].pupils[l].returned=bReturned;
+  }
+  else
+  {
+    var small=getSmall(className);
+    for(var j=0;j<small.length;j++)//nr of big ex
+      if(small[j].name==exercisename)
+        for(var k=0;k<small[j].groups.length;k++)//nr of groups
+          for(var l=0;l<small[j].groups[k].pupils.length;l++)
+              theData[className].small[j].groups[k].pupils[l].returned=bReturned;
+
+  }
+}
+
 function addNewClass(name, gradeRatio, gradeType)
 {
   theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, oral: [], small: [], big: [], pupils: [], homework: [], missing: [], notes: [], cl:[]};

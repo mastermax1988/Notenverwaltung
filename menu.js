@@ -345,7 +345,10 @@ function showEvalExercise()
     tr.append("th").html("Σ" + " (" + exercise.maxpoints + ")");
   }
   tr.append("th").html("");
-  tr.append("th").html("");
+  td = tr.append("td");
+  td.append("button").html("A").attr("onclick","setAllReturned('"+className+"','"+exercise.name+"',"+(exercise.bBig?"true":"false")+",true); showEvalExercise();")
+  td.append("button").html("F").attr("onclick","setAllReturned('"+className+"','"+exercise.name+"',"+(exercise.bBig?"true":"false")+",false); showEvalExercise();");;
+
   
   if(!bShowGradOnly)
   {
