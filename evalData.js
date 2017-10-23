@@ -135,7 +135,7 @@ function getFinalScores(className, pupilName)
   data.small = parseInt(small * 100) / 100;
   if(isNaN(big))
   {
-    data.end = small;
+    data.end = data.small;
     data.big = big;
   }
   else
