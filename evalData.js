@@ -144,7 +144,7 @@ function getFinalScores(className, pupilName)
     var gradeRatio = grades.gradeRatio.split("_");
     var ratioSmall = parseFloat("0" + gradeRatio[1]);
     var ratioBig = parseFloat("0" + gradeRatio[0]);
-    var end = (big * ratioBig + small * ratioSmall) / (ratioBig + ratioSmall);
+    var end = (big * 100 * ratioBig + small * 100 * ratioSmall) / (ratioBig + ratioSmall) / 100;
     data.end = parseInt(end * 100) / 100;
   }
   return data;
