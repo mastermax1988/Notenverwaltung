@@ -285,6 +285,7 @@ function showPlan()
 	var className = getSelectedClassName();
 	d.append("canvas").attr("id","canvas").attr("width",canvasWidth).attr("height",canvasHeight).attr("style","border:1px solid #000000;");
   ctx=document.getElementById("canvas").getContext("2d");
+  updateCanvas();
 }
 
 function showEvalExercise()

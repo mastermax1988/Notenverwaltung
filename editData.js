@@ -77,6 +77,21 @@ function addNewClass(name, gradeRatio, gradeType)
 function updatePupils(className, newPupils)
 {
   theData[className].pupils = newPupils;
+  for(var i=0; i<newPupils.length; i++)
+  {
+    var bIn=false;
+    for(var j=0; j<theData[className].sp.length;j++)
+    {
+      if(theData[className].sp[j].name==newPupils[i].name)
+      {
+        bIn=true;
+        break;
+      }
+    }
+    if(bIn)
+      continue;
+    theData[className].sp.push({name:newPupils[i].name, dname: newPupils[i].name, x:20, y:20});
+  }
 }
 function getClasses()
 {

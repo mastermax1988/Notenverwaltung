@@ -6,3 +6,8 @@ function clearCanvas()
 {
   ctx.clearRect(0,0,canvasWidth, canvasHeight);
 }
+
+function updateCanvas()
+{
+
+}
