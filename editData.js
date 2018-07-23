@@ -72,7 +72,7 @@ function setAllReturned(className, exercisename, bBig, bReturned)
 
 function addNewClass(name, gradeRatio, gradeType)
 {
-  theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, oral: [], small: [], big: [], pupils: [], homework: [], missing: [], notes: [], cl:[]};
+  theData[name] = {gradeRatio: gradeRatio, gradeType: gradeType, oral: [], small: [], big: [], pupils: [], homework: [], missing: [], notes: [], cl:[], sp:[]}; //cl list, sp seating
 }
 function updatePupils(className, newPupils)
 {

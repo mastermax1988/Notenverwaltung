@@ -283,16 +283,10 @@ function showPlan()
 {
 	var d = emptyForm1();
 	var className = getSelectedClassName();
-	var px = d.append("input").attr("id", "planx").attr("placeholder", "Breite");
-	var py = d.append("input").attr("id", "plany").attr("placeholder", "Tiefe");
-	d.append("button").html("Neuen Plan anlegen").attr("onclick", "newPlan()");
+	d.append("canvas").attr("id","canvas").attr("width",canvasWidth).attr("height",canvasHeight).attr("style","border:1px solid #000000;");
+  ctx=document.getElementById("canvas").getContext("2d");
 }
 
-function newPlan(className, px)
-{
-	var px=parseFloat(d3.select("#planx")[0][0].value);
-	var px=parseFloat(d3.select("#plany")[0][0].value);
-}
 function showEvalExercise()
 {
 	var d = emptyForm1();
