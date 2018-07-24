@@ -76,6 +76,7 @@ function addNewClass(name, gradeRatio, gradeType)
 }
 function updatePupils(className, newPupils)
 {
+  var _y=20;
   theData[className].pupils = newPupils;
   for(var i=0; i<newPupils.length; i++)
   {
@@ -90,7 +91,11 @@ function updatePupils(className, newPupils)
     }
     if(bIn)
       continue;
-    theData[className].sp.push({name:newPupils[i].name, dname: newPupils[i].name, x:20, y:20});
+    var _name=newPupils[i].name;
+    var t=_name.split(' ').length;
+    _name=_name.split(' ')[t-1];
+    theData[className].sp.push({name:newPupils[i].name, dname: _name, x:20, y:_y});
+    _y+=10;
   }
 }
 function getClasses()

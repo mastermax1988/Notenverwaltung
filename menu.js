@@ -284,7 +284,10 @@ function showPlan()
 	var d = emptyForm1();
 	var className = getSelectedClassName();
 	d.append("canvas").attr("id","canvas").attr("width",canvasWidth).attr("height",canvasHeight).attr("style","border:1px solid #000000;");
-  ctx=document.getElementById("canvas").getContext("2d");
+  canvas=document.getElementById("canvas");
+  ctx=canvas.getContext("2d");
+  canvas.onmousedown=cMouseDown;
+  canvas.onmouseup=cMouseUp;
   updateCanvas();
 }
 
