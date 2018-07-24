@@ -288,6 +288,8 @@ function showPlan()
   ctx=canvas.getContext("2d");
   canvas.onmousedown=cMouseDown;
   canvas.onmouseup=cMouseUp;
+  canvas.onmousemove=cMouseMove;
+  ctx.font="bold 32px arial";
   updateCanvas();
 }
 
