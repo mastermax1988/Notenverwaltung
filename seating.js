@@ -4,6 +4,9 @@ var canvasWidth=1000;
 var canvasHeight=600;
 var mStatus=0;//0: m up, 1: m down
 var dragIndex=-1;
+var cNameIndex=-1;
+var cNameLabel;
+var cNameIn;
 function clearCanvas()
 {
   ctx.clearRect(0,0,canvasWidth, canvasHeight);
@@ -31,11 +34,36 @@ function cMouseDown(e)
     if(textHitTest(sp[i],mx,my)) 
     {
       dragIndex=i;
+      cNameIndex=i;
       mStatus=1;
+      updateCNameLabel();
       return;
     }
   }
+  cNameIndex=-1;
+  updateCNameLabel();
   
+}
+
+function updateCNameLabel()
+{
+  if(cNameIndex==-1)
+  {
+    cNameLabel.innerHTML="";
+    cNameIn.value="";
+  }
+  cNameLabel.innerHTML=theData[getSelectedClassName()].sp[cNameIndex].name;
+  cNameIn.value=theData[getSelectedClassName()].sp[cNameIndex].dname;
+  
+}
+function updateDName()
+{
+  if(cNameIndex==.1)
+    return;
+  if(cNameIn.value.trim()=="")
+    return;
+  theData[getSelectedClassName()].sp[cNameIndex].dname=cNameIn.value;
+  updateCanvas();
 }
 
 function textHitTest(sp,x,y)

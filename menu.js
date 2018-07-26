@@ -284,8 +284,13 @@ function showPlan()
 	var d = emptyForm1();
 	var className = getSelectedClassName();
 	d.append("canvas").attr("id","canvas").attr("width",canvasWidth).attr("height",canvasHeight).attr("style","border:1px solid #000000;");
+  d.append("br")
+  d.append("label").attr("id","c_name");
+  d.append("input").attr("id","c_dname").attr("onkeyup","updateDName()");
   canvas=document.getElementById("canvas");
   ctx=canvas.getContext("2d");
+  cNameLabel=document.getElementById("c_name");
+  cNameIn=document.getElementById("c_dname");
   canvas.onmousedown=cMouseDown;
   canvas.onmouseup=cMouseUp;
   canvas.onmousemove=cMouseMove;
