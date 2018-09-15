@@ -201,3 +201,12 @@ function updateNote(className, pupilName, note)
     }
   theData[className].notes.push({name: pupilName, note: note});
 }
+function addOralImpression(type, classname, pupilname)
+{
+  var pn=pupilname;
+  pupilname="oral"+pupilname;
+  var t = getPupilNote(classname,pupilname);
+  t+=getCurrentDate().replace('-','_').replace('-','_') +" " + type + "\n";
+  updateNote(classname,pupilname,t);
+  showPupilInfo(pn);
+}

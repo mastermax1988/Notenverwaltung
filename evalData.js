@@ -258,3 +258,24 @@ function getPupilNote(className, pupilName)
       return theData[className].notes[i].note
         return "";
 }
+
+function getOralEvaluation(classname,pupilname)
+{
+  pupilname="oral"+pupilname;
+  var pos=0;
+  var neu=0;
+  var neg=0;
+  var t=getPupilNote(classname,pupilname)
+  for(var i=0;i<t.length;i++)
+  {
+    if(t[i]=="+")
+      pos++;
+    else if(t[i]=="o")
+      neu++;
+    else if(t[i]=="-")
+      neg++;
+  }
+  var text="+: " + pos + "\no: " + neu + "\n-: " + neg + "\n";
+  text+=t;
+  return text;
+}

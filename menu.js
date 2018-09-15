@@ -692,7 +692,10 @@ function showPupilInfoPage(pupilName)
 	var d = emptyForm1();
 	d.append("p").html(className + " - " + pupilName)
 	d.append("button").attr("onclick", "jumpToOral('" + pupilName + "')").html("Mündliche Noten bearbeiten");
-	var grades = getAllGrades(className, pupilName);
+  d.append("button").html("+").attr("onclick","addOralImpression('+','"+className + "','"+pupilName + "')");
+  d.append("button").html("o").attr("onclick","addOralImpression('o','"+className + "','"+pupilName + "')");
+  d.append("button").html("-").attr("onclick","addOralImpression('-','"+className + "','"+pupilName + "')");
+  var grades = getAllGrades(className, pupilName);
 	var score = getFinalScores(className, pupilName);
 	var table = d.append("table");
 	var tr = table.append("tr");
@@ -755,7 +758,8 @@ function showPupilInfoPage(pupilName)
 		s += missingtests[j].exercisename + " ";
 	d.append("div").html(s);
 
-	d.append("textarea").attr("rows", 4).attr("cols", 50).attr("id", "pupilnote").attr("onkeyup", "updateNoteNoReload('" + className + "','" + pupilName + "')").html(getPupilNote(className, pupilName));
+	d.append("textarea").attr("rows", 20).attr("cols", 50).attr("id", "pupilnote").attr("onkeyup", "updateNoteNoReload('" + className + "','" + pupilName + "')").html(getPupilNote(className, pupilName));
+  d.append("textarea").attr("readonly",true).attr("rows", 20).attr("cols", 50).html(getOralEvaluation(className,pupilName));
 
 }
 
