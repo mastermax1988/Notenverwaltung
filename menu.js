@@ -282,11 +282,15 @@ function showClassInfo()
 function showPlan()
 {
 	var d = emptyForm1();
+  emptyMenu2();
 	var className = getSelectedClassName();
 	d.append("canvas").attr("id","canvas").attr("width",canvasWidth).attr("height",canvasHeight).attr("style","border:1px solid #000000;");
   d.append("br")
   d.append("label").attr("id","c_name");
   d.append("input").attr("id","c_dname").attr("onkeyup","updateDName()");
+  d.append("label").html("Sitzplan bearbeiten");
+  d.append("input").attr("type","checkbox").property('checked',false).attr("id","cbPlanEdit");
+  editPlanCB=document.getElementById("cbPlanEdit");
   canvas=document.getElementById("canvas");
   ctx=canvas.getContext("2d");
   cNameLabel=document.getElementById("c_name");
@@ -663,6 +667,8 @@ function showPupilInfo(pupilName)
 {
 	var m = emptyMenu2();
 	var sel = m.append("select").attr("id", "selectPupilForInfo").attr("onchange", "showPupilSelectChanged()");
+  m.append("button").attr("onclick", "showPlan()").html("Sitzplan");
+
 	var className = getSelectedClassName();
 	var pupils = getPupils(className);
 	for(var i = 0; i < pupils.length; i++)

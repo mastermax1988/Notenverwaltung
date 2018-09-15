@@ -7,6 +7,7 @@ var dragIndex=-1;
 var cNameIndex=-1;
 var cNameLabel;
 var cNameIn;
+var editPlanCB;
 function clearCanvas()
 {
   ctx.clearRect(0,0,canvasWidth, canvasHeight);
@@ -21,7 +22,7 @@ function updateCanvas()
 }
 
 function cMouseDown(e)
-{
+{ 
   mStatus=0;
   //clearCanvas();
   //ctx.fillText(e.offsetX + " " + e.offsetY ,20,20);
@@ -41,8 +42,7 @@ function cMouseDown(e)
     }
   }
   cNameIndex=-1;
-  updateCNameLabel();
-  
+  updateCNameLabel(); 
 }
 
 function updateCNameLabel()
@@ -52,7 +52,9 @@ function updateCNameLabel()
     cNameLabel.innerHTML="";
     cNameIn.value="";
   }
-  cNameLabel.innerHTML=theData[getSelectedClassName()].sp[cNameIndex].name;
+  var t=theData[getSelectedClassName()].sp[cNameIndex].name; 
+  cNameLabel.innerHTML=t;
+  cNameLabel.onclick=function(){showPupilInfo(t)};
   cNameIn.value=theData[getSelectedClassName()].sp[cNameIndex].dname;
   
 }
@@ -91,6 +93,8 @@ function cMouseUp(e)
     mStatus=0;
     return;
   }
+  if(!editPlanCB.checked)
+    return;
   //button was just released and text was moved
   theData[getSelectedClassName()].sp[dragIndex].x=e.offsetX-getTextWidth(theData[getSelectedClassName()].sp[dragIndex].dname)/2;
   theData[getSelectedClassName()].sp[dragIndex].y=e.offsetY+16;
@@ -101,6 +105,8 @@ function cMouseUp(e)
 
 function cMouseMove(e)
 {
+  if(!editPlanCB.checked)
+    return;
   if(mStatus==0 || dragIndex==-1)
     return;
   theData[getSelectedClassName()].sp[dragIndex].x=e.offsetX-getTextWidth(theData[getSelectedClassName()].sp[dragIndex].dname)/2;
