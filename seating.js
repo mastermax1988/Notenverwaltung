@@ -58,7 +58,7 @@ function updateCNameLabel()
   var t=theData[getSelectedClassName()].sp[cNameIndex].name; 
   cNameLabel.innerHTML=t;
   seatingSelectedPupil=t;
-  cNameLabel.onclick=function(){showPupilInfo(t)};
+  cNameLabel.onclick = () => showPupilInfo(t);
   cNameIn.value=theData[getSelectedClassName()].sp[cNameIndex].dname;
   
 }
