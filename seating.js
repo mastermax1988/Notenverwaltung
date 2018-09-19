@@ -8,6 +8,7 @@ var cNameIndex=-1;
 var cNameLabel;
 var cNameIn;
 var editPlanCB;
+var seatingSelectedPupil;
 function clearCanvas()
 {
   ctx.clearRect(0,0,canvasWidth, canvasHeight);
@@ -51,16 +52,19 @@ function updateCNameLabel()
   {
     cNameLabel.innerHTML="";
     cNameIn.value="";
+    seatingSelectedPupil="";
+    return;
   }
   var t=theData[getSelectedClassName()].sp[cNameIndex].name; 
   cNameLabel.innerHTML=t;
+  seatingSelectedPupil=t;
   cNameLabel.onclick=function(){showPupilInfo(t)};
   cNameIn.value=theData[getSelectedClassName()].sp[cNameIndex].dname;
   
 }
 function updateDName()
 {
-  if(cNameIndex==.1)
+  if(cNameIndex==-1)
     return;
   if(cNameIn.value.trim()=="")
     return;

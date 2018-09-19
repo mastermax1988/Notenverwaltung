@@ -210,3 +210,24 @@ function addOralImpression(type, classname, pupilname)
   updateNote(classname,pupilname,t);
   showPupilInfo(pn);
 }
+
+function addOralImpressionFromPlan(type, classname)
+{
+  if(seatingSelectedPupil=="")
+    return;
+  addOralImpression(type,classname,seatingSelectedPupil);
+  showPlan();
+}
+function addMissingFromPlan(classname)
+{
+  if(seatingSelectedPupil=="")
+    return;
+  pupilAddMissing(classname,seatingSelectedPupil);
+}
+function addNoHomeworkFromPlan(classname,half)
+{
+  if(seatingSelectedPupil=="")
+    return;
+  pupilAddNoHomework(classname,seatingSelectedPupil,half);
+}
+

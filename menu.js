@@ -284,12 +284,20 @@ function showPlan()
 	var d = emptyForm1();
   emptyMenu2();
 	var className = getSelectedClassName();
-	d.append("canvas").attr("id","canvas").attr("width",canvasWidth).attr("height",canvasHeight).attr("style","border:1px solid #000000;");
-  d.append("br")
+	d.append("canvas").attr("id","canvas").attr("width",canvasWidth).attr("height",canvasHeight).attr("style","border:1px solid #000000; float: left"); 
   d.append("label").attr("id","c_name");
   d.append("input").attr("id","c_dname").attr("onkeyup","updateDName()");
   d.append("label").html("Sitzplan bearbeiten");
   d.append("input").attr("type","checkbox").property('checked',false).attr("id","cbPlanEdit");
+  d.append("br");
+  d.append("label").html("Mitarbeit ");
+  d.append("button").html("+").attr("onclick","addOralImpressionFromPlan('+','"+className + "')");
+  d.append("button").html("0").attr("onclick","addOralImpressionFromPlan('o','"+className + "')");
+  d.append("button").html("-").attr("onclick","addOralImpressionFromPlan('-','"+className + "')");
+  d.append("br");
+  d.append("button").html("Hausaufgabe Strich").attr("onclick", "addNoHomeworkFromPlan('"+className+"',false)");
+  d.append("button").html("Hausaufgabe 0.5 Strich").attr("onclick", "addNoHomeworkFromPlan('"+className+"',true)");
+  d.append("button").html("Fehlt").attr("onclick", "addMissingFromPlan('"+className+"')");
   editPlanCB=document.getElementById("cbPlanEdit");
   canvas=document.getElementById("canvas");
   ctx=canvas.getContext("2d");
