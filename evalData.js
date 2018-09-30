@@ -256,7 +256,7 @@ function getPupilNote(className, pupilName)
   for(var i = 0; i < theData[className].notes.length; i++)
     if(theData[className].notes[i].name == pupilName)
       return theData[className].notes[i].note
-        return "";
+  return "";
 }
 
 function getOralEvaluation(classname,pupilname)
@@ -278,4 +278,18 @@ function getOralEvaluation(classname,pupilname)
   var text="+: " + pos + "\no: " + neu + "\n-: " + neg + "\n";
   text+=t;
   return text;
+}
+function getPupilFilter(className,pupilName)
+{
+  return getPupilNote(className,("filter_"+pupilName));
+}
+
+function getAllFilters(className)
+{
+  var filters=[];
+  for(var i = 0; i < theData[className].notes.length; i++)
+    if(theData[className].notes[i].name.substring(0,7)=="filter_")
+      if(!filters.includes(theData[className].notes[i].note))
+        filters[filters.length]=theData[className].notes[i].note;
+  return filters;
 }

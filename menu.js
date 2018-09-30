@@ -312,6 +312,15 @@ function showPlan()
 
 function showEvalExercise()
 {
+  showEvalExerciseApplyFilter("");
+}
+function evalExerciseFilterChanged()
+{
+    showEvalExerciseApplyFilter(d3.select("#selectFilter")[0][0].value);
+}
+
+function showEvalExerciseApplyFilter(selectedFilter)
+{
 	var d = emptyForm1();
 	var className = getSelectedClassName();
 	currentGradingType = getCurrentGradingType(className);
@@ -325,7 +334,23 @@ function showEvalExercise()
 	var exercise = evalExercise(className, exerciseSel.split('_')[0], exerciseSel.split('_')[1] == "big");
 	console.log(exercise);
 	d.append("p").html(className + " - " + exercise.name + " - " + exercise.date.slice(0, 10));
-	var table = d.append("table");
+	
+  d.append("select").attr("id", "selectFilter").attr("onchange","evalExerciseFilterChanged()");
+  var selFilter=d3.select("#selectFilter")[0][0];
+  var option=document.createElement("option");
+  option.text="";
+  selFilter.add(option);
+  var allFilters=getAllFilters(className);
+  for(var i=0;i<allFilters.length;i++)
+  {
+    option=document.createElement("option");//new option
+    option.text=allFilters[i];
+    selFilter.add(option);
+  }
+  selFilter.value=selectedFilter;
+  var bFilter=(selectedFilter!="");
+  
+  var table = d.append("table");
 	var tr = table.append("tr");
 	var b2Groups = exercise.exercises.length == 2;
 	tr.append("th").html("Name");
@@ -349,7 +374,11 @@ function showEvalExercise()
 	tr.append("th").html("Zurückgegeben");
 	for(var i = 0; i < exercise.pupils.length; i++)
 	{
-		tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
+		if(bFilter && getPupilFilter(className,exercise.pupils[i].name)!=selectedFilter)
+      continue;
+
+    
+    tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 		bCol = !bCol;
 		tr.append("td").html(exercise.pupils[i].name);
 		if(!bShowGradOnly)
@@ -518,7 +547,7 @@ function showHomeworkInfo()
 	var table = d.append("table");
 	var bCol = false;
 	var tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
-	bCol = !bCol;
+	//bCol = !bCol;
 	tr.append("td").html("Name");
 	tr.append("td").html("heute keine HA");
 	tr.append("td").html("Strichliste");
@@ -552,7 +581,7 @@ function showMissingInfo()
 	var table = d.append("table");
 	var bCol = false;
 	var tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
-	bCol = !bCol;
+	//bCol = !bCol;
 	tr.append("td").html("Name");
 	tr.append("td").html("fehlt heute");
 	tr.append("td").html("Fehltage");
@@ -586,12 +615,35 @@ function pupilAddMissingAndReload(className, pupilName)
 	pupilAddMissing(className, pupilName);
 	showMissingInfo();
 }
+
 function showDetailedClassInfo()
 {
-	emptyMenu2();
+  showDetailedClassInfoApplyFilter("");
+}
+function detailedClassInfoFilterChanged()
+{
+    showDetailedClassInfoApplyFilter(d3.select("#selectFilter")[0][0].value);
+}
+function showDetailedClassInfoApplyFilter(selectedFilter)
+{
+  emptyMenu2();
 	var d = emptyForm1();
 	var className = getSelectedClassName();
 	d.append("p").html(className);
+  d.append("select").attr("id", "selectFilter").attr("onchange","detailedClassInfoFilterChanged()");
+  var selFilter=d3.select("#selectFilter")[0][0];
+  var option=document.createElement("option");
+  option.text="";
+  selFilter.add(option);
+  var allFilters=getAllFilters(className);
+  for(var i=0;i<allFilters.length;i++)
+  {
+    option=document.createElement("option");//new option
+    option.text=allFilters[i];
+    selFilter.add(option);
+  }
+  selFilter.value=selectedFilter;
+  var bFilter=(selectedFilter!="");
 	var data = getDetailedClassInfo(className);
 	var oraltmp = {};
 	for(var i = 0; i < data.oral.length; i++)
@@ -618,7 +670,7 @@ function showDetailedClassInfo()
 	var table = d.append("table");
 	var bCol = false;
 	var tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
-	bCol = !bCol;
+	//bCol = !bCol;
 	//var tr = table.append("tr");
 	tr.append("td").html("Name");
 	for(var i = 0; i < maxbig; i++)
@@ -633,11 +685,11 @@ function showDetailedClassInfo()
 	tr.append("td").html("gesamt");
 	for(var i = 0; i < data.pupils.length; i++)
 	{
-		tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
+    var pupdata = getAllGrades(className, data.pupils[i].name);
+    if(bFilter && getPupilFilter(className,data.pupils[i].name)!=selectedFilter)
+      continue;
+    tr = table.append("tr").attr("class", bCol ? "highlight_lightgray" : "highlight_white");
 		bCol = !bCol;
-
-		var pupdata = getAllGrades(className, data.pupils[i].name);
-
 		tr.append("td").append("a").html(data.pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + data.pupils[i].name + "')");
 		for(var j = 0; j < maxbig; j++)
 			if(j >= pupdata.big.length)
@@ -747,6 +799,8 @@ function showPupilInfoPage(pupilName)
 	tr.append("td").html("");
 	tr.append("td").html(score.end).attr("class", "alnright_red");
 
+  d.append("label").html("Filter");
+  d.append("input").attr("id","pupilfilter").attr("onkeyup","updateFilter('"+className+"','"+pupilName+"')").attr("value",getPupilFilter(className,pupilName));
 	var data = getDetailedClassInfo(className);
 	var hw = getHomeworkInfo(className, pupilName);
 
@@ -769,6 +823,11 @@ function showPupilInfoPage(pupilName)
 	d.append("textarea").attr("rows", 20).attr("cols", 50).attr("id", "pupilnote").attr("onkeyup", "updateNoteNoReload('" + className + "','" + pupilName + "')").html(getPupilNote(className, pupilName));
   d.append("textarea").attr("readonly",true).attr("rows", 20).attr("cols", 50).html(getOralEvaluation(className,pupilName));
 
+}
+
+function updateFilter(className,pupilName)
+{
+  updateNote(className,"filter_"+pupilName,d3.select("#pupilfilter")[0][0].value);
 }
 
 function updateNoteNoReload(className, pupilName)

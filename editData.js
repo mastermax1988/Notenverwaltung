@@ -196,9 +196,16 @@ function updateNote(className, pupilName, note)
   for(var i = 0; i < theData[className].notes.length; i++)
     if(theData[className].notes[i].name == pupilName)
     {
+      if(note=="")//remove empty notes for filter
+      {
+        theData[className].notes.splice(i,1);
+        return;
+      } 
       theData[className].notes[i].note = note;
       return;
     }
+  if(note=="")//dont accept new empty notes
+    return;
   theData[className].notes.push({name: pupilName, note: note});
 }
 function addOralImpression(type, classname, pupilname)
