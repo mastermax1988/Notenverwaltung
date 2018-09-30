@@ -799,7 +799,7 @@ function showPupilInfoPage(pupilName)
 	tr.append("td").html("");
 	tr.append("td").html(score.end).attr("class", "alnright_red");
 
-  d.append("label").html("Filter");
+  d.append("label").html("Filter für Klassengruppe");
   d.append("input").attr("id","pupilfilter").attr("onkeyup","updateFilter('"+className+"','"+pupilName+"')").attr("value",getPupilFilter(className,pupilName));
 	var data = getDetailedClassInfo(className);
 	var hw = getHomeworkInfo(className, pupilName);
