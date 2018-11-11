@@ -115,7 +115,7 @@ function showCl(clname)
 		tr.append("td").attr("class", "alnright").html((i + 1).toString());
 		tr.append("td").append("a").html(cl.pupils[i].name).attr("href", "#").attr("onclick", "showPupilInfo('" + cl.pupils[i].name + "')");
 		for(var j = 0; j < cl.pupils[i].c.length; j++)
-			tr.append("td").append("input").attr("type", "checkbox").property('checked', cl.pupils[i].c[j]).attr("onclick", "saveCurrentCl('" + clname + "')").attr("id", "cl_" + cl.pupils[i].name.replace(" ", "_") + "_" + j);
+			tr.append("td").append("input").attr("type", "checkbox").property('checked', cl.pupils[i].c[j]).attr("onclick", "saveCurrentCl('" + clname + "')").attr("id", "cl_" + cl.pupils[i].name.replace(" ", "_").replace(",","") + "_" + j);
 	}
 }
 
@@ -133,7 +133,7 @@ function saveCurrentCl(clname)
 	var pups = cl.pupils;
 	for(var i = 0; i < pups.length; i++)
 		for(var j = 0; j < pups[i].c.length; j++)
-			pups[i].c[j] = d3.select("#cl_" + pups[i].name.replace(" ", "_") + "_" + j)[0][0].checked;
+			pups[i].c[j] = d3.select("#cl_" + pups[i].name.replace(" ", "_").replace(",","") + "_" + j)[0][0].checked;
 	showCl(clname);
 }
 

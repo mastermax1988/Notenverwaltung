@@ -19,7 +19,7 @@ function saveData()
 		return;
 	}
 	var d = new Date();
-	var filename = "noten_" + d.toISOString() + ".json";
+	var filename = "noten_" + d.toISOString() + ".myjson";
 	var data = JSON.stringify(theData, undefined, 2);
 	var s = d3.select("body").append("a").html("download").attr("href", 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(data)).attr("download", filename).attr("id", "downloadlink");
 	s[0][0].click();
