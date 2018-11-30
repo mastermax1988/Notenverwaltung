@@ -7,20 +7,27 @@
         <script>
         var ws = new WebSocket("ws://127.0.0.1:5678/");
         var data;
-        ws.onmessage = function (event)
+        ws.onmessage = (event) =>
         {
           data = JSON.parse(event.data);
           console.log(data);
         };
 
         var btn = document.createElement("button");
-        var t = document.createTextNode("speichern");       // Create a text node
-        btn.appendChild(t);   
-        btn.onclick = function()
+        btn.innerHTML = "speichern";       // Create a text node
+        btn.onclick = () =>
         {
           ws.send(JSON.stringify(data, undefined, 2));
-        }
+        };
         document.body.appendChild(btn); 
+        
+        btn=document.createElement("button");
+        btn.innerHTML="Vom Server laden";
+        btn.onclick = () => 
+        {
+          ws.send("load");
+        };
+        document.body.appendChild(btn);
         </script>
     </body>
 </html>
