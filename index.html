@@ -7,6 +7,7 @@
 <script src="editData.js"></script>
 <script src="evalData.js"></script>
 <script src="seating.js"></script>
+<script src="server.js"></script>
 <script>
     window.onbeforeunload = confirmExit;
     function confirmExit() {
@@ -51,6 +52,7 @@ border-collapse:collapse
 <div id="menu1" kind="menu">
   <input type="file" id="input" onchange="loadData(this.files)"></input>
   <button id="newJsonButton" onClick="newJson()">Neue Datei anlegen</button>
+  <button onClick="loadFromServer()">Daten vom Server laden</button>
 </div>
 <div id="menu2" kind="menu"></div>
 <div id="form1"></div>

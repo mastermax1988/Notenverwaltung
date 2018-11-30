@@ -21,10 +21,11 @@ function drawMainMenu()
 	d.append("button").attr("onclick", "showDetailedClassInfo()").html("Notenbogen");
 	d.append("button").attr("onclick", "showHomeworkInfo()").html("Hausaufgaben");
 	d.append("button").attr("onclick", "showMissingInfo()").html("Fehltage");
-	d.append("button").attr("onclick", "saveData()").html("Speichern");
+	d.append("button").attr("onclick", "saveData()").html("In Datei speichern");
 	d.append("button").attr("onclick", "window.print()").html("Daten drucken");
 	d.append("button").attr("onclick", "maintenance()").html("Wartung");
-	console.log(getClasses());
+	d.append("label").attr("id","flashinfolabel");
+  console.log(getClasses());
 	showClassInfo();
 }
 function getSelectedClassName()
@@ -200,6 +201,8 @@ function savenewcl()
 }
 function showClassInfo()
 {
+  if(bServer)
+    saveToServer();
 	var m2 = emptyMenu2();
 	var className = getSelectedClassName();
 	var pupils = getPupils(className);
