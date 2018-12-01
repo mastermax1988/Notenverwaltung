@@ -203,6 +203,8 @@ function showClassInfo()
 {
   if(bServer)
     saveToServer();
+  else
+    d3.select("#menu1")[0][0].style.background="orangered";
 	var m2 = emptyMenu2();
 	var className = getSelectedClassName();
 	var pupils = getPupils(className);

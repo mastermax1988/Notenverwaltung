@@ -27,7 +27,10 @@ function loadFromServer()
     ws.send("load"); 
   }
   else
-    alert("Verbindung zum Server fehlgeschlagen.\nreadyState:" +  ws.readyState);
+  {
+    alert("Verbindung zum Server fehlgeschlagen. Versuche Verbindung herzustellen.\nreadyState:" +  ws.readyState);
+    reconnect();
+  }
 }
 
 function saveToServer()
@@ -37,11 +40,14 @@ function saveToServer()
     ws.send(JSON.stringify(theData, undefined, 2));
     console.log("saved to server");
     flashInfo("Gespeichert");
+    d3.select("#menu1")[0][0].style.background="lightgreen";
   }
   else
   {
-    alert("Verbindung zum Server fehlgeschlagen. Versuche Verbindung wiederherzustellen.\nreadyState:" +  ws.readyState);
+    //alert("Verbindung zum Server fehlgeschlagen. Versuche Verbindung wiederherzustellen.\nreadyState:" +  ws.readyState);
     reconnect();
+    d3.select("#menu1")[0][0].style.background="orangered";
+    flashInfo("Verbindung fehlgeschlagen!");
   }
 }
 
