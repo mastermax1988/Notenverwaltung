@@ -733,7 +733,8 @@ function showPupilInfo(pupilName)
 	var m = emptyMenu2();
 	var sel = m.append("select").attr("id", "selectPupilForInfo").attr("onchange", "showPupilSelectChanged()");
   m.append("button").attr("onclick", "showPlan()").html("Sitzplan");
-
+  m.append("button").attr("onclick", "pupilInfoScroll(1)").html("↑");
+  m.append("button").attr("onclick", "pupilInfoScroll(0)").html("↓");
 	var className = getSelectedClassName();
 	var pupils = getPupils(className);
 	for(var i = 0; i < pupils.length; i++)
@@ -744,12 +745,32 @@ function showPupilInfo(pupilName)
 	}).indexOf(pupilName);
 	showPupilInfoPage(pupilName);
 }
+
+function pupilInfoScroll(dir)
+{
+  var sel = d3.select("#selectPupilForInfo")[0][0];
+  var index = sel.selectedIndex;
+  index+=dir?-1:1;
+  if(index<0)
+    index = sel.length-1;
+  if(index>sel.length-1)
+    index = 0;
+  sel.selectedIndex = index;
+  showPupilSelectChanged();
+}
 function showPupilSelectChanged()
 {
 	var sel = d3.select("#selectPupilForInfo")[0][0];
 	if(sel.selectedIndex < 0)
 		return;
 	showPupilInfoPage(sel[sel.selectedIndex].value);
+}
+function addUbFromPupilInfo(className, pupilName)
+{
+  var grade = {name: pupilName, grade: parseInt(0+d3.select("#ubfrompupilinfo")[0][0].value), factor: 1, kind: "Ub", date: getCurrentDate()};
+  theData[className].oral.push(grade);
+  showPupilInfoPage(pupilName);
+  
 }
 function showPupilInfoPage(pupilName)
 {
@@ -760,6 +781,10 @@ function showPupilInfoPage(pupilName)
   d.append("button").html("+").attr("onclick","addOralImpression('+','"+className + "','"+pupilName + "')");
   d.append("button").html("o").attr("onclick","addOralImpression('o','"+className + "','"+pupilName + "')");
   d.append("button").html("-").attr("onclick","addOralImpression('-','"+className + "','"+pupilName + "')");
+  d.append("br");
+  d.append("label").html("Unterrichtbeitrag");
+  d.append("input").attr("id","ubfrompupilinfo").attr("size",2);
+  d.append("button").html("hinzufügen").attr("onclick","addUbFromPupilInfo('"+className+"','"+pupilName+"')");
   var grades = getAllGrades(className, pupilName);
 	var score = getFinalScores(className, pupilName);
 	var table = d.append("table");
