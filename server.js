@@ -28,7 +28,6 @@ function loadFromServer()
   }
   else
   {
-    alert("Verbindung zum Server fehlgeschlagen. Versuche Verbindung herzustellen.\nreadyState:" +  ws.readyState);
     reconnect();
   }
 }
