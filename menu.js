@@ -354,8 +354,11 @@ function showEvalExerciseApplyFilter(selectedFilter)
   }
   selFilter.value=selectedFilter;
   var bFilter=(selectedFilter!="");
-  
-  var table = d.append("table");
+	var hidebtn = document.createElement("button"); 
+	hidebtn.innerHTML = "Noten verbergen";
+	hidebtn.onclick = ()=>{document.getElementById("gradeTable").remove()};
+	document.getElementById("form1").append(hidebtn);
+  var table = d.append("table").attr("id","gradeTable");
 	var tr = table.append("tr");
 	var b2Groups = exercise.exercises.length == 2;
 	tr.append("th").html("Name");
