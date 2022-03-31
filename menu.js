@@ -64,12 +64,13 @@ function showClassInfoAndJumpToOral(s)
 {
 	showOralGrades();
 	var sel = d3.select("#selectPupilForOralGrades")[0][0].options;
-	for(var i = 0; i < sel.length; i++)
+	for(var i = 0; i < sel.length; i++){
 		if(sel[i].label == s)
 		{
 			sel.selectedIndex = i;
 			break;
 		}
+	}
 	showOralGrades();
 }
 function rndPupil()
@@ -1355,7 +1356,7 @@ function addPupilMenu()
 		return;
 	var className = sel[sel.selectedIndex].value;
 	var d = emptyForm1();
-	d.append("p").html("Am Ende unbedingt doppelte Leerzeichen in json löschen (sonst kein Springen zu mündlichen Noten möglich) :%s/__/_g. Namen im Format Nachname, Vorname eintragen, da sonst kein Vorname für den Sitzplan erkannt wird.");
+	d.append("p").html("Am Ende unbedingt doppelte Leerzeichen in json löschen (sonst kein Springen zu mündlichen Noten möglich) :%s# \+# #g. Namen im Format Nachname, Vorname eintragen, da sonst kein Vorname für den Sitzplan erkannt wird.");
 	var pup = getPupils(className);
 	for(var i = 0; i < maxpupils; i++)
 	{
