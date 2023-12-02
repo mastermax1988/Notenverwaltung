@@ -1086,11 +1086,11 @@ function getGeneratedGradingKey(maxpoints)
 	if(currentGradingType == "Note")
 	{
 		var points = "";
-		points += Math.round(maxpoints * 8.5 * 2, 0) / 20 + ",";
-		points += Math.round(maxpoints * 7 * 2, 0) / 20 + ",";
-		points += Math.round(maxpoints * 5.5 * 2, 0) / 20 + ",";
-		points += Math.round(maxpoints * 4 * 2, 0) / 20 + ",";
-		points += Math.round(maxpoints * 2 * 2, 0) / 20 + "";
+		points += Math.round(maxpoints * 0.85 * 2, 0) / 2 -0.1+ ",";
+		points += Math.round(maxpoints * 0.7 * 2, 0) / 2 -0.1+ ",";
+		points += Math.round(maxpoints * 0.55 * 2, 0) / 2 -0.1+ ",";
+		points += Math.round(maxpoints * 0.4 * 2, 0) / 2 -0.1+ ",";
+		points += Math.round(maxpoints * 0.2 * 2, 0) / 2 -0.1+ "";
 		return points;
 	}
 	else if (currentGradingType == "Punkte")
