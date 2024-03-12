@@ -5,13 +5,19 @@ import websockets
 import json
 import shutil
 
-async def servefile(websocket, path):
+TOKEN = "secrettoken"
+
+async def servefile(websocket):
+    auth=False
     async for message in websocket:
-        if message == "load":
+        if message == TOKEN:
+            print("token recieved")
+            auth=True
+        elif message == "load" and auth:
             f = open("noten.myjson","r")
             await websocket.send(f.read())
             f.close()
-        elif message[0] == "{":
+        elif message[0] == "{" and auth:
             f = open("noten.myjson","r");
             if message != f.read():
                 f.close()
@@ -22,7 +28,12 @@ async def servefile(websocket, path):
                 print("new data saved");
             else:
                 print("data unchanged, not saving");
-            f.close();
+            f.close()
+        else:
+            if(auth):
+                print("auth  " + message)
+            else:
+                print("not auth " + message)
 
 def backup():
     now = datetime.datetime.utcnow().isoformat() + 'Z'

@@ -6,6 +6,9 @@ bServer=false;
 function connect()
 {
   ws = new WebSocket("ws://127.0.0.1:5678/");
+  ws.onopen = () => {
+    ws.send("secrettoken");
+  }
   ws.onmessage = (event) =>
       {
         theData = JSON.parse(event.data);
