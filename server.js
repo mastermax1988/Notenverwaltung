@@ -3,11 +3,12 @@ var ws;
 connect();
 
 bServer=false;
+TOKEN="";
 function connect()
 {
-  ws = new WebSocket("ws://127.0.0.1:5678/");
+  ws = new WebSocket("ws://127.0.0.1:51860/");
   ws.onopen = () => {
-    ws.send("secrettoken");
+    ws.send(TOKEN);
   }
   ws.onmessage = (event) =>
       {
@@ -21,6 +22,13 @@ function reconnect()
 {
   ws.close()
   connect();
+}
+
+function changeToken(){
+  var t = document.getElementById("token");
+  if(t!=null && t.value != ""){
+    TOKEN = t.value;
+  }
 }
 
 function loadFromServer()
